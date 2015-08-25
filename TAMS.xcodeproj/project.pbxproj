@@ -8,11 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		5B0D352B1B815E9200EF91F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0D352A1B815E9200EF91F2 /* AppDelegate.swift */; };
-		5B0D352D1B815E9200EF91F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0D352C1B815E9200EF91F2 /* ViewController.swift */; };
 		5B0D35301B815E9200EF91F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B0D352E1B815E9200EF91F2 /* Main.storyboard */; };
 		5B0D35321B815E9200EF91F2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B0D35311B815E9200EF91F2 /* Images.xcassets */; };
 		5B0D35351B815E9200EF91F2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B0D35331B815E9200EF91F2 /* LaunchScreen.xib */; };
 		5B0D35411B815E9200EF91F2 /* TAMSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0D35401B815E9200EF91F2 /* TAMSTests.swift */; };
+		5B97B98B1B830657000B2526 /* Node.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5B97B9891B830657000B2526 /* Node.xcdatamodeld */; };
+		5B97B98D1B830691000B2526 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B97B98C1B830691000B2526 /* Asset.swift */; };
+		5B97B9911B844A77000B2526 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B97B9901B844A77000B2526 /* Assets.swift */; };
+		5BA18B221B8B0BBC00D2046F /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */; };
+		5BA18B241B8B326600D2046F /* stopsign.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 5BA18B231B8B326600D2046F /* stopsign.jpeg */; };
+		5BD862A11B89C8ED006678B4 /* AssetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD862A01B89C8ED006678B4 /* AssetViewController.swift */; };
+		5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E231B8976FA00390DEF /* MapViewController.swift */; };
+		5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E241B8976FA00390DEF /* TableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +36,20 @@
 		5B0D35251B815E9200EF91F2 /* TAMS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TAMS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B0D35291B815E9200EF91F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B0D352A1B815E9200EF91F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5B0D352C1B815E9200EF91F2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5B0D352F1B815E9200EF91F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B0D35311B815E9200EF91F2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5B0D35341B815E9200EF91F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5B0D353A1B815E9200EF91F2 /* TAMSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TAMSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B0D353F1B815E9200EF91F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B0D35401B815E9200EF91F2 /* TAMSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAMSTests.swift; sourceTree = "<group>"; };
+		5B97B98A1B830657000B2526 /* Node.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Node.xcdatamodel; sourceTree = "<group>"; };
+		5B97B98C1B830691000B2526 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
+		5B97B9901B844A77000B2526 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		5BA18B231B8B326600D2046F /* stopsign.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stopsign.jpeg; sourceTree = "<group>"; };
+		5BD862A01B89C8ED006678B4 /* AssetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetViewController.swift; sourceTree = "<group>"; };
+		5BF84E231B8976FA00390DEF /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		5BF84E241B8976FA00390DEF /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,11 +91,13 @@
 		5B0D35271B815E9200EF91F2 /* TAMS */ = {
 			isa = PBXGroup;
 			children = (
+				5B97B9881B830637000B2526 /* Model */,
 				5B0D352A1B815E9200EF91F2 /* AppDelegate.swift */,
-				5B0D352C1B815E9200EF91F2 /* ViewController.swift */,
+				5BF84E231B8976FA00390DEF /* MapViewController.swift */,
+				5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */,
+				5BF84E241B8976FA00390DEF /* TableViewController.swift */,
+				5BD862A01B89C8ED006678B4 /* AssetViewController.swift */,
 				5B0D352E1B815E9200EF91F2 /* Main.storyboard */,
-				5B0D35311B815E9200EF91F2 /* Images.xcassets */,
-				5B0D35331B815E9200EF91F2 /* LaunchScreen.xib */,
 				5B0D35281B815E9200EF91F2 /* Supporting Files */,
 			);
 			path = TAMS;
@@ -90,6 +106,9 @@
 		5B0D35281B815E9200EF91F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5BA18B231B8B326600D2046F /* stopsign.jpeg */,
+				5B0D35311B815E9200EF91F2 /* Images.xcassets */,
+				5B0D35331B815E9200EF91F2 /* LaunchScreen.xib */,
 				5B0D35291B815E9200EF91F2 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -110,6 +129,16 @@
 				5B0D353F1B815E9200EF91F2 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5B97B9881B830637000B2526 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5B97B9891B830657000B2526 /* Node.xcdatamodeld */,
+				5B97B98C1B830691000B2526 /* Asset.swift */,
+				5B97B9901B844A77000B2526 /* Assets.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +190,7 @@
 				TargetAttributes = {
 					5B0D35241B815E9200EF91F2 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 9CXLL5AG24;
 					};
 					5B0D35391B815E9200EF91F2 = {
 						CreatedOnToolsVersion = 6.4;
@@ -192,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BA18B241B8B326600D2046F /* stopsign.jpeg in Resources */,
 				5B0D35301B815E9200EF91F2 /* Main.storyboard in Resources */,
 				5B0D35351B815E9200EF91F2 /* LaunchScreen.xib in Resources */,
 				5B0D35321B815E9200EF91F2 /* Images.xcassets in Resources */,
@@ -212,8 +243,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B0D352D1B815E9200EF91F2 /* ViewController.swift in Sources */,
+				5B97B98D1B830691000B2526 /* Asset.swift in Sources */,
+				5B97B9911B844A77000B2526 /* Assets.swift in Sources */,
+				5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */,
 				5B0D352B1B815E9200EF91F2 /* AppDelegate.swift in Sources */,
+				5B97B98B1B830657000B2526 /* Node.xcdatamodeld in Sources */,
+				5BA18B221B8B0BBC00D2046F /* AnnotationView.swift in Sources */,
+				5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */,
+				5BD862A11B89C8ED006678B4 /* AssetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,9 +379,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TAMS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -352,9 +392,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TAMS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -411,6 +454,7 @@
 				5B0D35461B815E9200EF91F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5B0D35471B815E9200EF91F2 /* Build configuration list for PBXNativeTarget "TAMSTests" */ = {
 			isa = XCConfigurationList;
@@ -419,8 +463,22 @@
 				5B0D35491B815E9200EF91F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5B97B9891B830657000B2526 /* Node.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5B97B98A1B830657000B2526 /* Node.xcdatamodel */,
+			);
+			currentVersion = 5B97B98A1B830657000B2526 /* Node.xcdatamodel */;
+			path = Node.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5B0D351D1B815E9200EF91F2 /* Project object */;
 }
