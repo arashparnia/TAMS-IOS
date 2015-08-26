@@ -15,7 +15,7 @@ class Asset : NSObject{
     var location : CLLocation =  CLLocation(latitude: 38.560884, longitude: -121.422357)
     var title  = "Riverside"
     var subtitle = ""
-    var image : UIImage = UIImage(contentsOfFile:"/Users/arash/Library/Mobile Documents/com~apple~CloudDocs/Developer/TAMS/TAMS/stopsign.jpeg")!
+    var image : UIImage = UIImage(named: "stopsign.jpeg")!
     
     init(location : CLLocation){
         self.location = location
