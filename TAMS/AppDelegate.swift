@@ -7,15 +7,33 @@
 //
 
 import UIKit
+import MapKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    let radious = 0.005
+    
+    func makeRand() -> Double{
+        let lower : UInt32 = 100000
+        let upper : UInt32 = 999999
+        var randomNumber = arc4random_uniform(upper - lower) + lower
+        var rand : Double = Double(randomNumber)
+        rand = radious - rand / 100000000
+        println(rand)
+        return Double(rand)
+    }
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        for index in 0...5 {
+            let lat : Double  = 38.560884 + makeRand()
+            let lon : Double  = -121.422357 + makeRand()
+            let title: String = "NODE \(index)"
+            let location = CLLocation(latitude: lat, longitude: lon)
+            Assets.sharedInstance.addAsset(location , title: title, subtitle: location.description)  // random ASSETS are being added
+        }
         return true
     }
 

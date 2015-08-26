@@ -12,6 +12,7 @@
 		5B0D35321B815E9200EF91F2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B0D35311B815E9200EF91F2 /* Images.xcassets */; };
 		5B0D35351B815E9200EF91F2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B0D35331B815E9200EF91F2 /* LaunchScreen.xib */; };
 		5B0D35411B815E9200EF91F2 /* TAMSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0D35401B815E9200EF91F2 /* TAMSTests.swift */; };
+		5B133ECC1B8DB362006A7AAE /* TableViewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */; };
 		5B97B98B1B830657000B2526 /* Node.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5B97B9891B830657000B2526 /* Node.xcdatamodeld */; };
 		5B97B98D1B830691000B2526 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B97B98C1B830691000B2526 /* Asset.swift */; };
 		5B97B9911B844A77000B2526 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B97B9901B844A77000B2526 /* Assets.swift */; };
@@ -42,6 +43,7 @@
 		5B0D353A1B815E9200EF91F2 /* TAMSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TAMSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B0D353F1B815E9200EF91F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B0D35401B815E9200EF91F2 /* TAMSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAMSTests.swift; sourceTree = "<group>"; };
+		5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellView.swift; sourceTree = "<group>"; };
 		5B97B98A1B830657000B2526 /* Node.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Node.xcdatamodel; sourceTree = "<group>"; };
 		5B97B98C1B830691000B2526 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		5B97B9901B844A77000B2526 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -91,13 +93,14 @@
 		5B0D35271B815E9200EF91F2 /* TAMS */ = {
 			isa = PBXGroup;
 			children = (
-				5B97B9881B830637000B2526 /* Model */,
+				5B0D352E1B815E9200EF91F2 /* Main.storyboard */,
 				5B0D352A1B815E9200EF91F2 /* AppDelegate.swift */,
 				5BF84E231B8976FA00390DEF /* MapViewController.swift */,
 				5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */,
 				5BF84E241B8976FA00390DEF /* TableViewController.swift */,
+				5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */,
 				5BD862A01B89C8ED006678B4 /* AssetViewController.swift */,
-				5B0D352E1B815E9200EF91F2 /* Main.storyboard */,
+				5B97B9881B830637000B2526 /* Model */,
 				5B0D35281B815E9200EF91F2 /* Supporting Files */,
 			);
 			path = TAMS;
@@ -248,6 +251,7 @@
 				5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */,
 				5B0D352B1B815E9200EF91F2 /* AppDelegate.swift in Sources */,
 				5B97B98B1B830657000B2526 /* Node.xcdatamodeld in Sources */,
+				5B133ECC1B8DB362006A7AAE /* TableViewCellView.swift in Sources */,
 				5BA18B221B8B0BBC00D2046F /* AnnotationView.swift in Sources */,
 				5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */,
 				5BD862A11B89C8ED006678B4 /* AssetViewController.swift in Sources */,

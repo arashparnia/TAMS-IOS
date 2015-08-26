@@ -11,11 +11,17 @@ import MapKit
 
 class TableViewController: UITableViewController,UITableViewDelegate,UITableViewDataSource {
    
-  
+    
     @IBOutlet var assetTableView: UITableView!
     let allkeys: [String] = Assets.sharedInstance.retriveAllKeys()
     let alltitles: [String] = Assets.sharedInstance.retriveAllTitles()
-    
+    let allassets: [Asset] = Assets.sharedInstance.retriveAllAsets()
+    var regin : MKCoordinateRegion = MKCoordinateRegion()
+    var allassetsAtRegion : [Asset] {
+        get {
+            return Assets.sharedInstance.retriveAssetsAtRegin(regin)
+        }
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -46,17 +52,20 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TheCell", forIndexPath: indexPath) as! UITableViewCell
         let row = indexPath.row
-        cell.textLabel?.text = alltitles[indexPath.row]
-        println(alltitles[indexPath.row])
-        cell.detailTextLabel?.text = allkeys[indexPath.row]
+        if let c = (cell as? TableViewCellView) {
+            c.cellViewTitle?.text = allassets[indexPath.row].title //alltitles[indexPath.row]
+            c.cellViewSubtitle?.text = allassets[indexPath.row].description
+            c.cellViewImage?.image = allassets[indexPath.row].image
+        }
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let currentCell = tableView.cellForRowAtIndexPath(indexPath);
-        let key = currentCell!.detailTextLabel?.text
-        performSegueWithIdentifier("TableViewToAssetView", sender: key)
-        //tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        if let c = (tableView.cellForRowAtIndexPath(indexPath) as? TableViewCellView){
+           let key = c.cellViewSubtitle
+            performSegueWithIdentifier("TableViewToAssetView", sender: key)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
+    }
     
     
 

@@ -13,21 +13,13 @@ import MapKit
 
 class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate {
  @IBOutlet weak var MapView: MKMapView!
-    let radious = 0.05
+    let radious = 0.005
     var locations : [CLLocationCoordinate2D]=[]
     var annotations:[AnnotationView] = []
     
    
     // random generator
-    func makeRand() -> Double{
-        let lower : UInt32 = 100000
-        let upper : UInt32 = 999999
-        var randomNumber = arc4random_uniform(upper - lower) + lower
-        var rand : Double = Double(randomNumber)
-        rand = radious - rand / 10000000
-        println(rand)
-        return Double(rand)
-    }
+ 
     override func viewDidLoad() {
         MapView.delegate = self
     
@@ -43,20 +35,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
        
 
        
-        for index in 0...5000 {
-            let lat : Double  = 38.560884 + makeRand()
-            let lon : Double  = -121.422357 + makeRand()
-            let title: String = "NODE \(index)"
-            let location = CLLocation(latitude: lat, longitude: lon)
-            Assets.sharedInstance.addAsset(location , title: title, subtitle: location.description)  // random ASSETS are being added
-        }
-        for ass in Assets.sharedInstance.assets as [String:Asset]{
-        //locations.append(CLLocationCoordinate2D( latitude: ass.latitude,longitude: ass.longitude))
-       
-            let ann = AnnotationView(title: ass.1.title,subTitle:ass.0,coordinate:ass.1.location.coordinate)
-             annotations.append(ann)
-        }
         
+       makeAnnotationsFromAssets()
     
         let centerLocation = CLLocationCoordinate2D(
             latitude : 38.560884,
@@ -93,8 +73,15 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
        super.viewDidLoad()
         
     }
-
-
+    func makeAnnotationsFromAssets(){
+        annotations.removeAll(keepCapacity: false)
+        for ass in Assets.sharedInstance.assets as [String:Asset]{
+            //locations.append(CLLocationCoordinate2D( latitude: ass.latitude,longitude: ass.longitude))
+            let ann = AnnotationView(title: ass.1.title,subTitle:ass.0,coordinate:ass.1.location.coordinate)
+            annotations.append(ann)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -115,7 +102,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         // 5
     func listTapped (sender:UIButton) {
             println("list pressed")
-        performSegueWithIdentifier("ListView", sender: nil)
+        performSegueWithIdentifier("TableView", sender: nil)
     }
     
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
@@ -147,16 +134,25 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             let asset = Assets.sharedInstance.findAssetWithKey(sender as! String)
             assetVC.theLocation = asset!.location
             assetVC.theTitle = asset!.title
+        } else if segue.identifier == "TableView"{
+            let TableVC = segue.destinationViewController as! TableViewController
+            
         }
     }
+    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+        Assets.sharedInstance.retriveAssetsAtRegin(mapView.region)
+        //        let maxspan = MKCoordinateSpanMake(0.05, 0.05)
+        //        if mapView.region.span.latitudeDelta >  maxspan.latitudeDelta {
+        //            mapView.removeAnnotations(annotations)
+        //        } else {
+        //            MapView.addAnnotations(annotations)
+        //        }
+        makeAnnotationsFromAssets()
+        mapView.addAnnotations(annotations)
+    }
     func mapView(mapView: MKMapView!, regionWillChangeAnimated animated: Bool) {
-        let maxspan = MKCoordinateSpanMake(0.05, 0.05)
-        if mapView.region.span.latitudeDelta >  maxspan.latitudeDelta {
-            mapView.removeAnnotations(annotations)
-        } else {
-            MapView.addAnnotations(annotations)
-        }
         
+ 
     }
     
     //MARK:- MapViewDelegate methods
