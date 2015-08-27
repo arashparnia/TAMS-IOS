@@ -18,7 +18,10 @@
 		5B97B9911B844A77000B2526 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B97B9901B844A77000B2526 /* Assets.swift */; };
 		5BA18B221B8B0BBC00D2046F /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */; };
 		5BA18B241B8B326600D2046F /* stopsign.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 5BA18B231B8B326600D2046F /* stopsign.jpeg */; };
+		5BD388771B8EFD1000F9C3C3 /* AssetViewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD388761B8EFD1000F9C3C3 /* AssetViewCellView.swift */; };
 		5BD862A11B89C8ED006678B4 /* AssetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD862A01B89C8ED006678B4 /* AssetViewController.swift */; };
+		5BDE00441B8EFF6E0036A345 /* AssetViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE00431B8EFF6E0036A345 /* AssetViewTableViewController.swift */; };
+		5BDE00461B8F062A0036A345 /* AssetCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE00451B8F062A0036A345 /* AssetCategory.swift */; };
 		5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E231B8976FA00390DEF /* MapViewController.swift */; };
 		5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E241B8976FA00390DEF /* TableViewController.swift */; };
 /* End PBXBuildFile section */
@@ -49,7 +52,10 @@
 		5B97B9901B844A77000B2526 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		5BA18B231B8B326600D2046F /* stopsign.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stopsign.jpeg; sourceTree = "<group>"; };
+		5BD388761B8EFD1000F9C3C3 /* AssetViewCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetViewCellView.swift; sourceTree = "<group>"; };
 		5BD862A01B89C8ED006678B4 /* AssetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetViewController.swift; sourceTree = "<group>"; };
+		5BDE00431B8EFF6E0036A345 /* AssetViewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetViewTableViewController.swift; sourceTree = "<group>"; };
+		5BDE00451B8F062A0036A345 /* AssetCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetCategory.swift; sourceTree = "<group>"; };
 		5BF84E231B8976FA00390DEF /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		5BF84E241B8976FA00390DEF /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,11 +101,9 @@
 			children = (
 				5B0D352E1B815E9200EF91F2 /* Main.storyboard */,
 				5B0D352A1B815E9200EF91F2 /* AppDelegate.swift */,
-				5BF84E231B8976FA00390DEF /* MapViewController.swift */,
-				5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */,
-				5BF84E241B8976FA00390DEF /* TableViewController.swift */,
-				5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */,
-				5BD862A01B89C8ED006678B4 /* AssetViewController.swift */,
+				5BD388741B8EFCD800F9C3C3 /* MapView */,
+				5BD388751B8EFCEB00F9C3C3 /* TableView */,
+				5BD388731B8EFCC200F9C3C3 /* AssetView */,
 				5B97B9881B830637000B2526 /* Model */,
 				5B0D35281B815E9200EF91F2 /* Supporting Files */,
 			);
@@ -137,11 +141,40 @@
 		5B97B9881B830637000B2526 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5B97B9891B830657000B2526 /* Node.xcdatamodeld */,
-				5B97B98C1B830691000B2526 /* Asset.swift */,
 				5B97B9901B844A77000B2526 /* Assets.swift */,
+				5B97B98C1B830691000B2526 /* Asset.swift */,
+				5BDE00451B8F062A0036A345 /* AssetCategory.swift */,
+				5B97B9891B830657000B2526 /* Node.xcdatamodeld */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		5BD388731B8EFCC200F9C3C3 /* AssetView */ = {
+			isa = PBXGroup;
+			children = (
+				5BD862A01B89C8ED006678B4 /* AssetViewController.swift */,
+				5BDE00431B8EFF6E0036A345 /* AssetViewTableViewController.swift */,
+				5BD388761B8EFD1000F9C3C3 /* AssetViewCellView.swift */,
+			);
+			name = AssetView;
+			sourceTree = "<group>";
+		};
+		5BD388741B8EFCD800F9C3C3 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				5BF84E231B8976FA00390DEF /* MapViewController.swift */,
+				5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */,
+			);
+			name = MapView;
+			sourceTree = "<group>";
+		};
+		5BD388751B8EFCEB00F9C3C3 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				5BF84E241B8976FA00390DEF /* TableViewController.swift */,
+				5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */,
+			);
+			name = TableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,11 +281,14 @@
 			files = (
 				5B97B98D1B830691000B2526 /* Asset.swift in Sources */,
 				5B97B9911B844A77000B2526 /* Assets.swift in Sources */,
+				5BDE00461B8F062A0036A345 /* AssetCategory.swift in Sources */,
 				5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */,
 				5B0D352B1B815E9200EF91F2 /* AppDelegate.swift in Sources */,
+				5BD388771B8EFD1000F9C3C3 /* AssetViewCellView.swift in Sources */,
 				5B97B98B1B830657000B2526 /* Node.xcdatamodeld in Sources */,
 				5B133ECC1B8DB362006A7AAE /* TableViewCellView.swift in Sources */,
 				5BA18B221B8B0BBC00D2046F /* AnnotationView.swift in Sources */,
+				5BDE00441B8EFF6E0036A345 /* AssetViewTableViewController.swift in Sources */,
 				5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */,
 				5BD862A11B89C8ED006678B4 /* AssetViewController.swift in Sources */,
 			);

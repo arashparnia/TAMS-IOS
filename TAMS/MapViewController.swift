@@ -128,17 +128,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         let v = view.annotation as! AnnotationView
         performSegueWithIdentifier("MapToAssetView", sender: v.subTitle)
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "MapToAssetView"{
-            let assetVC = segue.destinationViewController as! AssetViewController
-            let asset = Assets.sharedInstance.findAssetWithKey(sender as! String)
-            assetVC.theLocation = asset!.location
-            assetVC.theTitle = asset!.title
-        } else if segue.identifier == "TableView"{
-            let TableVC = segue.destinationViewController as! TableViewController
-            
-        }
-    }
+    
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
         Assets.sharedInstance.retriveAssetsAtRegin(mapView.region)
         //        let maxspan = MKCoordinateSpanMake(0.05, 0.05)
@@ -190,5 +180,13 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
 //        MapView.setRegion(coordinateRegion, animated: true)
 //    }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "MapToAssetView"{
+            let assetVC = segue.destinationViewController as! AssetViewController
+            assetVC.asset = Assets.sharedInstance.findAssetWithKey(sender! as! String)!
+        } else if segue.identifier == "TableView"{
+            let TableVC = segue.destinationViewController as! TableViewController
+        }
+    }
 }
 

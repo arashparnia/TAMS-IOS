@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 import MapKit
 
 class Asset : NSObject{
@@ -16,6 +15,8 @@ class Asset : NSObject{
     var title  = "Riverside"
     var subtitle = ""
     var image : UIImage = UIImage(named: "stopsign.jpeg")!
+    var categories = [Assetcategory]()
+    
     
     init(location : CLLocation){
         self.location = location
@@ -29,6 +30,13 @@ class Asset : NSObject{
         self.title = title
         self.subtitle = subtitle
     }
+    init(location : CLLocation,title : String,subtitle : String , categories : [Assetcategory]){
+        self.location = location
+        self.title = title
+        self.subtitle = subtitle
+        self.categories = categories
+    }
+    
     
  
    

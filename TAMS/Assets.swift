@@ -15,12 +15,13 @@ class Assets  {
     var assets = [String:Asset]()
 
     
-    func addAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil) {
-        assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!)
+    func addAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil , categories: [Assetcategory]? = nil) {
+        assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!,categories : categories!)
     }
-    func editAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil) {
-        assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!)
+    func editAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil, categories : [Assetcategory]? = nil ) {
+        assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!,categories : categories!)
     }
+    
     func removeAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil) {
         assets.removeValueForKey(location.description)
     }

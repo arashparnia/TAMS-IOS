@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var randomNumber = arc4random_uniform(upper - lower) + lower
         var rand : Double = Double(randomNumber)
         rand = radious - rand / 100000000
-        println(rand)
         return Double(rand)
     }
     
@@ -32,7 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let lon : Double  = -121.422357 + makeRand()
             let title: String = "NODE \(index)"
             let location = CLLocation(latitude: lat, longitude: lon)
-            Assets.sharedInstance.addAsset(location , title: title, subtitle: location.description)  // random ASSETS are being added
+            var categories : [Assetcategory] = [Assetcategory]()
+            for i in 0...5 {
+                categories.append( Assetcategory(category: "name \(i)", detail: "details \(i)"))
+            }
+            Assets.sharedInstance.addAsset(location , title: title, subtitle: location.description,categories: categories) // random ASSETS are being added
         }
         return true
     }

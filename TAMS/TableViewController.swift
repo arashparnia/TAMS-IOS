@@ -54,15 +54,15 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
         let row = indexPath.row
         if let c = (cell as? TableViewCellView) {
             c.cellViewTitle?.text = allassets[indexPath.row].title //alltitles[indexPath.row]
-            c.cellViewSubtitle?.text = allassets[indexPath.row].description
+            c.cellViewSubtitle?.text = allassets[indexPath.row].subtitle
             c.cellViewImage?.image = allassets[indexPath.row].image
         }
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let c = (tableView.cellForRowAtIndexPath(indexPath) as? TableViewCellView){
-           let key = c.cellViewSubtitle
-            performSegueWithIdentifier("TableViewToAssetView", sender: key)
+            println(c.cellViewSubtitle.text!)
+            performSegueWithIdentifier("TableViewToAssetView", sender: c.cellViewSubtitle.text!)
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
@@ -111,9 +111,7 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
         if segue.identifier == "TableViewToAssetView"{
             let assetVC = segue.destinationViewController as! AssetViewController
             let key = sender as! String
-            let asset = Assets.sharedInstance.findAssetWithKey(key)
-            assetVC.theLocation = asset!.location
-            assetVC.theTitle = asset!.title
+            assetVC.asset = Assets.sharedInstance.findAssetWithKey(key)!
         }
     }
 
