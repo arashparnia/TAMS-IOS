@@ -13,9 +13,11 @@ import UIKit
 public class AssetViewCellView : UITableViewCell {
     
    
-    @IBOutlet weak var assetViewCellCatagory: UITextField!
+    @IBOutlet weak var assetViewCellAttribute: UITextField!
     
-    @IBOutlet weak var assetViewCellDescription: UITextField!
+    @IBOutlet weak var assetViewCellValue: UITextField!
+    
+    
     public func configure(title: String?, subtitle: String) {
      
         

@@ -15,12 +15,7 @@ public class TableViewCellView : UITableViewCell {
     @IBOutlet weak var cellViewTitle: UILabel!
     @IBOutlet weak var cellViewSubtitle: UILabel!
     @IBOutlet weak var cellViewDescription: UILabel!
+    var asset  = Asset()
     
-    public func configure(title: String?, subtitle: String) {
-        cellViewTitle.text = title
-        cellViewTitle.accessibilityValue = title
-        cellViewSubtitle.text = subtitle
-        cellViewSubtitle.accessibilityValue = subtitle
-        
-    }
+   
 }

@@ -7,20 +7,21 @@
 //
 
 import MapKit
-
+import UIKit
 class AnnotationView: NSObject, MKAnnotation {
     let title: String
     let subTitle: String
     let coordinate: CLLocationCoordinate2D
+    //let image : UIImage
+    var asset = Asset()
     
-    init(title: String, subTitle: String, coordinate: CLLocationCoordinate2D) {
-        self.title = title
-        self.subTitle = subTitle
-        self.coordinate = coordinate
+    init(asset : Asset) {
+        self.title = asset.title
+        self.subTitle = "\(asset.latitude),\(asset.longitude)"
+        self.coordinate = CLLocationCoordinate2D(latitude: asset.latitude, longitude: asset.longitude)
+        //self.image = asset.image
+        self.asset = asset
         super.init()
     }
-    
-    var subtitle: String {
-        return subTitle
-    }
+   
 }

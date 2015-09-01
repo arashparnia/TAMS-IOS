@@ -13,7 +13,7 @@ import MapKit
 
 class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate {
  @IBOutlet weak var MapView: MKMapView!
-    let radious = 0.005
+    let radious = 0.05
     var locations : [CLLocationCoordinate2D]=[]
     var annotations:[AnnotationView] = []
     
@@ -32,10 +32,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         var rightSearchBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchTapped:")
         self.navigationItem.setRightBarButtonItems([rightAddBarButtonItem,rightSearchBarButtonItem], animated: true)
         
-       
-
-       
-        
+    
        makeAnnotationsFromAssets()
     
         let centerLocation = CLLocationCoordinate2D(
@@ -75,9 +72,9 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
     func makeAnnotationsFromAssets(){
         annotations.removeAll(keepCapacity: false)
-        for ass in Assets.sharedInstance.assets as [String:Asset]{
-            //locations.append(CLLocationCoordinate2D( latitude: ass.latitude,longitude: ass.longitude))
-            let ann = AnnotationView(title: ass.1.title,subTitle:ass.0,coordinate:ass.1.location.coordinate)
+        let assets = Assets.sharedInstance.retriveAllAsets()
+        for ass in assets {
+            let ann = AnnotationView(asset: ass)
             annotations.append(ann)
         }
     }
@@ -126,19 +123,19 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         let v = view.annotation as! AnnotationView
-        performSegueWithIdentifier("MapToAssetView", sender: v.subTitle)
+        performSegueWithIdentifier("MapToAssetView", sender: v)
     }
     
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
-        Assets.sharedInstance.retriveAssetsAtRegin(mapView.region)
+        //Assets.sharedInstance.retriveAllAsets()
         //        let maxspan = MKCoordinateSpanMake(0.05, 0.05)
         //        if mapView.region.span.latitudeDelta >  maxspan.latitudeDelta {
         //            mapView.removeAnnotations(annotations)
         //        } else {
         //            MapView.addAnnotations(annotations)
         //        }
-        makeAnnotationsFromAssets()
-        mapView.addAnnotations(annotations)
+        //makeAnnotationsFromAssets()
+        //mapView.addAnnotations(annotations)
     }
     func mapView(mapView: MKMapView!, regionWillChangeAnimated animated: Bool) {
         
@@ -160,15 +157,16 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     func action(gestureRecognizer:UIGestureRecognizer) {
         var touchPoint = gestureRecognizer.locationInView(self.MapView)
         var newCoordinate:CLLocationCoordinate2D = MapView.convertPoint(touchPoint, toCoordinateFromView: self.MapView)
-        var newAnnotation = MKPointAnnotation()
-        let location = CLLocation(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude)
-        let ann = AnnotationView(title: "NEW PIN", subTitle:location.description, coordinate: location.coordinate)
+        //var newAnnotation = MKPointAnnotation()
+        
+        let ass = Asset()
+        ass.title = "New Asset"
+        ass.latitude = newCoordinate.latitude
+        ass.longitude = newCoordinate.longitude
+        let ann = AnnotationView(asset: ass)
         MapView.addAnnotation(ann)
-        //let span = MKCoordinateSpanMake(radious+0.001, radious+0.001)
-        //let region = MKCoordinateRegion(center: ann.coordinate, span: span)
-        //MapView.setRegion(region, animated: true)
         MapView.showAnnotations([ann], animated: true)
-        Assets.sharedInstance.addAsset(location, title: "NEW PIN", subtitle: location.description)
+        Assets.sharedInstance.addAsset(ass)
     }
 
     
@@ -183,7 +181,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "MapToAssetView"{
             let assetVC = segue.destinationViewController as! AssetViewController
-            assetVC.asset = Assets.sharedInstance.findAssetWithKey(sender! as! String)!
+            assetVC.asset = (sender as! AnnotationView).asset
         } else if segue.identifier == "TableView"{
             let TableVC = segue.destinationViewController as! TableViewController
         }

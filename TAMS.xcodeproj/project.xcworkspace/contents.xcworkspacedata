@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../../../../../../../../Applications/MAMP/bin/mamp/service.php">
+   </FileRef>
+   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>

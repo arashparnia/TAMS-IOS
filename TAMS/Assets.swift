@@ -9,57 +9,80 @@
 import Foundation
 import UIKit
 import MapKit
+import CoreData
 
 class Assets  {
     static let sharedInstance = Assets()
-    var assets = [String:Asset]()
-
+    var assets = [Asset]()
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
-    func addAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil , categories: [Assetcategory]? = nil) {
-        assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!,categories : categories!)
+    func addAsset(asset : Asset) {
+        let managedObjectContext  = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext:managedObjectContext!)
+        let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        ass.latitude = asset.latitude
+        ass.longitude = asset.longitude
+        ass.title = asset.title
+        ass.date = asset.date
+        ass.attributes.setByAddingObjectsFromArray(asset.attributes as [AnyObject])
     }
-    func editAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil, categories : [Assetcategory]? = nil ) {
-        assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!,categories : categories!)
-    }
+//    func editAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil, Attributes : [AssetAttribute]? = nil ) {
+//        //assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!,Attributes : Attributes!)
+//    }
     
-    func removeAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil) {
-        assets.removeValueForKey(location.description)
-    }
-    func retriveAll() -> AnyObject{
-        return self
-    }
+//    func removeAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil) {
+//        //assets.removeValueForKey(location.description)
+//    }
+   
     func retriveAllAsets() -> [Asset] {
-        return(assets.values.array)
-    }
-    func retriveAllTitles() -> [String] {
-        var titles: [String]
-        titles = [String]()
-        for value in assets.values{
-            titles.append(value.title)
+        var asset  = [Asset]()
+        let entityDescription = NSEntityDescription.entityForName("AssetsTable", inManagedObjectContext: managedObjectContext!)
+        let request = NSFetchRequest()
+        request.entity = entityDescription
+        let pred = NSPredicate(value: true)
+        request.predicate = pred
+        var error: NSError?
+        var objects = managedObjectContext?.executeFetchRequest(request,error: &error) as! [AssetEntity]
+        for obj in objects{
+            let ass : Asset = Asset()
+            ass.title = obj.title
+            ass.latitude = obj.latitude.doubleValue
+            ass.longitude = obj.longitude.doubleValue
+            ass.date = obj.date
+            for objatt  in obj.attributes {
+                let assatt = AssetAttribute()
+                assatt.attributeName = (objatt as! AssetAttributeEntity).attributeName
+                assatt.attributeData = (objatt as! AssetAttributeEntity).attributeData
+            ass.attributes.append(assatt)
+            }
+            asset.append(ass)
         }
-        return titles
+  
+        return asset
+       
     }
-    func retriveAllKeys() -> [String] {
-        var allkeys: [String]
-        allkeys = [String]()
-        for thekey in assets.keys{
-            allkeys.append(thekey)
-        }
-        return allkeys
-    }
-    func retriveAssetsAtRegin(regin : MKCoordinateRegion )->[Asset]{
-        let radious = sqrt( pow(regin.span.latitudeDelta,2) + pow(regin.span.longitudeDelta ,2 ))
-        let center = CLLocation(latitude: regin.center.latitude, longitude: regin.center.longitude)
-        var assetsInRegin = [Asset]()
-        for ass in retriveAllAsets() {
-            if ass.location.distanceFromLocation(center) < radious {assetsInRegin.append(ass) }
-        }
-        return assetsInRegin
-    }
-    func findAssetWithKey(key:String) -> Asset?{
-        println("SEARCHING FOR ",key)
-        if let assetvalue = assets[key] { return assetvalue } else { return nil}
-    }
+//       func retriveAssetsAtRegin(regin : MKCoordinateRegion )->[Asset]{
+//        
+//        let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+//        let entityDescription = NSEntityDescription.entityForName("Assets",inManagedObjectContext: managedObjectContext!)
+//        let asset = Asset(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+//        let request = NSFetchRequest()
+//        request.entity = entityDescription
+//        let pred = NSPredicate(format: "(title = %@)", "John Smith")
+//        request.predicate = pred
+//        
+//        var error: NSError?
+//        var results = managedObjectContext?.executeFetchRequest(request, error: &error)
+//        
+//        let radious = sqrt( pow(regin.span.latitudeDelta,2) + pow(regin.span.longitudeDelta ,2 ))
+//        let center = CLLocation(latitude: regin.center.latitude, longitude: regin.center.longitude)
+//        var assetsInRegin = [Asset]()
+//        //for ass in retriveAllAsets() {
+//            //if ass.location.distanceFromLocation(center) < radious {assetsInRegin.append(ass) }
+//        //}
+//        return assetsInRegin
+//    }
+    
     func count() -> Int{
         return assets.count
     }

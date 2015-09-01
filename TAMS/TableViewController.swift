@@ -13,13 +13,12 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
    
     
     @IBOutlet var assetTableView: UITableView!
-    let allkeys: [String] = Assets.sharedInstance.retriveAllKeys()
-    let alltitles: [String] = Assets.sharedInstance.retriveAllTitles()
+ 
     let allassets: [Asset] = Assets.sharedInstance.retriveAllAsets()
     var regin : MKCoordinateRegion = MKCoordinateRegion()
     var allassetsAtRegion : [Asset] {
         get {
-            return Assets.sharedInstance.retriveAssetsAtRegin(regin)
+            return Assets.sharedInstance.retriveAllAsets()
         }
     }
     
@@ -30,7 +29,7 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
         tableView.delegate = self
         tableView.dataSource = self
         self.clearsSelectionOnViewWillAppear = true
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.navigationItem.rightBarButtonItem = self.editButtonItem()
         super.viewDidLoad()
     }
 
@@ -45,7 +44,7 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allkeys.count
+        return allassets.count
     }
 
     
@@ -53,16 +52,17 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("TheCell", forIndexPath: indexPath) as! UITableViewCell
         let row = indexPath.row
         if let c = (cell as? TableViewCellView) {
-            c.cellViewTitle?.text = allassets[indexPath.row].title //alltitles[indexPath.row]
-            c.cellViewSubtitle?.text = allassets[indexPath.row].subtitle
-            c.cellViewImage?.image = allassets[indexPath.row].image
+            let ass = allassets[indexPath.row]
+            c.cellViewTitle?.text = allassets[indexPath.row].title
+            c.cellViewSubtitle?.text =  "\(ass.latitude),\(ass.longitude),\(ass.date)"
+            c.asset = allassets[indexPath.row]
         }
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let c = (tableView.cellForRowAtIndexPath(indexPath) as? TableViewCellView){
             println(c.cellViewSubtitle.text!)
-            performSegueWithIdentifier("TableViewToAssetView", sender: c.cellViewSubtitle.text!)
+            performSegueWithIdentifier("TableViewToAssetView", sender: c)
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
@@ -110,33 +110,13 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "TableViewToAssetView"{
             let assetVC = segue.destinationViewController as! AssetViewController
-            let key = sender as! String
-            assetVC.asset = Assets.sharedInstance.findAssetWithKey(key)!
+            let thecell = sender as! TableViewCellView
+            assetVC.asset = thecell.asset
         }
     }
 
 
 
-//        if segue.identifier == blogSegueIdentifier {
-//            if let destination = segue.destinationViewController as? BlogViewController {
-//                if let blogIndex = tableView.indexPathForSelectedRow()?.row {
-//                    destination.blogName = swiftBlogs[blogIndex]
-//                }
-//            }
-//        }
-//        if let assetViewController = self.storyboard?.instantiateViewControllerWithIdentifier("AssetView") as? AssetViewController{
-//            //         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
-//            //        let key = cell.detailTextLabel!.text
-//            //        if let asset = Assets.sharedInstance.findAssetWithKey(key!){
-//            //
-//            //        assetViewController.setPropertiesFor(asset.title!, latitude: asset.latitude, longitude: asset.longitude)
-//            //
-//            assetViewController.assetTitleLabel.text = "TESTING"
-//
-//        // Get the new view controller using [segue destinationViewController].
-//        // Pass the selected object to the new view controller.
-//          }
-//
 
 
 
