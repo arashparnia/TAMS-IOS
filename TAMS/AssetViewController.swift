@@ -9,14 +9,15 @@
 import Foundation
 import UIKit
 import MapKit
+import MobileCoreServices
 
-class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDelegate{
-   
-    @IBOutlet weak var image: UIImageView!
+class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     var asset = Asset()
+    var newMedia: Bool?
+    @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var smallMap: MKMapView!
     @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var assetTitleLabel: UILabel!
+    @IBOutlet weak var assetTitleLabel: UITextField!
     @IBOutlet weak var assetTableView: UITableView!
     
     var tempimage  = UIImageView()
@@ -24,6 +25,7 @@ class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDe
     override func viewDidLoad() {
         assetTableView.delegate = self
         assetTableView.dataSource = self
+        
         
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         let annotation = MKPointAnnotation()
@@ -39,9 +41,81 @@ class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDe
         assetTitleLabel.text = asset.title
         locationLabel.text = "\(asset.latitude),\(asset.longitude)"
     
+        var imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
+        image.addGestureRecognizer(imagegesture)
     
         
+    }
+    
+    
+    func imageTapped(img: AnyObject)
+    {
+        println("image pressed")
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                let imagePicker = UIImagePickerController()
+                
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                imagePicker.mediaTypes = [kUTTypeImage as NSString]
+                imagePicker.allowsEditing = false
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+                newMedia = true
+        }
+    }
+
+    func useCameraRoll(sender: AnyObject) {
         
+        if UIImagePickerController.isSourceTypeAvailable(
+            UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+                let imagePicker = UIImagePickerController()
+                
+                imagePicker.delegate = self
+                imagePicker.sourceType =
+                    UIImagePickerControllerSourceType.PhotoLibrary
+                imagePicker.mediaTypes = [kUTTypeImage as NSString]
+                imagePicker.allowsEditing = false
+                self.presentViewController(imagePicker, animated: true,
+                    completion: nil)
+                newMedia = false
+        }
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        let mediaType = info[UIImagePickerControllerMediaType] as! String
+        self.dismissViewControllerAnimated(true, completion: nil)
+        if mediaType == (kUTTypeImage as! String) {
+            let image = info[UIImagePickerControllerOriginalImage]
+                as! UIImage
+            removeImageViewSubviews(self.image)
+            self.image.image = image
+            
+            if (newMedia == true) {
+                UIImageWriteToSavedPhotosAlbum(image, self,
+                    "image:didFinishSavingWithError:contextInfo:", nil)
+            } else if mediaType == (kUTTypeMovie as! String) {
+                // Code to support video here
+            }
+            
+        }
+    }
+    
+    func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo:UnsafePointer<Void>) {
+        if error != nil {
+            let alert = UIAlertController(title: "Save Failed",
+                message: "Failed to save image",
+                preferredStyle: UIAlertControllerStyle.Alert)
+            let cancelAction = UIAlertAction(title: "OK",
+                style: .Cancel, handler: nil)
+            alert.addAction(cancelAction)
+            self.presentViewController(alert, animated: true,
+                completion: nil)
+        }
+    }
+    
+    func removeImageViewSubviews( img : UIImageView){
+        for sv in img.subviews{
+            sv.removeFromSuperview()
+        }
     }
     
     override func setEditing(editing: Bool, animated: Bool) {
@@ -50,9 +124,7 @@ class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDe
             editImage()
         } else {
             println("save ")
-            for sv in image.subviews{
-                sv.removeFromSuperview()
-            }
+           removeImageViewSubviews(image)
             UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
             
         }
