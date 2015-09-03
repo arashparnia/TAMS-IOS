@@ -38,13 +38,12 @@ class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDe
         smallMap.setRegion(region, animated: true)
         smallMap.showsBuildings = true
         
+        image.image = UIImage(data:asset.image)
         assetTitleLabel.text = asset.title
         locationLabel.text = "\(asset.latitude),\(asset.longitude)"
     
         var imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
         image.addGestureRecognizer(imagegesture)
-    
-        
     }
     
     
@@ -64,11 +63,9 @@ class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDe
     }
 
     func useCameraRoll(sender: AnyObject) {
-        
         if UIImagePickerController.isSourceTypeAvailable(
             UIImagePickerControllerSourceType.SavedPhotosAlbum) {
                 let imagePicker = UIImagePickerController()
-                
                 imagePicker.delegate = self
                 imagePicker.sourceType =
                     UIImagePickerControllerSourceType.PhotoLibrary
@@ -126,7 +123,7 @@ class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDe
             println("save ")
            removeImageViewSubviews(image)
             UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
-            
+            asset.title = assetTitleLabel.text
         }
         
         super.setEditing(editing, animated: animated)
@@ -141,6 +138,7 @@ class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDe
         blurView.frame = image.bounds
        
         var cam =  UIImageView(image: UIImage(named: "Camera.png"))
+        cam.frame = CGRectMake(0, 0, 20, 20)
         cam.center = CGPoint(x: 50, y: 50)
         
         image.addSubview(blurView)
@@ -213,17 +211,22 @@ class AssetViewController: UIViewController, UITableViewDataSource,UITableViewDe
     }
     */
     
-    /*
+    
     // Override to support editing the table view.
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        let thecell = tableView.cellForRowAtIndexPath(indexPath) as! AssetViewCellView
+//        asset.attributes[indexPath.row].attributeName =  thecell.assetViewCellAttribute.text
+//        asset.attributes[indexPath.row].attributeData =  thecell.assetViewCellValue.text
+//        
     if editingStyle == .Delete {
     // Delete the row from the data source
-    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        asset.attributes.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
     } else if editingStyle == .Insert {
     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
     }
-    */
+    
     
     /*
     // Override to support rearranging the table view.

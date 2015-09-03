@@ -20,6 +20,7 @@ class Assets  {
         let managedObjectContext  = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext:managedObjectContext!)
         let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        ass.image = asset.image
         ass.latitude = asset.latitude
         ass.longitude = asset.longitude
         ass.title = asset.title
@@ -45,6 +46,7 @@ class Assets  {
         var objects = managedObjectContext?.executeFetchRequest(request,error: &error) as! [AssetEntity]
         for obj in objects{
             let ass : Asset = Asset()
+            ass.image = obj.image
             ass.title = obj.title
             ass.latitude = obj.latitude.doubleValue
             ass.longitude = obj.longitude.doubleValue

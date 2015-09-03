@@ -53,6 +53,7 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
         let row = indexPath.row
         if let c = (cell as? TableViewCellView) {
             let ass = allassets[indexPath.row]
+            c.cellViewImage?.image = UIImage( data: allassets[indexPath.row].image)
             c.cellViewTitle?.text = allassets[indexPath.row].title
             c.cellViewSubtitle?.text =  "\(ass.latitude),\(ass.longitude),\(ass.date)"
             c.asset = allassets[indexPath.row]

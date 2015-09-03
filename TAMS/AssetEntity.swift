@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class AssetEntity: NSManagedObject {
-
+    @NSManaged var image: NSData
     @NSManaged var date: NSDate
     @NSManaged var latitude: NSNumber
     @NSManaged var longitude: NSNumber

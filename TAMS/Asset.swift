@@ -10,9 +10,10 @@ import Foundation
 
 
 class Asset : NSObject{
-     var date: NSDate = NSDate()
-     var latitude: Double = 0.0
-     var longitude: Double = 0.0
-     var title: String = ""
-     var attributes: [AssetAttribute] = []
+    var image: NSData = NSData()
+    var date: NSDate = NSDate()
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
+    var title: String = ""
+    var attributes: [AssetAttribute] = []
 }

@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let radious = 0.05
+    var imagearray = [UIImage]()
     
         func makeRand() -> Double{
         let lower : UInt32 = 1000000
@@ -28,32 +29,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func addRandomAsset(title:String){
         let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext: managedObjectContext!)
-        
         let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
-        //var ass  = NSEntityDescription.insertNewObjectForEntityForName("AssetsTable", inManagedObjectContext: self.managedObjectContext!) as! Asset
-        
         ass.latitude = 38.560884 + makeRand()
         ass.longitude = -121.422357 + makeRand()
         ass.title = title
         ass.date = NSDate()
-        
-        
-        for i in 0...5{
+        var rand = Int(arc4random_uniform(UInt32(imagearray.count)))
+        ass.image = UIImagePNGRepresentation(imagearray[rand])
+        for i in 0...10{
         var att = NSEntityDescription.insertNewObjectForEntityForName("Attributes", inManagedObjectContext: self.managedObjectContext!) as! AssetAttributeEntity
             att.attributeName = "att \(i)"
         att.attributeData = "data \(i)"
         att.asset = ass
         }
-        
-      
-//         let att1 = NSEntityDescription.insertNewObjectForEntityForName("Attributes", inManagedObjectContext: self.managedObjectContext!) as! AssetAttribute
-//        att1.attributeName = "color"
-//        att1.attributeData = "red"
-//        asset.attributes.setByAddingObject(att1)
-        
         managedObjectContext?.save(nil)
     }
+func makeImageArray(){
+    for x in 1...80{
+        let urlstring = String(stringLiteral:"http://www.streetsignpictures.com/images/225_traffic\(x).jpg")
+        //println(urlstring)
+        let imageurl = NSURL(string: urlstring)!
+        if let imagedata = NSData(contentsOfURL: imageurl) {
+            let image = UIImage(data:imagedata)!
+            imagearray.append(image)
+        }
+    }
     
+}
     func fetchFromPHP(){
         
         var datafromphpurl = NSURL(string: "http://localhost:8888/TAMS/index.php")
@@ -86,7 +88,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-         //addRandomAsset("test")
+//        makeImageArray()
+//        for i in 0...70{
+//            addRandomAsset("Asset \(i)")
+//        }
+
+        
+        
         
         //var inserturl = NSURL(string: "http://localhost:8888/TAMS/add.php?latitude=6&longitude=6&title=6")
         //var request:NSMutableURLRequest = NSMutableURLRequest(URL:inserturl! )
@@ -115,11 +123,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            println("responseString = \(responseString)")
 //        }
 //        task.resume()
-       
-              for i in 0...50{
-            addRandomAsset("Asset \(i)")
-        }
-       
+        
+        
         
      
         
@@ -149,35 +154,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    
 
         
-
-        
-//        let managedContext = self.managedObjectContext!
-//        var fetchRequest = NSFetchRequest()
-//        fetchRequest.entity = NSEntityDescription.entityForName("Assets",inManagedObjectContext: managedObjectContext!)
-//        var error: NSError?
-//        var assetsdb = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]
-//        
-//    
-//            for index in 0...5 {
-//                let lat : Double  = 38.560884 + makeRand()
-//                let lon : Double  = -121.422357 + makeRand()
-//                let title: String = "NODE \(index)"
-//                let location = CLLocation(latitude: lat, longitude: lon)
-//                var Attributes : [AssetAttribute] = [AssetAttribute]()
-//                Attributes.append( AssetAttribute(Attribute: "Category", detail: "Signs"))
-//                Attributes.append( AssetAttribute(Attribute: "Type", detail: "Stop Sign"))
-//                Attributes.append( AssetAttribute(Attribute: "Color", detail: "red"))
-//                for i in 4...20 {
-//                    Attributes.append( AssetAttribute(Attribute: "name \(i)", detail: "details \(i)"))
-//                }
-//                assetsdb.append(latitude:location.coordinate.latitude,
-//                    longitude: location.coordinate.longitude,
-//                    title: title,
-//                    date: location.timestamp)
-//                
-//                
-//                Assets.sharedInstance.addAsset(location , title: title, subtitle: location.description,Attributes: Attributes) // random ASSETS are being added
-//            }
         var e: NSError?
         if !self.managedObjectContext!.save(&e) {
             println("insert error: \(e!.localizedDescription)")

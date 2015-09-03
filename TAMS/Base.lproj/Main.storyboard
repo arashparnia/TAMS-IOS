@@ -79,7 +79,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sR2-Xg-hQf" id="nnS-6I-CeZ">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stopsign.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="D2p-al-GF8">
+                                        <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="D2p-al-GF8">
                                             <rect key="frame" x="8" y="10" width="50" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="D2p-al-GF8" secondAttribute="height" multiplier="1:1" id="pVM-eG-bjw"/>
@@ -160,7 +160,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stopsign.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="Wvf-1e-IUx">
+                            <imageView multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wvf-1e-IUx">
                                 <rect key="frame" x="16" y="64" width="100" height="100"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
@@ -284,9 +284,6 @@
             <point key="canvasLocation" x="1978" y="482"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="stopsign.jpeg" width="216" height="233"/>
-    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="K9b-74-wP9"/>
     </inferredMetricsTieBreakers>
