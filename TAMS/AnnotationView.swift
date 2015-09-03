@@ -12,14 +12,14 @@ class AnnotationView: NSObject, MKAnnotation {
     let title: String
     let subTitle: String
     let coordinate: CLLocationCoordinate2D
-    //let image : UIImage
+    let imagedata : NSData
     var asset = Asset()
     
     init(asset : Asset) {
         self.title = asset.title
         self.subTitle = "\(asset.latitude),\(asset.longitude)"
         self.coordinate = CLLocationCoordinate2D(latitude: asset.latitude, longitude: asset.longitude)
-        //self.image = asset.image
+        self.imagedata = asset.image
         self.asset = asset
         super.init()
     }

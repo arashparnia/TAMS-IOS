@@ -8,12 +8,12 @@
 
 import UIKit
 import MapKit
-
+import ImageIO
 
 
 class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate {
  @IBOutlet weak var MapView: MKMapView!
-    let radious = 0.05
+    let radious = 0.005
     var locations : [CLLocationCoordinate2D]=[]
     var annotations:[AnnotationView] = []
     
@@ -113,14 +113,24 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             } else {
                 // 3
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                let theimage = UIImage(data:annotation.imagedata)
+                let size = CGSizeApplyAffineTransform(theimage!.size, CGAffineTransformMakeScale(0.5, 0.5))
+                let hasAlpha = false
+                let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+                UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+                theimage!.drawInRect(CGRect(origin: CGPointZero, size: size))
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                view.image = scaledImage
                 view.canShowCallout = true
-                view.calloutOffset = CGPoint(x: -5, y: 5)
+                view.calloutOffset = CGPoint(x: 0, y: 0)
                 view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
             }
             return view
         }
         return nil
     }
+    
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         let v = view.annotation as! AnnotationView
         performSegueWithIdentifier("MapToAssetView", sender: v)
