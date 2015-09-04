@@ -16,75 +16,7 @@ import ImageIO
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    //let radious = 10.0
-    var imagearray = [UIImage]()
     
-    func makeRand(latlong: String) -> Double{
-        //Latitude: -85 to +85 (actually -85.05115 for some reason)
-        //Longitude: -180 to +180
-        var r : Double = 0
-        if (latlong == "latitude") {
-            let lower : UInt32 = 0
-            let upper : UInt32 = 85*2
-            r = (Double(upper)/2) - Double(arc4random_uniform(upper))
-        } else if (latlong == "longitude"){
-            let lower : UInt32 = 0
-            let upper : UInt32 = 180*2
-            r = (Double(upper)/2) - Double(arc4random_uniform(upper))
-        }
-    
-        let randomfloat = CGFloat( (Float(arc4random()) / Float(UINT32_MAX)) )
-        r = r + Double(randomfloat)
-        r=r/1000
-        println(r)
-        return r
-    }
-
-    func addRandomAsset(title:String){
-        let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext: managedObjectContext!)
-        let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
-        ass.latitude = 38.560884 + makeRand("latitude")
-        ass.longitude = -121.422357 + makeRand("longitude")
-        ass.title = title
-        ass.date = NSDate()
-        var rand = Int(arc4random_uniform(UInt32(imagearray.count)))
-        ass.image = UIImagePNGRepresentation(imagearray[rand])
-        for i in 0...10{
-        var att = NSEntityDescription.insertNewObjectForEntityForName("Attributes", inManagedObjectContext: self.managedObjectContext!) as! AssetAttributeEntity
-            att.attributeName = "att \(i)"
-        att.attributeData = "data \(i)"
-        att.asset = ass
-        }
-        managedObjectContext?.save(nil)
-    }
-    func makeImageArray(){
-        for x in 1...80{
-            let urlstring = String(stringLiteral:"http://www.streetsignpictures.com/images/225_traffic\(x).jpg")
-            let imageurl = NSURL(string: urlstring)!
-            if let imagedata = NSData(contentsOfURL: imageurl) {
-                let d : [NSObject:AnyObject] = [
-                    kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
-                    //kCGImageSourceShouldAllowFloat : true,
-                    kCGImageSourceCreateThumbnailWithTransform: true,
-                    //kCGImageSourceCreateThumbnailFromImageAlways: false,
-                    kCGImageSourceThumbnailMaxPixelSize: 100
-                    ]
-                let cgimagesource = CGImageSourceCreateWithData(imagedata, d)
-                let imref = CGImageSourceCreateThumbnailAtIndex(cgimagesource, 0, d)
-                let im = UIImage(CGImage:imref, scale:0.2, orientation:.Up)!
-                    
-                //let image = UIImage(data:imagedata)!
-                //CGImageSourceCreateThumbnailAtIndex(image.CGImage, , )
-                //imagearray.append(image)
-                //}
-           
-                    imagearray.append(im)
-                }
-            
-        }
-    }
-
- 
     func fetchFromPHP(){
         
         var datafromphpurl = NSURL(string: "http://localhost:8888/TAMS/index.php")
@@ -116,15 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
-//        makeImageArray()
-//        for i in 0...1000{
-//            println("adding asset:\(i)")
-//            addRandomAsset("Asset \(i)")
-//        }
-
-        
-        
+    
         
         //var inserturl = NSURL(string: "http://localhost:8888/TAMS/add.php?latitude=6&longitude=6&title=6")
         //var request:NSMutableURLRequest = NSMutableURLRequest(URL:inserturl! )
