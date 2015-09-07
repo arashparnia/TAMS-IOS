@@ -10,27 +10,60 @@ import Foundation
 import UIKit
 import MapKit
 import MobileCoreServices
+import AVFoundation
 
-class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate{
+
+class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,AVAudioPlayerDelegate{
     var asset = Asset()
     var newMedia: Bool?
+    var audioPlayer: AVAudioPlayer!
+    var recorder: AVAudioRecorder!
+        var updater : CADisplayLink! = nil
+    
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var smallMap: MKMapView!
-    //@IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var assetTitleLabel: UITextField!
     @IBOutlet weak var assetTableView: UITableView!
     @IBOutlet weak var audiobutton: UIButton!
-    //       @IBAction func addAttribute(sender: UIButton) {
-    //        println("\(self.attributeName.text):\(attributeValue.text)")
-    //        let assatt = AssetAttribute()
-    //        assatt.attributeName = attributeName.text
-    //        assatt.attributeData = attributeValue.text
-    //        asset.attributes.append(assatt)
-    //        assetTableView.reloadData()
-    //        attributeName.text = ""
-    //        attributeValue.text = ""
-    //    }
+    @IBOutlet weak var audioprogressbar: UIProgressView!
     
+    @IBAction func audiobottunpressed(sender: UIButton) {
+        if assetTableView.editing{
+            if audiobutton.selected{
+                recorder.stop()
+                audiobutton.selected = false
+            } else {
+            AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+                if granted {
+                    let recordurl = NSURL()
+                    let recordSettings :[NSObject : AnyObject] = [
+                        AVFormatIDKey: kAudioFormatMPEGLayer3,
+                        AVEncoderAudioQualityKey : AVAudioQuality.Medium.rawValue,
+                        AVEncoderBitRateKey : 320000,
+                        AVNumberOfChannelsKey: 2,
+                        AVSampleRateKey : 44100.0
+                    ]
+                    self.recorder = AVAudioRecorder(URL: recordurl, settings: recordSettings , error: nil)
+                    self.recorder.record()
+                  
+                } else {
+                    println("Permission to record not granted")
+                }
+            })
+            audiobutton.selected=true
+            }
+        } else {
+            if audiobutton.selected{
+                audioPlayer.stop()
+                audiobutton.selected = false
+            }else {
+                audioPlayer.play()
+                audiobutton.selected = true
+            }
+        }
+        
+    }
+
     var tempimage  = UIImageView()
     
     override func viewDidLoad() {
@@ -38,7 +71,6 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         assetTableView.delegate = self
         assetTableView.dataSource = self
-        //attributeValue.delegate = self
         
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         let annotation = MKPointAnnotation()
@@ -53,30 +85,37 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         image.image = UIImage(data:asset.image)
         assetTitleLabel.text = asset.title
-        //locationLabel.text = "\(asset.latitude),\(asset.longitude)"
         
-        //ShowAttributeAddViews(false)
-    }
-    //    func textFieldShouldReturn(textField: UITextField) -> Bool {
-    //        println("returned\(textField)")
-    //        if textField == attributeValue{
-    //
-    //            addAttribute(attributeAddButton)
-    //            textField.resignFirstResponder()
-    //        }
-    //        return true
-    //    }
-    //    func ShowAttributeAddViews(state: Bool){
-    //        attributeName.enabled = state
-    //        attributeValue.enabled = state
-    //        attributeAddButton.enabled=state
-    //        attributeName.hidden = !state
-    //        attributeValue.hidden = !state
-    //        attributeAddButton.hidden = !state
-    //        attributeName.text = ""
-    //        attributeValue.text = ""
-    //    }
 
+        
+        let u = NSURL.fileURLWithPath( NSBundle.mainBundle().pathForResource("55", ofType: "mp3")!)
+        var e: NSError?
+        self.audioPlayer = AVAudioPlayer(contentsOfURL: u, error: &e)
+        if let error = e {
+            println("audioPlayer error \(error.localizedDescription)")
+        }
+        else {
+            audioPlayer.numberOfLoops = 0
+            audioPlayer.delegate = self
+            audioPlayer.prepareToPlay()
+            updater = CADisplayLink(target: self, selector: Selector("trackAudio"))
+            updater.frameInterval = 1
+            updater.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+        }
+        
+       
+        
+    }
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
+        if flag{
+            audiobutton.selected = false
+        }
+    }
+    func trackAudio() {
+        audioprogressbar.setProgress(Float(audioPlayer.currentTime  / audioPlayer.duration), animated: false)
+    }
+
+    
     func imageTapped(img: AnyObject)
     {
         println("image pressed")
@@ -212,41 +251,41 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //        UIGraphicsEndImageContext()
         
     }
-    //
-    //    IBAction func playAudio(sender: AnyObject) {
-    //
-    //        var playing = false
-    //
-    //        if let currentPlayer = player {
-    //            playing = player.playing;
-    //        }else{
-    //            return;
-    //        }
-    //
-    //        if !playing {
-    //            let filePath = NSBundle.mainBundle().pathForResource("3e6129f2-8d6d-4cf4-a5ec-1b51b6c8e18b", ofType: "wav")
-    //            if let path = filePath{
-    //                let fileURL = NSURL(string: path)
-    //                player = AVAudioPlayer(contentsOfURL: fileURL, error: nil)
-    //                player.numberOfLoops = -1 // play indefinitely
-    //                player.prepareToPlay()
-    //                player.delegate = self
-    //                player.play()
-    //
-    //                displayLink = CADisplayLink(target: self, selector: ("updateSliderProgress"))
-    //                displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode!)
-    //            }
-    //
-    //        } else {
-    //            player.stop()
-    //            displayLink.invalidate()
-    //        }
-    //    }
-    //
-    //    func updateSliderProgress(){
-    //        var progress = player.currentTime / player.duration
-    //        timeSlider.setValue(Float(progress), animated: false)
-    //    }
+    
+//        func playAudio(sender: AnyObject) {
+//    
+//            var playing = false
+//    
+//            if let currentPlayer = audioPlayer {
+//                playing = audioPlayer!.playing;
+//            }else{
+//                return;
+//            }
+//    
+//            if !playing {
+//                let filePath = NSBundle.mainBundle().pathForResource("3e6129f2-8d6d-4cf4-a5ec-1b51b6c8e18b", ofType: "wav")
+//                if let path = filePath{
+//                    let fileURL = NSURL(string: path)
+//                    player = AVAudioPlayer(contentsOfURL: fileURL, error: nil)
+//                    player.numberOfLoops = -1 // play indefinitely
+//                    player.prepareToPlay()
+//                    player.delegate = self
+//                    player.play()
+//    
+//                    displayLink = CADisplayLink(target: self, selector: ("updateSliderProgress"))
+//                    displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode!)
+//                }
+//    
+//            } else {
+//                player.stop()
+//                displayLink.invalidate()
+//            }
+//        }
+//    
+//        func updateSliderProgress(){
+//            var progress = player.currentTime / player.duration
+//            timeSlider.setValue(Float(progress), animated: false)
+//        }
     
     // TABLE VIEW DELEGATE METHODS
     
@@ -323,31 +362,35 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //            }
         //        }
         
-        /*
+    
         // Override to support conditional editing of the table view.
-        override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+            if tableView.editing && indexPath.section == 0 && indexPath.row == 0 {
+                return false
+            }
         // Return NO if you do not want the specified item to be editable.
         return true
         }
-        */
+    
         
         
-        // Override to support editing the table view.
-        //    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        ////        let thecell = tableView.cellForRowAtIndexPath(indexPath) as! AssetViewCellView
-        ////        asset.attributes[indexPath.row].attributeName =  thecell.assetViewCellAttribute.text
-        ////        asset.attributes[indexPath.row].attributeData =  thecell.assetViewCellValue.text
-        ////
-        //        if editingStyle == .Delete {
-        //    // Delete the row from the data source
-        //        asset.attributes.removeAtIndex(indexPath.row)
-        //        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        //    } else if editingStyle == .Insert {
-        //    // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        //    }
-        //    }
-        //    }
-        
+    //Override to support editing the table view.
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    
+        //        let thecell = tableView.cellForRowAtIndexPath(indexPath) as! AssetViewCellView
+        //        asset.attributes[indexPath.row].attributeName =  thecell.assetViewCellAttribute.text
+        //        asset.attributes[indexPath.row].attributeData =  thecell.assetViewCellValue.text
+        //
+        if editingStyle == .Delete {
+            // Delete the row from the data source
+            asset.attributes.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+
+
         /*
         // Override to support rearranging the table view.
         override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {

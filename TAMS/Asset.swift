@@ -11,6 +11,7 @@ import Foundation
 
 class Asset : NSObject{
     var image: NSData = NSData()
+    var audio: NSData = NSData()
     var date: NSDate = NSDate()
     var latitude: Double = 0.0
     var longitude: Double = 0.0

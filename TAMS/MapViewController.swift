@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 import ImageIO
+import AVFoundation
 
 
 class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate {
@@ -85,7 +86,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         
         super.viewDidLoad()
         
-       // makeImageArray()
+      
         
     }
     
@@ -287,6 +288,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
 
     func addRandomAsset(title:String){
+        if imagearray.count == 0{ makeImageArray()}
         let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext: managedObjectContext!)
         let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
         ass.latitude = 38.560884 + makeRand("latitude")
@@ -295,6 +297,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         ass.date = NSDate()
         var rand = Int(arc4random_uniform(UInt32(imagearray.count)))
         ass.image = UIImagePNGRepresentation(imagearray[rand])
+        var audiourl = NSURL(string: "http://www.noiseaddicts.com/samples_1w72b820/280.mp3" )!
+        ass.audio = NSData(contentsOfURL: audiourl)!
         for i in 0...10{
             var att = NSEntityDescription.insertNewObjectForEntityForName("Attributes", inManagedObjectContext: self.managedObjectContext!) as! AssetAttributeEntity
             att.attributeName = "att \(i)"
@@ -306,6 +310,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         asset.latitude = ass.latitude.doubleValue
         asset.longitude = ass.longitude.doubleValue
         asset.image = ass.image
+        asset.audio = ass.audio
         asset.title = ass.title
         let ann = AnnotationView(asset: asset)
         annotations.append(ann)

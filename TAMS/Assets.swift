@@ -21,6 +21,7 @@ class Assets  {
         let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext:managedObjectContext!)
         let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
         ass.image = asset.image
+        ass.audio = asset.audio
         ass.latitude = asset.latitude
         ass.longitude = asset.longitude
         ass.title = asset.title
@@ -47,6 +48,7 @@ class Assets  {
         for obj in objects{
             let ass : Asset = Asset()
             ass.image = obj.image
+            ass.audio = obj.audio
             ass.title = obj.title
             ass.latitude = obj.latitude.doubleValue
             ass.longitude = obj.longitude.doubleValue
