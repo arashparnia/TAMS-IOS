@@ -12,14 +12,9 @@ import UIKit
 
 public class AssetViewCellView : UITableViewCell {
     
+    @IBOutlet weak var attribute: UILabel!
    
-    @IBOutlet weak var assetViewCellAttribute: UITextField!
-    
-    @IBOutlet weak var assetViewCellValue: UITextField!
-    
-    
-    public func configure(title: String?, subtitle: String) {
-     
-        
-    }
+    @IBOutlet weak var value: UILabel!
+   
+
 }

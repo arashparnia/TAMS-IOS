@@ -85,7 +85,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         
         super.viewDidLoad()
         
-        makeImageArray()
+       // makeImageArray()
         
     }
     
