@@ -30,6 +30,17 @@
                                     <navigationItem title="Title" id="fgp-oy-xGD"/>
                                 </items>
                             </navigationBar>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="W9H-3c-O7Z">
+                                <rect key="frame" x="237" y="564" width="127" height="29"/>
+                                <animations/>
+                                <segments>
+                                    <segment title="Street"/>
+                                    <segment title="Satellite"/>
+                                </segments>
+                                <connections>
+                                    <action selector="mapType:" destination="BYZ-38-t0r" eventType="valueChanged" id="iDJ-md-JZ2"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -39,12 +50,14 @@
                             <constraint firstItem="VAJ-l4-0X0" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ISS-Om-aF7"/>
                             <constraint firstItem="91B-kB-fwy" firstAttribute="leading" secondItem="VAJ-l4-0X0" secondAttribute="leading" id="JEP-k9-MKj"/>
                             <constraint firstItem="91B-kB-fwy" firstAttribute="top" secondItem="VAJ-l4-0X0" secondAttribute="bottom" id="JjO-Kg-hQS"/>
+                            <constraint firstItem="W9H-3c-O7Z" firstAttribute="centerX" secondItem="91B-kB-fwy" secondAttribute="centerX" constant="0.5" id="Ldc-1m-4el"/>
                             <constraint firstItem="91B-kB-fwy" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="MqM-xk-SsK"/>
                             <constraint firstItem="VAJ-l4-0X0" firstAttribute="trailing" secondItem="91B-kB-fwy" secondAttribute="trailing" id="SBB-Zc-RrE"/>
                             <constraint firstItem="91B-kB-fwy" firstAttribute="trailing" secondItem="VAJ-l4-0X0" secondAttribute="trailing" id="WgB-PV-DwS"/>
                             <constraint firstItem="91B-kB-fwy" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ggJ-qH-BNX"/>
                             <constraint firstItem="91B-kB-fwy" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="lHZ-GF-R72"/>
                             <constraint firstItem="91B-kB-fwy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="uPD-XK-lPC"/>
+                            <constraint firstItem="W9H-3c-O7Z" firstAttribute="top" secondItem="91B-kB-fwy" secondAttribute="bottom" constant="-36" id="xWL-9p-4Q4"/>
                             <constraint firstItem="91B-kB-fwy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="y2g-j4-45z"/>
                         </constraints>
                         <variation key="default">
@@ -245,14 +258,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="attribute" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lec-eB-Q93">
-                                                    <rect key="frame" x="8" y="9" width="64" height="20.5"/>
+                                                    <rect key="frame" x="8" y="9" width="64" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Attribute Value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9fe-n7-fIk">
-                                                    <rect key="frame" x="80" y="9" width="512" height="20.5"/>
+                                                    <rect key="frame" x="80" y="9" width="512" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

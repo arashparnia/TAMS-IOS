@@ -20,7 +20,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         latitude : 38.560884,
         longitude : -121.422357
     )
-    let radious = 0.005
+    let radious = 0.1
     var locations : [CLLocationCoordinate2D]=[]
     var annotations:[AnnotationView] = []
     let clusteringManager = FBClusteringManager()
@@ -30,6 +30,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     // random generator
  
     override func viewDidLoad() {
+      
         MapView.delegate = self
         removeAnnotations()
         makeAnnotationsFromAssets()
@@ -79,15 +80,20 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         var polyline =  MKPolyline(coordinates: &points, count: points.count)
         MapView.addOverlay(polyline)
         
-//        MapView.camera.centerCoordinate = centerLocation
-//        MapView.camera.altitude = 50.0
-//        MapView.camera.pitch = 100.0
+        MapView.mapType = MKMapType.Standard
+        MapView.pitchEnabled = true
+        MapView.camera.centerCoordinate = centerLocation
+        MapView.camera.pitch = 45;
+        MapView.camera.altitude = 5000;
+        MapView.camera.heading = 45;
         
-        
+//
+//        let userCoordinate = CLLocationCoordinate2D(latitude: 58.592725, longitude: 16.185962)
+//        let eyeCoordinate = CLLocationCoordinate2D(latitude: 58.571647, longitude: 16.234660)
+//        let mapCamera = MKMapCamera(lookingAtCenterCoordinate: userCoordinate, fromEyeCoordinate: eyeCoordinate, eyeAltitude: 400.0)
+//        MapView.setCamera(mapCamera, animated: true)
+//        
         super.viewDidLoad()
-        
-      
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -96,6 +102,17 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
 
 
+    @IBAction func mapType(sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            MapView.mapType = MKMapType.Standard
+            MapView.removeAnnotations(annotations)
+            MapView.addAnnotations(annotations)
+        } else {
+            MapView.mapType = MKMapType.Hybrid
+            MapView.removeAnnotations(annotations)
+            MapView.addAnnotations(annotations)
+        }
+    }
     
   
     
