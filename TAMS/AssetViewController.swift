@@ -13,12 +13,12 @@ import MobileCoreServices
 import AVFoundation
 
 
-class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,AVAudioPlayerDelegate{
+class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate{
     var asset = Asset()
     var newMedia: Bool?
     var audioPlayer: AVAudioPlayer!
-    var recorder: AVAudioRecorder!
-        var updater : CADisplayLink! = nil
+    var audioRecorder: AVAudioRecorder!
+    var updater : CADisplayLink! = nil
     
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var smallMap: MKMapView!
@@ -30,21 +30,20 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func audiobottunpressed(sender: UIButton) {
         if assetTableView.editing{
             if audiobutton.selected{
-                recorder.stop()
+                audioRecorder.stop()
+                
                 audiobutton.selected = false
             } else {
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
                 if granted {
                     let recordurl = NSURL()
-                    let recordSettings :[NSObject : AnyObject] = [
-                        AVFormatIDKey: kAudioFormatMPEGLayer3,
-                        AVEncoderAudioQualityKey : AVAudioQuality.Medium.rawValue,
-                        AVEncoderBitRateKey : 320000,
+                    let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
+                        AVFormatIDKey : kAudioFormatLinearPCM,
+                        AVEncoderBitRateKey: 16,
                         AVNumberOfChannelsKey: 2,
-                        AVSampleRateKey : 44100.0
-                    ]
-                    self.recorder = AVAudioRecorder(URL: recordurl, settings: recordSettings , error: nil)
-                    self.recorder.record()
+                        AVSampleRateKey: 44100.0]
+                    //self.recorder = AVAudioRecorder(URL: recordurl, settings: recordSettings , error: nil)
+                    self.audioRecorder.record()
                   
                 } else {
                     println("Permission to record not granted")
@@ -88,6 +87,30 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
 
         
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir = dirPaths[0] as! String
+        let soundFilePath = docsDir.stringByAppendingPathComponent("sound.wav")
+        let soundFileURL = NSURL(fileURLWithPath: soundFilePath)
+        let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
+            AVFormatIDKey : kAudioFormatLinearPCM,
+            AVEncoderBitRateKey: 16,
+            AVNumberOfChannelsKey: 2,
+            AVSampleRateKey: 44100.0]
+        var error: NSError?
+        let audioSession = AVAudioSession.sharedInstance()
+        audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, error: &error)
+        if let err = error {
+            println("audioSession error: \(err.localizedDescription)")
+        }
+        audioRecorder = AVAudioRecorder(URL: soundFileURL, settings: recordSettings as [NSObject : AnyObject], error: &error)
+        audioRecorder.delegate = self
+        
+        if let err = error {
+            println("audioSession error: \(err.localizedDescription)")
+        } else {
+            audioRecorder?.prepareToRecord()
+        }
+        
         let u = NSURL.fileURLWithPath( NSBundle.mainBundle().pathForResource("55", ofType: "mp3")!)
         var e: NSError?
         self.audioPlayer = AVAudioPlayer(contentsOfURL: u, error: &e)
@@ -105,6 +128,16 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
        
         
+    }
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+        if flag{
+            println("recorded")
+            //asset.audio = nsdata( recorder.url
+           self.audioPlayer = AVAudioPlayer(contentsOfURL: recorder.url, error: nil)
+            
+        } else {
+            println("problem saving or something ")
+        }
     }
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
         if flag{

@@ -124,39 +124,9 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             view.calloutOffset = CGPoint(x: 0, y: 0)
             view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
             return view
-//            reuseId = "Pin"
-//            var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
-//            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-//            pinView!.pinColor = .Green
-//            return pinView
+
             
         }
-//        if let annotation = annotation as? AnnotationView {
-//            let identifier = "pin"
-//            var view: MKPinAnnotationView
-//            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
-//                as? MKPinAnnotationView { // 2
-//                    dequeuedView.annotation = annotation
-//                    view = dequeuedView
-//            } else {
-//                // 3
-//                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                let theimage = UIImage(data:annotation.imagedata)
-//                let size = CGSizeApplyAffineTransform(theimage!.size, CGAffineTransformMakeScale(0.5, 0.5))
-//                let hasAlpha = false
-//                let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
-//                UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-//                theimage!.drawInRect(CGRect(origin: CGPointZero, size: size))
-//                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-//                UIGraphicsEndImageContext()
-//                view.image = scaledImage
-//                view.canShowCallout = true
-//                view.calloutOffset = CGPoint(x: 0, y: 0)
-//                view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
-//            }
-//            return view
-//        }
-//        return nil
     }
     
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
@@ -172,15 +142,6 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             let annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.MapView.visibleMapRect, withZoomScale:scale)
             self.clusteringManager.displayAnnotations(annotationArray, onMapView:self.MapView)
         })
-        //Assets.sharedInstance.retriveAllAsets()
-        //        let maxspan = MKCoordinateSpanMake(0.05, 0.05)
-        //        if mapView.region.span.latitudeDelta >  maxspan.latitudeDelta {
-        //            mapView.removeAnnotations(annotations)
-        //        } else {
-        //            MapView.addAnnotations(annotations)
-        //        }
-        //makeAnnotationsFromAssets()
-        //mapView.addAnnotations(annotations)
     }
     func mapView(mapView: MKMapView!, regionWillChangeAnimated animated: Bool) {
         
@@ -200,10 +161,10 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
     
     func action(gestureRecognizer:UIGestureRecognizer) {
+        println("long press detected ")
         var touchPoint = gestureRecognizer.locationInView(self.MapView)
         var newCoordinate:CLLocationCoordinate2D = MapView.convertPoint(touchPoint, toCoordinateFromView: self.MapView)
-        //var newAnnotation = MKPointAnnotation()
-        
+      
         let ass = Asset()
         ass.title = "New Asset"
         ass.latitude = newCoordinate.latitude
@@ -211,17 +172,12 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         let ann = AnnotationView(asset: ass)
         MapView.addAnnotation(ann)
         MapView.showAnnotations([ann], animated: true)
-        Assets.sharedInstance.addAsset(ass)
+        Assets.sharedInstance.addAsset(newCoordinate.latitude, longitude: newCoordinate.longitude, title: "NEW ASSET")
+        performSegueWithIdentifier("MapToAssetView", sender: ann)
+        
     }
 
     
-//    let regionRadius: CLLocationDistance = 1000
-//    
-//    func centerMapOnLocation(location: CLLocation) {
-//        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-//            regionRadius * 2.0, regionRadius * 2.0)
-//        MapView.setRegion(coordinateRegion, animated: true)
-//    }
 
     
     func searchTapped(sender:UIButton) {

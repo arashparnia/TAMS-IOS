@@ -28,6 +28,19 @@ class Assets  {
         ass.date = asset.date
         ass.attributes.setByAddingObjectsFromArray(asset.attributes as [AnyObject])
     }
+    func addAsset(latitude : Double, longitude: Double, title: String) {
+        let managedObjectContext  = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext:managedObjectContext!)
+        let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        //ass.image = NSData()
+        //ass.audio = NSData()
+        ass.latitude = latitude
+        ass.longitude = longitude
+        ass.title = title
+        ass.date = NSDate()
+        //ass.attributes = nil
+    }
+    
 //    func editAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil, Attributes : [AssetAttribute]? = nil ) {
 //        //assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!,Attributes : Attributes!)
 //    }
