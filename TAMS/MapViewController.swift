@@ -36,13 +36,13 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         makeAnnotationsFromAssets()
     
         // gesture and bottons setup
-        var uilpgr = UILongPressGestureRecognizer(target: self, action: "action:")
+        let uilpgr = UILongPressGestureRecognizer(target: self, action: "action:")
         uilpgr.minimumPressDuration = 1.0
         MapView.addGestureRecognizer(uilpgr)
         uilpgr.delegate = self
         
-        var rightAddBarButtonItem:UIBarButtonItem = UIBarButtonItem(title: "LIST", style: UIBarButtonItemStyle.Plain, target: self, action: "listTapped:")
-        var rightSearchBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchTapped:")
+        let rightAddBarButtonItem:UIBarButtonItem = UIBarButtonItem(title: "LIST", style: UIBarButtonItemStyle.Plain, target: self, action: "listTapped:")
+        let rightSearchBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchTapped:")
         self.navigationItem.setRightBarButtonItems([rightAddBarButtonItem,rightSearchBarButtonItem], animated: true)
         
     
@@ -77,7 +77,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.003))
         points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.005, longitude: -121.422357 + 0.003))
         points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.006))
-        var polyline =  MKPolyline(coordinates: &points, count: points.count)
+        let polyline =  MKPolyline(coordinates: &points, count: points.count)
         MapView.addOverlay(polyline)
         
         MapView.mapType = MKMapType.Standard
@@ -116,7 +116,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     
   
     
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var reuseId = ""
         if annotation.isKindOfClass(FBAnnotationCluster) {
             reuseId = "Cluster"
@@ -139,19 +139,19 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             view.image = scaledImage
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x: 0, y: 0)
-            view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
+            view.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
             return view
 
             
         }
     }
     
-    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let v = view.annotation as! AnnotationView
         performSegueWithIdentifier("MapToAssetView", sender: v)
     }
     
-    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         NSOperationQueue().addOperationWithBlock({
             let mapBoundsWidth = Double(self.MapView.bounds.size.width)
             let mapRectWidth:Double = self.MapView.visibleMapRect.size.width
@@ -160,27 +160,26 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             self.clusteringManager.displayAnnotations(annotationArray, onMapView:self.MapView)
         })
     }
-    func mapView(mapView: MKMapView!, regionWillChangeAnimated animated: Bool) {
+    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         
  
     }
     
     //MARK:- MapViewDelegate methods
     
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
-        if overlay is MKPolyline {
-            var polylineRenderer = MKPolylineRenderer(overlay: overlay)
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        
+            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
             polylineRenderer.strokeColor = UIColor.blueColor()
             polylineRenderer.lineWidth = 5
             return polylineRenderer
-        }
-    return nil
+    
     }
     
     func action(gestureRecognizer:UIGestureRecognizer) {
-        println("long press detected ")
-        var touchPoint = gestureRecognizer.locationInView(self.MapView)
-        var newCoordinate:CLLocationCoordinate2D = MapView.convertPoint(touchPoint, toCoordinateFromView: self.MapView)
+        print("long press detected ")
+        let touchPoint = gestureRecognizer.locationInView(self.MapView)
+        let newCoordinate:CLLocationCoordinate2D = MapView.convertPoint(touchPoint, toCoordinateFromView: self.MapView)
       
         let ass = Asset()
         ass.title = "New Asset"
@@ -198,9 +197,9 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
 
     
     func searchTapped(sender:UIButton) {
-        println("search pressed")
+        print("search pressed")
         for i in 0...10{
-            println("adding asset:\(i)")
+            print("adding asset:\(i)")
             addRandomAsset("Asset \(i)")
         }
         clusteringManager.addAnnotations(annotations)
@@ -212,7 +211,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
     
     func listTapped (sender:UIButton) {
-        println("list pressed")
+        print("list pressed")
         performSegueWithIdentifier("TableView", sender: nil)
     }
     
@@ -221,7 +220,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             let assetVC = segue.destinationViewController as! AssetViewController
             assetVC.asset = (sender as! AnnotationView).asset
         } else if segue.identifier == "TableView"{
-            let TableVC = segue.destinationViewController as! TableViewController
+            _ = segue.destinationViewController as! TableViewController
         }
     }
     
@@ -233,11 +232,11 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         //Longitude: -180 to +180
         var r : Double = 0
         if (latlong == "latitude") {
-            let lower : UInt32 = 0
+            
             let upper : UInt32 = 85*2
             r = (Double(upper)/2) - Double(arc4random_uniform(upper))
         } else if (latlong == "longitude"){
-            let lower : UInt32 = 0
+            
             let upper : UInt32 = 180*2
             r = (Double(upper)/2) - Double(arc4random_uniform(upper))
         }
@@ -245,7 +244,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         let randomfloat = CGFloat( (Float(arc4random()) / Float(UINT32_MAX)) )
         r = r + Double(randomfloat)
         r=r/1000
-        println(r)
+        print(r)
         return r
     }
     func removeAnnotations(){
@@ -268,17 +267,20 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         ass.longitude = -121.422357 + makeRand("longitude")
         ass.title = title
         ass.date = NSDate()
-        var rand = Int(arc4random_uniform(UInt32(imagearray.count)))
-        ass.image = UIImagePNGRepresentation(imagearray[rand])
-        var audiourl = NSURL(string: "http://www.noiseaddicts.com/samples_1w72b820/280.mp3" )!
+        let rand = Int(arc4random_uniform(UInt32(imagearray.count)))
+        ass.image = UIImagePNGRepresentation(imagearray[rand])!
+        let audiourl = NSURL(string: "http://www.noiseaddicts.com/samples_1w72b820/280.mp3" )!
         ass.audio = NSData(contentsOfURL: audiourl)!
         for i in 0...10{
-            var att = NSEntityDescription.insertNewObjectForEntityForName("Attributes", inManagedObjectContext: self.managedObjectContext!) as! AssetAttributeEntity
+            let att = NSEntityDescription.insertNewObjectForEntityForName("Attributes", inManagedObjectContext: self.managedObjectContext!) as! AssetAttributeEntity
             att.attributeName = "att \(i)"
             att.attributeData = "data \(i)"
             att.asset = ass
         }
-        managedObjectContext?.save(nil)
+        do {
+            try managedObjectContext?.save()
+        } catch _ {
+        }
         let asset : Asset = Asset()
         asset.latitude = ass.latitude.doubleValue
         asset.longitude = ass.longitude.doubleValue
@@ -289,7 +291,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         annotations.append(ann)
     }
     func makeImageArray(){
-        for x in 1...80{
+        for x in 1...5{
             let urlstring = String(stringLiteral:"http://www.streetsignpictures.com/images/225_traffic\(x).jpg")
             let imageurl = NSURL(string: urlstring)!
             if let imagedata = NSData(contentsOfURL: imageurl) {
@@ -301,8 +303,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
                     kCGImageSourceThumbnailMaxPixelSize: 100
                 ]
                 let cgimagesource = CGImageSourceCreateWithData(imagedata, d)
-                let imref = CGImageSourceCreateThumbnailAtIndex(cgimagesource, 0, d)
-                let im = UIImage(CGImage:imref, scale:0.2, orientation:.Up)!
+                let imref = CGImageSourceCreateThumbnailAtIndex(cgimagesource!, 0, d)
+                let im = UIImage(CGImage:imref!, scale:0.2, orientation:.Up)
                 
                 //let image = UIImage(data:imagedata)!
                 //CGImageSourceCreateThumbnailAtIndex(image.CGImage, , )

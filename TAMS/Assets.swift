@@ -56,8 +56,8 @@ class Assets  {
         request.entity = entityDescription
         let pred = NSPredicate(value: true)
         request.predicate = pred
-        var error: NSError?
-        var objects = managedObjectContext?.executeFetchRequest(request,error: &error) as! [AssetEntity]
+        
+        let objects = (try! managedObjectContext?.executeFetchRequest(request)) as! [AssetEntity]
         for obj in objects{
             let ass : Asset = Asset()
             ass.image = obj.image

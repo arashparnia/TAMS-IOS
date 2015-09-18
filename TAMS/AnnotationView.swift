@@ -9,7 +9,7 @@
 import MapKit
 import UIKit
 class AnnotationView: NSObject, MKAnnotation {
-    let title: String
+    let title: String?
     let subTitle: String
     let coordinate: CLLocationCoordinate2D
     let imagedata : NSData

@@ -38,15 +38,15 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 if granted {
                     let recordurl = NSURL()
                     let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
-                        AVFormatIDKey : kAudioFormatLinearPCM,
+                        AVFormatIDKey : NSNumber(unsignedInt: kAudioFormatLinearPCM),
                         AVEncoderBitRateKey: 16,
                         AVNumberOfChannelsKey: 2,
                         AVSampleRateKey: 44100.0]
-                    //self.recorder = AVAudioRecorder(URL: recordurl, settings: recordSettings , error: nil)
+                    try! self.audioRecorder = AVAudioRecorder(URL: recordurl, settings: recordSettings )
                     self.audioRecorder.record()
                   
                 } else {
-                    println("Permission to record not granted")
+                    print("Permission to record not granted")
                 }
             })
             audiobutton.selected=true
@@ -87,35 +87,49 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
 
         
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let docsDir = dirPaths[0] as! String
-        let soundFilePath = docsDir.stringByAppendingPathComponent("sound.wav")
-        let soundFileURL = NSURL(fileURLWithPath: soundFilePath)
+        //let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        //let docsDir = dirPaths[0]
+        //let soundFilePath = docsDir.stringByAppendingPathComponent("sound.wav")
+        let soundFileURL = NSURL().URLByAppendingPathComponent("sound.wav")
         let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
-            AVFormatIDKey : kAudioFormatLinearPCM,
+            AVFormatIDKey : NSNumber(unsignedInt: kAudioFormatLinearPCM),
             AVEncoderBitRateKey: 16,
             AVNumberOfChannelsKey: 2,
             AVSampleRateKey: 44100.0]
         var error: NSError?
         let audioSession = AVAudioSession.sharedInstance()
-        audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, error: &error)
-        if let err = error {
-            println("audioSession error: \(err.localizedDescription)")
+        do {
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        } catch let error1 as NSError {
+            error = error1
         }
-        audioRecorder = AVAudioRecorder(URL: soundFileURL, settings: recordSettings as [NSObject : AnyObject], error: &error)
+        if let err = error {
+            print("audioSession error: \(err.localizedDescription)")
+        }
+        do {
+            audioRecorder = try AVAudioRecorder(URL: soundFileURL, settings: recordSettings)
+        } catch let error1 as NSError {
+            error = error1
+            audioRecorder = nil
+        }
         audioRecorder.delegate = self
         
         if let err = error {
-            println("audioSession error: \(err.localizedDescription)")
+            print("audioSession error: \(err.localizedDescription)")
         } else {
             audioRecorder?.prepareToRecord()
         }
         
         let u = NSURL.fileURLWithPath( NSBundle.mainBundle().pathForResource("55", ofType: "mp3")!)
         var e: NSError?
-        self.audioPlayer = AVAudioPlayer(contentsOfURL: u, error: &e)
+        do {
+            self.audioPlayer = try AVAudioPlayer(contentsOfURL: u)
+        } catch let error as NSError {
+            e = error
+            self.audioPlayer = nil
+        }
         if let error = e {
-            println("audioPlayer error \(error.localizedDescription)")
+            print("audioPlayer error \(error.localizedDescription)")
         }
         else {
             audioPlayer.numberOfLoops = 0
@@ -129,17 +143,17 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
        
         
     }
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         if flag{
-            println("recorded")
+            print("recorded")
             //asset.audio = nsdata( recorder.url
-           self.audioPlayer = AVAudioPlayer(contentsOfURL: recorder.url, error: nil)
+           self.audioPlayer = try? AVAudioPlayer(contentsOfURL: recorder.url)
             
         } else {
-            println("problem saving or something ")
+            print("problem saving or something ")
         }
     }
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         if flag{
             audiobutton.selected = false
         }
@@ -151,13 +165,13 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func imageTapped(img: AnyObject)
     {
-        println("image pressed")
+        print("image pressed")
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
             let imagePicker = UIImagePickerController()
             
             imagePicker.delegate = self
             imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-            imagePicker.mediaTypes = [kUTTypeImage as NSString]
+            imagePicker.mediaTypes = [kUTTypeImage as String]
             imagePicker.allowsEditing = false
             self.presentViewController(imagePicker, animated: true, completion: nil)
             newMedia = true
@@ -171,7 +185,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 imagePicker.delegate = self
                 imagePicker.sourceType =
                     UIImagePickerControllerSourceType.PhotoLibrary
-                imagePicker.mediaTypes = [kUTTypeImage as NSString]
+                imagePicker.mediaTypes = [kUTTypeImage as String]
                 imagePicker.allowsEditing = false
                 self.presentViewController(imagePicker, animated: true,
                     completion: nil)
@@ -179,10 +193,10 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let mediaType = info[UIImagePickerControllerMediaType] as! String
         self.dismissViewControllerAnimated(true, completion: nil)
-        if mediaType == (kUTTypeImage as! String) {
+        if mediaType == (kUTTypeImage as String) {
             let image = info[UIImagePickerControllerOriginalImage]
                 as! UIImage
             removeImageViewSubviews(self.image)
@@ -191,7 +205,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if (newMedia == true) {
                 UIImageWriteToSavedPhotosAlbum(image, self,
                     "image:didFinishSavingWithError:contextInfo:", nil)
-            } else if mediaType == (kUTTypeMovie as! String) {
+            } else if mediaType == (kUTTypeMovie as String) {
                 // Code to support video here
             }
             
@@ -219,22 +233,22 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func setEditing(editing: Bool, animated: Bool) {
         if editing {
-            println("edit ")
+            print("edit ")
             //ShowAttributeAddViews(true)
             assetTableView.editing = true
-            var imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
+            let imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
             image.addGestureRecognizer(imagegesture)
             editImage()
             audiobutton.setImage(UIImage(named: "microphone"), forState: UIControlState.Normal)
             assetTableView.reloadData()
         } else {
-            println("save ")
+            print("save ")
             // ShowAttributeAddViews(false)
             image.gestureRecognizers?.removeAll(keepCapacity: false)
             assetTableView.editing = false
             removeImageViewSubviews(image)
             UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
-            asset.title = assetTitleLabel.text
+            asset.title = assetTitleLabel.text!
             audiobutton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
             assetTableView.reloadData()
         }
@@ -244,13 +258,13 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     func editImage(){
-        let drawText = "EDIT"
+        _ = "EDIT"
         
-        var effect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
-        var blurView = UIVisualEffectView(effect: effect)
+        let effect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+        let blurView = UIVisualEffectView(effect: effect)
         blurView.frame = image.bounds
         
-        var cam =  UIImageView(image: UIImage(named: "Camera.png"))
+        let cam =  UIImageView(image: UIImage(named: "Camera.png"))
         cam.frame = CGRectMake(0, 0, 20, 20)
         cam.center = CGPoint(x: 50, y: 50)
         
@@ -358,20 +372,20 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if tableView.editing  {
             if indexPath.section == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("AssetAddReusableCell", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("AssetAddReusableCell", forIndexPath: indexPath) 
                 let c =  cell as! AssetAttributeAddCellView
                 c.attributeName.text = ""
                 c.attributeValue.text = ""
                 return cell
             }else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) 
                 let c =  cell as! AssetViewCellView
                 c.attribute.text  = asset.attributes[indexPath.row].attributeName
                 c.value.text = asset.attributes[indexPath.row].attributeData
                 return cell
             }
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) as! UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) 
             let c =  cell as! AssetViewCellView
             c.attribute.text  = asset.attributes[indexPath.row].attributeName
             c.value.text = asset.attributes[indexPath.row].attributeData
@@ -382,7 +396,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
         func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
             if let c = (tableView.cellForRowAtIndexPath(indexPath) as? TableViewCellView){
-                println(c.cellViewSubtitle.text!)
+                print(c.cellViewSubtitle.text!)
                 //performSegueWithIdentifier("TableViewToAssetView", sender: c.cellViewSubtitle.text!)
                 //tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class Asset : NSObject{
-    var image: NSData = UIImageJPEGRepresentation(UIImage(named: "Camera.png"),2)
+    var image: NSData = UIImageJPEGRepresentation(UIImage(named: "Camera.png")!,2)!
     var audio: NSData = NSData()
     var date: NSDate = NSDate()
     var latitude: Double = 0.0

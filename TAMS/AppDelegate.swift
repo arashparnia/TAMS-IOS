@@ -19,11 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func fetchFromPHP(){
         
-        var datafromphpurl = NSURL(string: "http://localhost:8888/TAMS/index.php")
-        if let var data: NSData = NSData(contentsOfURL: datafromphpurl!) {
-            if let json: NSArray = (NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray){
+        let datafromphpurl = NSURL(string: "http://localhost:8888/TAMS/index.php")
+        if let data: NSData = NSData(contentsOfURL: datafromphpurl!) {
+            if let json: NSArray = ((try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSArray){
                 for item in json {
-                    println(item.valueForKey("title")!, item.valueForKey("latitude")!,item.valueForKey("longitude")!)
+                    print(item.valueForKey("title")!, item.valueForKey("latitude")!,item.valueForKey("longitude")!)
                 }
             }
         }
@@ -32,15 +32,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         let request = NSFetchRequest(entityName: "AssetsTable")
-        var ass =   managedObjectContext!.executeFetchRequest(request, error: nil) as! [Asset]
+        let ass =   (try! managedObjectContext!.executeFetchRequest(request)) as! [Asset]
         for a in ass{
-            print(a.title)
-            print(a.latitude)
-            print(a.longitude)
-            println(a.date)
+            print(a.title, terminator: "")
+            print(a.latitude, terminator: "")
+            print(a.longitude, terminator: "")
+            print(a.date)
             for aa in (a.attributes){
                 
-                println(aa.attributeName)
+                print(aa.attributeName)
                 
             }
         }
@@ -109,8 +109,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         var e: NSError?
-        if !self.managedObjectContext!.save(&e) {
-            println("insert error: \(e!.localizedDescription)")
+        do {
+            try self.managedObjectContext!.save()
+        } catch let error as NSError {
+            e = error
+            print("insert error: \(e!.localizedDescription)")
             abort()
         }
         return true
@@ -145,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "arash.TAMS" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as! NSURL
+        return urls[urls.count-1] 
         }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -161,7 +164,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("TAMS.sqlite")
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+        do {
+            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+        } catch var error1 as NSError {
+            error = error1
             coordinator = nil
             // Report any error we got.
             var dict = [String: AnyObject]()
@@ -173,6 +179,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")
             abort()
+        } catch {
+            fatalError()
         }
         
         return coordinator
@@ -194,11 +202,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func saveContext () {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
-                abort()
+            if moc.hasChanges {
+                do {
+                    try moc.save()
+                } catch let error1 as NSError {
+                    error = error1
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                    abort()
+                }
             }
         }
     }

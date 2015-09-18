@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class TableViewController: UITableViewController,UITableViewDelegate,UITableViewDataSource {
+class TableViewController: UITableViewController {
    
     
     @IBOutlet var assetTableView: UITableView!
@@ -49,8 +49,8 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TheCell", forIndexPath: indexPath) as! UITableViewCell
-        let row = indexPath.row
+        let cell = tableView.dequeueReusableCellWithIdentifier("TheCell", forIndexPath: indexPath) 
+        _ = indexPath.row
         if let c = (cell as? TableViewCellView) {
             let ass = allassets[indexPath.row]
             c.cellViewImage?.image = UIImage( data: allassets[indexPath.row].image)
@@ -62,7 +62,7 @@ class TableViewController: UITableViewController,UITableViewDelegate,UITableView
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let c = (tableView.cellForRowAtIndexPath(indexPath) as? TableViewCellView){
-            println(c.cellViewSubtitle.text!)
+            print(c.cellViewSubtitle.text!)
             performSegueWithIdentifier("TableViewToAssetView", sender: c)
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
