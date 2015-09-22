@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14F27" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="AssetsTable" representedClassName="TAMS.AssetEntity" syncable="YES">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
+    <entity name="AssetsTable" representedClassName=".AssetEntity" syncable="YES">
         <attribute name="audio" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="attributes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Attributes" inverseName="asset" inverseEntity="Attributes" syncable="YES"/>
+        <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="asset" inverseEntity="Location" syncable="YES"/>
     </entity>
-    <entity name="Attributes" representedClassName="TAMS.AssetAttributeEntity" syncable="YES">
+    <entity name="Attributes" representedClassName=".AssetAttributeEntity" syncable="YES">
         <attribute name="attributeData" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="attributeName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="asset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AssetsTable" inverseName="attributes" inverseEntity="AssetsTable" syncable="YES"/>
     </entity>
+    <entity name="Location" representedClassName=".LocationEntity" syncable="YES">
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="asset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AssetsTable" inverseName="location" inverseEntity="AssetsTable" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="AssetsTable" positionX="-155" positionY="9" width="128" height="150"/>
-        <element name="Attributes" positionX="88" positionY="180" width="128" height="90"/>
+        <element name="AssetsTable" positionX="-155" positionY="9" width="128" height="135"/>
+        <element name="Attributes" positionX="88" positionY="180" width="128" height="88"/>
+        <element name="Location" positionX="-351" positionY="171" width="128" height="88"/>
     </elements>
 </model>

@@ -17,8 +17,8 @@ class AnnotationView: NSObject, MKAnnotation {
     
     init(asset : Asset) {
         self.title = asset.title
-        self.subTitle = "\(asset.latitude),\(asset.longitude)"
-        self.coordinate = CLLocationCoordinate2D(latitude: asset.latitude, longitude: asset.longitude)
+        self.subTitle = "\(asset.locations.first!.latitude),\(asset.locations.first!.longitude)"
+        self.coordinate = CLLocationCoordinate2D(latitude: asset.locations[0].latitude, longitude: asset.locations[0].longitude)
         self.imagedata = asset.image
         self.asset = asset
         super.init()

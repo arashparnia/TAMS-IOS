@@ -55,7 +55,9 @@ class TableViewController: UITableViewController {
             let ass = allassets[indexPath.row]
             c.cellViewImage?.image = UIImage( data: allassets[indexPath.row].image)
             c.cellViewTitle?.text = allassets[indexPath.row].title
-            c.cellViewSubtitle?.text =  "\(ass.latitude),\(ass.longitude),\(ass.date)"
+            for l in ass.locations{
+            c.cellViewSubtitle?.text =  "\(l.latitude),\(l.longitude),\(ass.date)"
+            }
             c.asset = allassets[indexPath.row]
         }
         return cell

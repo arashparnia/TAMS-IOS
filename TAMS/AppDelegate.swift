@@ -27,24 +27,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        
-       
-        
         let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         let request = NSFetchRequest(entityName: "AssetsTable")
         let ass =   (try! managedObjectContext!.executeFetchRequest(request)) as! [Asset]
         for a in ass{
             print(a.title, terminator: "")
-            print(a.latitude, terminator: "")
-            print(a.longitude, terminator: "")
+            for aa in (a.locations){
+                print(aa.latitude,aa.longitude)
+            }
             print(a.date)
             for aa in (a.attributes){
-                
                 print(aa.attributeName)
-                
             }
         }
-
     }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -108,14 +103,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    
 
         
-        var e: NSError?
-        do {
-            try self.managedObjectContext!.save()
-        } catch let error as NSError {
-            e = error
-            print("insert error: \(e!.localizedDescription)")
-            abort()
-        }
+//        var e: NSError?
+//        do {
+//            try self.managedObjectContext!.save()
+//        } catch let error as NSError {
+//            e = error
+//            print("insert error: \(e!.localizedDescription)")
+//            abort()
+//        }
         return true
     }
 
@@ -160,12 +155,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
+        
+        var options = [
+            NSMigratePersistentStoresAutomaticallyOption : NSNumber(bool: true),
+            NSInferMappingModelAutomaticallyOption: NSNumber(bool: true)
+        ]
+        
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("TAMS.sqlite")
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
-            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options)
         } catch var error1 as NSError {
             error = error1
             coordinator = nil
@@ -192,7 +193,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if coordinator == nil {
             return nil
         }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
         }()
@@ -202,17 +203,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func saveContext () {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
-            if moc.hasChanges {
-                do {
-                    try moc.save()
-                } catch let error1 as NSError {
-                    error = error1
-                    // Replace this implementation with code to handle the error appropriately.
-                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    NSLog("Unresolved error \(error), \(error!.userInfo)")
-                    abort()
+            moc.performBlockAndWait({ () -> Void in
+                if moc.hasChanges {
+                    do {
+                        try moc.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                        // Replace this implementation with code to handle the error appropriately.
+                        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        NSLog("Unresolved error \(error), \(error!.userInfo)")
+                        abort()
+                    }
                 }
-            }
+            })
         }
     }
     

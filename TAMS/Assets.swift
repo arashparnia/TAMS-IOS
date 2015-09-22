@@ -16,67 +16,71 @@ class Assets  {
     var assets = [Asset]()
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
-    func addAsset(asset : Asset) {
-        let managedObjectContext  = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-        let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext:managedObjectContext!)
-        let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
-        ass.image = asset.image
-        ass.audio = asset.audio
-        ass.latitude = asset.latitude
-        ass.longitude = asset.longitude
-        ass.title = asset.title
-        ass.date = asset.date
-        ass.attributes.setByAddingObjectsFromArray(asset.attributes as [AnyObject])
-    }
-    func addAsset(latitude : Double, longitude: Double, title: String) {
-        let managedObjectContext  = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-        let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext:managedObjectContext!)
-        let ass = AssetEntity(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
-        //ass.image = NSData()
-        //ass.audio = NSData()
-        ass.latitude = latitude
-        ass.longitude = longitude
+ 
+    func addAsset(latitude latitude : Double, longitude: Double, title: String) -> Asset?{
+        let img : UIImage = UIImage(named: "TAMS")!
+        let loc = Location(latitude: latitude, longitude: longitude)
+        let ass : Asset = Asset()
         ass.title = title
         ass.date = NSDate()
-        //ass.attributes = nil
-    }
-    
-//    func editAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil, Attributes : [AssetAttribute]? = nil ) {
-//        //assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!,Attributes : Attributes!)
-//    }
-    
-//    func removeAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil) {
-//        //assets.removeValueForKey(location.description)
-//    }
+        ass.locations.append(loc)
+        ass.audio = NSData(contentsOfURL: NSURL.fileURLWithPath(
+            NSBundle.mainBundle().pathForResource("55", ofType: "mp3")!))!
+        ass.image = UIImagePNGRepresentation(img)!
+        
+        
+        let managedObjectContext  = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let assetTableEntityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext:managedObjectContext!)
+        let assetentity = AssetEntity(entity: assetTableEntityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        let locationTableEntityDescription = NSEntityDescription.entityForName("Location",inManagedObjectContext:managedObjectContext!)
+        let locationentity = LocationEntity(entity: locationTableEntityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        locationentity.latitude = latitude
+        locationentity.longitude = longitude
+        locationentity.asset = assetentity
+        
+        assetentity.title = title
+        assetentity.date = NSDate()
+        assetentity.audio = ass.audio
+        assetentity.image = UIImagePNGRepresentation(img)
+        
+        (UIApplication.sharedApplication().delegate as! AppDelegate).saveContext()
+        
+        return ass
+        }
+
    
     func retriveAllAsets() -> [Asset] {
         var asset  = [Asset]()
         let entityDescription = NSEntityDescription.entityForName("AssetsTable", inManagedObjectContext: managedObjectContext!)
         let request = NSFetchRequest()
         request.entity = entityDescription
-        let pred = NSPredicate(value: true)
-        request.predicate = pred
+        request.predicate = nil
         
         let objects = (try! managedObjectContext?.executeFetchRequest(request)) as! [AssetEntity]
         for obj in objects{
             let ass : Asset = Asset()
-            ass.image = obj.image
-            ass.audio = obj.audio
+            if let img = obj.image {ass.image = img}
+            if let aud = obj.audio {ass.audio = aud}
             ass.title = obj.title
-            ass.latitude = obj.latitude.doubleValue
-            ass.longitude = obj.longitude.doubleValue
             ass.date = obj.date
-            for objatt  in obj.attributes {
+            if let att = obj.attributes{
+            for objatt  in att {
                 let assatt = AssetAttribute()
-                assatt.attributeName = (objatt as! AssetAttributeEntity).attributeName
-                assatt.attributeData = (objatt as! AssetAttributeEntity).attributeData
-            ass.attributes.append(assatt)
+                assatt.attributeName = (objatt as! AssetAttributeEntity).attributeName!
+                assatt.attributeData = (objatt as! AssetAttributeEntity).attributeData!
+                ass.attributes.append(assatt)
+                }
             }
+            for objloc in obj.location {
+                if let loc = objloc as? LocationEntity{
+                    let assloc = Location(latitude: loc.latitude, longitude: loc.longitude)
+                    ass.locations.append(assloc)
+                }
+            }
+        
             asset.append(ass)
         }
-  
         return asset
-       
     }
 //       func retriveAssetsAtRegin(regin : MKCoordinateRegion )->[Asset]{
 //        
@@ -104,4 +108,44 @@ class Assets  {
         return assets.count
     }
     
+    //    func snapshotForAsset(cord: CLLocationCoordinate2D) -> UIImage?{
+    //        let image:UIImage = UIImage()
+    //        let options = MKMapSnapshotOptions()
+    //        if #available(iOS 9.0, *) {
+    //            options.mapType = MKMapType.HybridFlyover
+    //            let camera = MKMapCamera(lookingAtCenterCoordinate: cord, fromDistance: 500, pitch: 65, heading: 0)
+    //            options.camera = camera
+    //        } else {
+    //            options.mapType = MKMapType.Hybrid
+    //            options.scale = 2
+    //            options.mapType = MKMapType.Standard
+    //            options.region = MKCoordinateRegionMake(cord, MKCoordinateSpanMake(0.5, 0.5))
+    //        }
+    //        options.size = CGSize(width: 100, height: 100)
+    //
+    //        let snap :MKMapSnapshotter  = MKMapSnapshotter(options: options)
+    //        print(snap.loading)
+    //        snap.startWithCompletionHandler {
+    //            (s : MKMapSnapshot? , error : NSError? ) -> Void in
+    //            if (error == nil){
+    //                print("no error",image.description)
+    //            } else {
+    //                print("error",error?.description)
+    //            }
+    //        }
+    //
+    //
+    //        dispatch_sync(dispatch_get_main_queue(), {return image})
+    //
+    //        return image
+    //    }
+    
+    //    func editAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil, Attributes : [AssetAttribute]? = nil ) {
+    //        //assets[location.description] = Asset(location: location, title: title!, subtitle: subtitle!,Attributes : Attributes!)
+    //    }
+    
+    //    func removeAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil) {
+    //        //assets.removeValueForKey(location.description)
+    //    }
+
 }

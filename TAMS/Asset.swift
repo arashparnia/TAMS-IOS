@@ -9,12 +9,11 @@
 import Foundation
 import UIKit
 
-class Asset : NSObject{
+class Asset {
     var image: NSData = UIImageJPEGRepresentation(UIImage(named: "Camera.png")!,2)!
     var audio: NSData = NSData()
     var date: NSDate = NSDate()
-    var latitude: Double = 0.0
-    var longitude: Double = 0.0
     var title: String = ""
+    var locations: [Location]=[]
     var attributes: [AssetAttribute] = []
 }

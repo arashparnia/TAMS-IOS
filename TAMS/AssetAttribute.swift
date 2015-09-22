@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AssetAttribute : NSObject{
+class AssetAttribute {
     var attributeData: String = ""
     var attributeName: String = ""
 }

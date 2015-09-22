@@ -73,14 +73,27 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         let annotation = MKPointAnnotation()
-        annotation.coordinate =  CLLocation(latitude: asset.latitude, longitude: asset.longitude).coordinate
+        
+        for l in asset.locations{
+            annotation.coordinate =  CLLocation(latitude: l.latitude, longitude: l.longitude).coordinate
+        }
         annotation.title = asset.title
         smallMap.addAnnotation(annotation)
         
         let span = MKCoordinateSpanMake(0.005, 0.005)
-        let region = MKCoordinateRegion(center: CLLocation(latitude: asset.latitude, longitude: asset.longitude).coordinate, span: span)
-        smallMap.setRegion(region, animated: true)
+        let region = MKCoordinateRegion(center: CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude).coordinate, span: span)
+        
         smallMap.showsBuildings = true
+        if #available(iOS 9.0, *) {
+            smallMap.mapType = .HybridFlyover
+            let camera = MKMapCamera(lookingAtCenterCoordinate: annotation.coordinate, fromDistance: 500, pitch: 65, heading: 0)
+            smallMap.setCamera(camera, animated: true)
+        } else {
+            // Fallback on earlier versions
+            smallMap.mapType = .Hybrid
+            smallMap.setRegion(region, animated: true)
+        }
+        
         
         image.image = UIImage(data:asset.image)
         assetTitleLabel.text = asset.title
@@ -90,36 +103,36 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         //let docsDir = dirPaths[0]
         //let soundFilePath = docsDir.stringByAppendingPathComponent("sound.wav")
-        let soundFileURL = NSURL().URLByAppendingPathComponent("sound.wav")
-        let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
-            AVFormatIDKey : NSNumber(unsignedInt: kAudioFormatLinearPCM),
-            AVEncoderBitRateKey: 16,
-            AVNumberOfChannelsKey: 2,
-            AVSampleRateKey: 44100.0]
-        var error: NSError?
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        } catch let error1 as NSError {
-            error = error1
-        }
-        if let err = error {
-            print("audioSession error: \(err.localizedDescription)")
-        }
-        do {
-            audioRecorder = try AVAudioRecorder(URL: soundFileURL, settings: recordSettings)
-        } catch let error1 as NSError {
-            error = error1
-            audioRecorder = nil
-        }
-        audioRecorder.delegate = self
-        
-        if let err = error {
-            print("audioSession error: \(err.localizedDescription)")
-        } else {
-            audioRecorder?.prepareToRecord()
-        }
-        
+//        let soundFileURL = NSURL().URLByAppendingPathComponent("sound.wav")
+//        let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
+//            AVFormatIDKey : NSNumber(unsignedInt: kAudioFormatLinearPCM),
+//            AVEncoderBitRateKey: 16,
+//            AVNumberOfChannelsKey: 2,
+//            AVSampleRateKey: 44100.0]
+//        var error: NSError?
+//        let audioSession = AVAudioSession.sharedInstance()
+//        do {
+//            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+//        } catch let error1 as NSError {
+//            error = error1
+//        }
+//        if let err = error {
+//            print("audioSession error: \(err.localizedDescription)")
+//        }
+//        do {
+//            audioRecorder = try AVAudioRecorder(URL: soundFileURL, settings: recordSettings)
+//        } catch let error1 as NSError {
+//            error = error1
+//            audioRecorder = nil
+//        }
+//        audioRecorder.delegate = self
+//        
+//        if let err = error {
+//            print("audioSession error: \(err.localizedDescription)")
+//        } else {
+//            audioRecorder?.prepareToRecord()
+//        }
+//        
         let u = NSURL.fileURLWithPath( NSBundle.mainBundle().pathForResource("55", ofType: "mp3")!)
         var e: NSError?
         do {
