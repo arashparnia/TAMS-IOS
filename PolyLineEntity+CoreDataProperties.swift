@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension LocationEntity {
+extension PolyLineEntity {
 
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double

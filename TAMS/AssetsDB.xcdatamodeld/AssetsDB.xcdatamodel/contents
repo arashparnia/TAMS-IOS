@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
-    <entity name="AssetsTable" representedClassName=".AssetEntity" syncable="YES">
+    <entity name="AssetEntity" representedClassName=".AssetEntity" syncable="YES">
         <attribute name="audio" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="date" attributeType="Date" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="attributes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Attributes" inverseName="asset" inverseEntity="Attributes" syncable="YES"/>
-        <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="asset" inverseEntity="Location" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" indexed="YES" spotlightIndexingEnabled="YES" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" indexed="YES" spotlightIndexingEnabled="YES" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="attributes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AttributeEntity" inverseName="asset" inverseEntity="AttributeEntity" syncable="YES"/>
+        <relationship name="polyline" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="PolyLineEntity" inverseName="asset" inverseEntity="PolyLineEntity" syncable="YES"/>
     </entity>
-    <entity name="Attributes" representedClassName=".AssetAttributeEntity" syncable="YES">
+    <entity name="AttributeEntity" representedClassName=".AttributeEntity" syncable="YES">
         <attribute name="attributeData" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="attributeName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="asset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AssetsTable" inverseName="attributes" inverseEntity="AssetsTable" syncable="YES"/>
+        <attribute name="attributeName" attributeType="String" syncable="YES"/>
+        <relationship name="asset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AssetEntity" inverseName="attributes" inverseEntity="AssetEntity" syncable="YES"/>
     </entity>
-    <entity name="Location" representedClassName=".LocationEntity" syncable="YES">
+    <entity name="PolyLineEntity" representedClassName=".PolyLineEntity" syncable="YES">
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="asset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AssetsTable" inverseName="location" inverseEntity="AssetsTable" syncable="YES"/>
+        <relationship name="asset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AssetEntity" inverseName="polyline" inverseEntity="AssetEntity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AssetsTable" positionX="-155" positionY="9" width="128" height="135"/>
-        <element name="Attributes" positionX="88" positionY="180" width="128" height="88"/>
-        <element name="Location" positionX="-351" positionY="171" width="128" height="88"/>
+        <element name="AssetEntity" positionX="-155" positionY="9" width="128" height="163"/>
+        <element name="AttributeEntity" positionX="88" positionY="180" width="128" height="88"/>
+        <element name="PolyLineEntity" positionX="-351" positionY="171" width="128" height="90"/>
     </elements>
 </model>

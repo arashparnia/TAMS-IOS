@@ -11,11 +11,9 @@ import MapKit
 import CoreData
 import ImageIO
 import AVFoundation
+import LocalAuthentication
 
-
-class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate {
- @IBOutlet weak var MapView: MKMapView!
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate,NSFetchedResultsControllerDelegate {
     let centerLocation = CLLocationCoordinate2D(
         latitude : 38.560884,
         longitude : -121.422357
@@ -24,19 +22,30 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     var locations : [CLLocationCoordinate2D]=[]
     var annotations:[AnnotationView] = []
     let clusteringManager = FBClusteringManager()
-    
-   
-    // random generator
- 
+    @IBOutlet weak var MapView: MKMapView!
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        let animalsFetchRequest = NSFetchRequest(entityName: "AssetEntity")
+        let primarySortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        let secondarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        animalsFetchRequest.sortDescriptors = [primarySortDescriptor, secondarySortDescriptor]
+        let frc = NSFetchedResultsController(
+            fetchRequest: animalsFetchRequest,
+            managedObjectContext: (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        frc.delegate = self
+        return frc
+        }()
+
+  
     override func viewDidLoad() {
-      
+      authenticateUser()
         MapView.delegate = self
-        removeAnnotations()
-        makeAnnotationsFromAssets()
-    
         // gesture and bottons setup
         let uilpgr = UILongPressGestureRecognizer(target: self, action: "action:")
-        uilpgr.minimumPressDuration = 1.0
+        //let ft = UIForceTouchCapability.Available
+        uilpgr.minimumPressDuration = 0.5
         MapView.addGestureRecognizer(uilpgr)
         uilpgr.delegate = self
         
@@ -46,58 +55,47 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         
     
         
-        addRandomAssetToMap()
-        
-        //add annotations to map
-        MapView.addAnnotations(annotations)
-        MapView.showAnnotations(annotations, animated: true)
-      
-        //let span = MKCoordinateSpanMake(radious, radious)
-        //let region = MKCoordinateRegion(center: centerLocation, span: span)
-        //MapView.setRegion(region, animated: true)
-        
-        // add annotation cluster control
+        //addRandomAssetToMap()
+
+        configureAnnotations()
+    
         clusteringManager.addAnnotations(annotations)
         
       
         
         //POLY LINE
-        var points: [CLLocationCoordinate2D] = [CLLocationCoordinate2D]()
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.001, longitude: -121.422357 + 0.001))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.002, longitude: -121.422357 + 0.001))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.001, longitude: -121.422357 + 0.002))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.003))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.005, longitude: -121.422357 + 0.003))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.006))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 - 0.003, longitude: -121.422357 - 0.003))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.001, longitude: -121.422357 + 0.001))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.002, longitude: -121.422357 + 0.001))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.001, longitude: -121.422357 + 0.002))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.003))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.005, longitude: -121.422357 + 0.003))
-        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.006))
-        let polyline =  MKPolyline(coordinates: &points, count: points.count)
-        MapView.addOverlay(polyline)
+//        var points: [CLLocationCoordinate2D] = [CLLocationCoordinate2D]()
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.001, longitude: -121.422357 + 0.001))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.002, longitude: -121.422357 + 0.001))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.001, longitude: -121.422357 + 0.002))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.003))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.005, longitude: -121.422357 + 0.003))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.006))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 - 0.003, longitude: -121.422357 - 0.003))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.001, longitude: -121.422357 + 0.001))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.002, longitude: -121.422357 + 0.001))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.001, longitude: -121.422357 + 0.002))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.003))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.005, longitude: -121.422357 + 0.003))
+//        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.006))
+//        let polyline =  MKPolyline(coordinates: &points, count: points.count)
+//        MapView.addOverlay(polyline)
         MapView.showsBuildings = true
         MapView.showsUserLocation = false
-        
-        
+        MapView.showsScale = true
+        MapView.region.center = centerLocation
+        MapView.region.span = MKCoordinateSpanMake(0.1, 0.1)
+        let camera = MKMapCamera(lookingAtCenterCoordinate: centerLocation, fromDistance: 1000, pitch: 65, heading: 0)
+        MapView.setCamera(camera, animated: true)
+        MapView.mapType = .Standard
+        MapView.showAnnotations(annotations, animated: true)
         super.viewDidLoad()
     }
     override func viewDidAppear(animated: Bool) {
+        MapView.removeAnnotations(annotations)
+        MapView.addAnnotations(annotations)
+        //MapView.showAnnotations(annotations, animated: true)
         super.viewDidAppear(animated)
-        //let location = CLLocationCoordinate2DMake(48.85815,2.29452)
-        if #available(iOS 9.0, *) {
-            MapView.mapType = .HybridFlyover
-            MapView.showsScale = true
-            let camera = MKMapCamera(lookingAtCenterCoordinate: centerLocation, fromDistance: 200, pitch: 65, heading: 0)
-            MapView.setCamera(camera, animated: true)
-        } else {
-            // Fallback on earlier versions
-            MapView.mapType = .Standard
-        }
-        
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -108,23 +106,17 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
 
     @IBAction func mapType(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            MapView.mapType = MKMapType.Standard
-            MapView.removeAnnotations(annotations)
-            MapView.addAnnotations(annotations)
+            MapView.mapType = .Standard
         } else {
-            if #available(iOS 9.0, *) {
-                MapView.mapType = .HybridFlyover
-            } else {
                 // Fallback on earlier versions
-                MapView.mapType = .Hybrid
-            }
+                MapView.mapType = .HybridFlyover
+        }
             MapView.removeAnnotations(annotations)
             MapView.addAnnotations(annotations)
-        }
     }
     
   
-    
+ 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var reuseId = ""
         if annotation.isKindOfClass(FBAnnotationCluster) {
@@ -137,35 +129,28 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             var view: MKPinAnnotationView
             let identifier = "pin"
             view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            let theimage = UIImage(data:annotation!.imagedata)
-            let size = CGSizeApplyAffineTransform(theimage!.size, CGAffineTransformMakeScale(0.5, 0.5))
-            let hasAlpha = false
-            let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
-            UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-            theimage!.drawInRect(CGRect(origin: CGPointZero, size: size))
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            view.image = scaledImage
+            view.image = annotation!.image
+            view.detailCalloutAccessoryView = UIImageView(image: annotation!.image)
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x: 0, y: 0)
             view.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
             return view
         }
     }
-    
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let v = view.annotation as! AnnotationView
         performSegueWithIdentifier("MapToAssetView", sender: v)
     }
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         NSOperationQueue().addOperationWithBlock({
-            let mapBoundsWidth = Double(self.MapView.bounds.size.width)
-            let mapRectWidth:Double = self.MapView.visibleMapRect.size.width
+            let mapBoundsWidth = Double(mapView.bounds.size.width)
+            let mapRectWidth:Double = mapView.visibleMapRect.size.width
             let scale:Double = mapBoundsWidth / mapRectWidth
-            let annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.MapView.visibleMapRect, withZoomScale:scale)
-            self.clusteringManager.displayAnnotations(annotationArray, onMapView:self.MapView)
+            let annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(mapView.visibleMapRect, withZoomScale:scale)
+            self.clusteringManager.displayAnnotations(annotationArray, onMapView:mapView)
         })
+        mapView.addAnnotations(annotations)
     }
     func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
     }
@@ -180,18 +165,22 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
     
     func action(gestureRecognizer:UIGestureRecognizer) {
-        print("long press detected ")
-        let touchPoint = gestureRecognizer.locationInView(self.MapView)
-        let newCoordinate:CLLocationCoordinate2D = MapView.convertPoint(touchPoint, toCoordinateFromView: self.MapView)
-      
-        let ass = Asset()
-        let ann = AnnotationView(asset: ass)
-        MapView.addAnnotation(ann)
-        MapView.showAnnotations([ann], animated: true)
-        Assets.sharedInstance.addAsset(latitude:newCoordinate.latitude, longitude: newCoordinate.longitude, title: "NEW ASSET")
-        performSegueWithIdentifier("MapToAssetView", sender: ann)
+//        if gestureRecognizer.numberOfTouches() == 1  {
+//        print("long press detected ")
+//        let touchPoint = gestureRecognizer.locationInView(self.MapView)
+//        let newCoordinate:CLLocationCoordinate2D = MapView.convertPoint(touchPoint, toCoordinateFromView: self.MapView)
+//      
+//        Assets().addAsset(latitude:newCoordinate.latitude, longitude: newCoordinate.longitude, title: "NEW ASSET")
+//            if let asset = Assets().retriveAsset(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude){
+//                performSegueWithIdentifier("MapToAssetView", sender: asset)
+//                
+//            }
+//        }
     }
+    
+    
 
+    
     
     func searchTapped(sender:UIButton) {
         print("search pressed")
@@ -212,7 +201,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "MapToAssetView"{
             let assetVC = segue.destinationViewController as! AssetViewController
-            assetVC.asset = (sender as! AnnotationView).asset
+            let anview = sender as! AnnotationView
+            assetVC.assetNSManagedObjectID = anview.asset.objectID
         } else if segue.identifier == "TableView"{
             _ = segue.destinationViewController as! TableViewController
         }
@@ -236,31 +226,30 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         }
         let randomfloat = CGFloat( (Float(arc4random()) / Float(UINT32_MAX)) )
         r = r + Double(randomfloat)
-        r=r/1000
-        print(r)
+        r=r/100
         return r
     }
-    func removeAnnotations(){
+    func configureAnnotations(){
         MapView.removeAnnotations(annotations)
         annotations.removeAll(keepCapacity: false)
-    }
-    func makeAnnotationsFromAssets(){
-        let assets = Assets.sharedInstance.retriveAllAsets()
-        for ass in assets {
-            let ann = AnnotationView(asset: ass)
-            annotations.append(ann)
+        do {
+            try fetchedResultsController.performFetch()
+            for stuff in  fetchedResultsController.fetchedObjects!{
+                let ass: AssetEntity = stuff as! AssetEntity
+                annotations.append(AnnotationView(asset: ass))
+            }
+        } catch {
+            print("Erro fetching into fetchresult controller in mapview")
         }
     }
+    
     func addRandomAssetToMap(){
-        if let ass: Asset = Assets.sharedInstance.addAsset(
+        Assets().addAsset(
             //latitude : 48.85815,
             //longitude :2.29452,
             latitude: 38.560884 + makeRand("latitude"),
             longitude: -121.422357 + makeRand("longitude"),
-            title: "New Asset"){
-                let ann = AnnotationView(asset: ass)
-                annotations.append(ann)
-        }
+            title: "New Asset")
     }
  //   func addRandomAsset(title:String){
 //        let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext: managedObjectContext!)
@@ -318,7 +307,112 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
 //            
 //        }
 //    }
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        if traitCollection.forceTouchCapability == .Available {
+            print("\(touch.tapCount) Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+            
+        }
+    }
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        if traitCollection.forceTouchCapability == .Available {
+            print("Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+        }
+    }
+    func scaleImage(image : UIImage,scale: CGFloat)->UIImage{
+        let theimage = image
+        let size = CGSizeApplyAffineTransform(theimage.size, CGAffineTransformMakeScale(scale, scale))
+        let hasAlpha = false
+        let scale: CGFloat = 0.0
+        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        theimage.drawInRect(CGRect(origin: CGPointZero, size: size))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return scaledImage
+    }
+
     
+    //PASSWORD MANAGMENT
+    var error : NSError?
+    var myLocalizedReasonString : NSString = "Authentication is required"
+    func authenticateUser() {
+        let context : LAContext = LAContext()
+        if context.canEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
+            context.evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString as String, reply: {(
+                success : Bool, evaluationError : NSError?) -> Void in
+                if success {
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        print("sucess")
+                    })
+                }
+                else {
+                    // Authentification failed
+                    print(evaluationError?.localizedDescription)
+                    
+                    switch evaluationError!.code {
+                    case LAError.SystemCancel.rawValue:
+                        print("Authentication cancelled by the system")
+                    case LAError.UserCancel.rawValue:
+                        print("Authentication cancelled by the user")
+                    case LAError.UserFallback.rawValue:
+                        print("User wants to use a password")
+                        // We show the alert view in the main thread (always update the UI in the main thread)
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            self.showPasswordAlert()
+                        })
+                    default:
+                        print("Authentication failed")
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            self.showPasswordAlert()
+                        })
+                    }
+                }
+            })
+        }
+        else {
+            switch error!.code {
+            case LAError.TouchIDNotEnrolled.rawValue:
+                print("TouchID not enrolled")
+            case LAError.PasscodeNotSet.rawValue:
+                print("Passcode not set")
+            default:
+                print("TouchID not available")
+            }
+            self.showPasswordAlert()
+        }
+    }
+    func showPasswordAlert() { let alertController : UIAlertController = UIAlertController(title:"TouchID Demo" , message: "Please enter password", preferredStyle: .Alert)
+        let cancelAction : UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) -> Void in
+            print(action)
+        }
+        let doneAction : UIAlertAction = UIAlertAction(title: "Done", style: .Default) { (action) -> Void in
+            let passwordTextField = alertController.textFields![0] as UITextField
+            self.login(passwordTextField.text!)
+        }
+        doneAction.enabled = false
+        // We are customizing the text field using a configuration handler
+        alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            textField.placeholder = "Password"
+            textField.secureTextEntry = true
+            
+            NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification) -> Void in
+                doneAction.enabled = textField.text != ""
+            })
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(doneAction)
+        self.presentViewController(alertController, animated: true) {
+            // Nothing to do here
+        }
+    }
     
+    func login(password: String) {
+        if password == "password" {
+            //self.loadData()
+        } else {
+            self.showPasswordAlert()
+        }
+    }
 }
 

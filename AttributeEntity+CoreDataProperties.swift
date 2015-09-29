@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension AssetAttributeEntity {
+extension AttributeEntity {
 
     @NSManaged var attributeData: String?
     @NSManaged var attributeName: String?

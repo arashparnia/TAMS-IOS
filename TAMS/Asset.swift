@@ -14,6 +14,6 @@ class Asset {
     var audio: NSData = NSData()
     var date: NSDate = NSDate()
     var title: String = ""
-    var locations: [Location]=[]
+    var polyline: [PolyLine]=[]
     var attributes: [AssetAttribute] = []
 }

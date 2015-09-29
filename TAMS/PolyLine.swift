@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Location {
+class PolyLine {
     init(latitude: Double, longitude: Double){
         self.latitude = latitude
         self.longitude = longitude

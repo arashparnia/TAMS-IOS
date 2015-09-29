@@ -17,34 +17,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    func fetchFromPHP(){
-        
-        let datafromphpurl = NSURL(string: "http://localhost:8888/TAMS/index.php")
-        if let data: NSData = NSData(contentsOfURL: datafromphpurl!) {
-            if let json: NSArray = ((try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSArray){
-                for item in json {
-                    print(item.valueForKey("title")!, item.valueForKey("latitude")!,item.valueForKey("longitude")!)
-                }
-            }
-        }
-        let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-        let request = NSFetchRequest(entityName: "AssetsTable")
-        let ass =   (try! managedObjectContext!.executeFetchRequest(request)) as! [Asset]
-        for a in ass{
-            print(a.title, terminator: "")
-            for aa in (a.locations){
-                print(aa.latitude,aa.longitude)
-            }
-            print(a.date)
-            for aa in (a.attributes){
-                print(aa.attributeName)
-            }
-        }
-    }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     
-        
+//        do {
+//            let assets = Assets()
+//            try assets.fetchedResultsController.performFetch()
+//            for stuff in  assets.fetchedResultsController.fetchedObjects!{
+//                let asset: AssetEntity = stuff as! AssetEntity
+//                print("from fetched recults",asset.description)
+//             }
+//        } catch {
+//            print("An error occurred")
+//        }
+//        for ass in Assets().retriveAllAssets().fetchedObjects!{
+//            print(ass.description)
+//        }
         //var inserturl = NSURL(string: "http://localhost:8888/TAMS/add.php?latitude=6&longitude=6&title=6")
         //var request:NSMutableURLRequest = NSMutableURLRequest(URL:inserturl! )
         //request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding);
@@ -111,6 +99,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            print("insert error: \(e!.localizedDescription)")
 //            abort()
 //        }
+        //let rootViewController = self.window!.rootViewController as! TableViewController
+        //rootViewController.context = self.managedObjectContext;
+        
         return true
     }
 
@@ -219,6 +210,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-   
+    func fetchFromPHP(){
+        
+        let datafromphpurl = NSURL(string: "http://localhost:8888/TAMS/index.php")
+        if let data: NSData = NSData(contentsOfURL: datafromphpurl!) {
+            if let json: NSArray = ((try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSArray){
+                for item in json {
+                    print(item.valueForKey("title")!, item.valueForKey("latitude")!,item.valueForKey("longitude")!)
+                }
+            }
+        }
+        let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let request = NSFetchRequest(entityName: "AssetsTable")
+        let ass =   (try! managedObjectContext!.executeFetchRequest(request)) as! [AssetEntity]
+        for a in ass{
+            print(a.title, terminator: "")
+            print(a.latitude,a.longitude)
+            print(a.date)
+            for aa in (a.attributes)!{
+                let aaa = aa as! AttributeEntity
+                print(aaa.attributeName)
+            }
+        }
+    }
+
 }
 

@@ -9,19 +9,19 @@
 import MapKit
 import UIKit
 class AnnotationView: NSObject, MKAnnotation {
+    let coordinate : CLLocationCoordinate2D
     let title: String?
     let subTitle: String
-    let coordinate: CLLocationCoordinate2D
-    let imagedata : NSData
-    var asset = Asset()
-    
-    init(asset : Asset) {
-        self.title = asset.title
-        self.subTitle = "\(asset.locations.first!.latitude),\(asset.locations.first!.longitude)"
-        self.coordinate = CLLocationCoordinate2D(latitude: asset.locations[0].latitude, longitude: asset.locations[0].longitude)
-        self.imagedata = asset.image
+    let image: UIImage?
+    var asset : AssetEntity 
+    init(asset : AssetEntity) {
         self.asset = asset
+        self.coordinate = CLLocationCoordinate2DMake(asset.latitude, asset.longitude)
+        self.title = asset.title
+        self.subTitle = "\(coordinate.latitude),\(coordinate.latitude)"
+        self.image = UIImage(data:  asset.image!)
         super.init()
     }
+    
    
 }

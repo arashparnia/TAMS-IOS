@@ -14,8 +14,4 @@ public class TableViewCellView : UITableViewCell {
     @IBOutlet weak var cellViewImage: UIImageView!
     @IBOutlet weak var cellViewTitle: UILabel!
     @IBOutlet weak var cellViewSubtitle: UILabel!
-    @IBOutlet weak var cellViewDescription: UILabel!
-    var asset  = Asset()
-    
-   
 }

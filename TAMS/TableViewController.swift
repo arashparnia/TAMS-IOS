@@ -5,72 +5,90 @@
 //  Created by arash on 8/17/15.
 //  Copyright (c) 2015 arash. All rights reserved.
 //
-
+import CoreData
 import UIKit
 import MapKit
 
-class TableViewController: UITableViewController {
+class TableViewController: UITableViewController,NSFetchedResultsControllerDelegate {
    
     
     @IBOutlet var assetTableView: UITableView!
- 
-    let allassets: [Asset] = Assets.sharedInstance.retriveAllAsets()
-    var regin : MKCoordinateRegion = MKCoordinateRegion()
-    var allassetsAtRegion : [Asset] {
-        get {
-            return Assets.sharedInstance.retriveAllAsets()
-        }
-    }
+    let assets: NSFetchedResultsController = Assets().retriveAllAssets()
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
     override func viewDidLoad() {
+        do{
+           try assets.performFetch()
+        } catch{
+            print("error in fetshing results")
+        }
+        
+        
         tableView.delegate = self
         tableView.dataSource = self
         self.clearsSelectionOnViewWillAppear = true
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         super.viewDidLoad()
     }
-
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning() 
     }
 
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
+    }
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        if let sections = assets.sections {
+            return sections.count
+        }
+        return 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allassets.count
+        if let sections = assets.sections {
+            let currentSection = sections[section]
+            return currentSection.numberOfObjects
+        }
+        return 0
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TheCell", forIndexPath: indexPath) 
-        _ = indexPath.row
-        if let c = (cell as? TableViewCellView) {
-            let ass = allassets[indexPath.row]
-            c.cellViewImage?.image = UIImage( data: allassets[indexPath.row].image)
-            c.cellViewTitle?.text = allassets[indexPath.row].title
-            for l in ass.locations{
-            c.cellViewSubtitle?.text =  "\(l.latitude),\(l.longitude),\(ass.date)"
-            }
-            c.asset = allassets[indexPath.row]
-        }
+        let cell = tableView.dequeueReusableCellWithIdentifier("TheCell", forIndexPath: indexPath) as! TableViewCellView
+        let assetEntity = assets.objectAtIndexPath(indexPath) as! AssetEntity
+        cell.cellViewTitle.text = assetEntity.title
+        cell.cellViewSubtitle.text = "\(assetEntity.latitude),\(assetEntity.longitude)"
+        let image = UIImage(data:assetEntity.image!)
+        let newImage = resizeImage(image!, toTheSize: CGSizeMake(50, 50))
+        let cellImageLayer: CALayer?  = cell.imageView!.layer
+        cellImageLayer!.cornerRadius = 25
+        cellImageLayer!.masksToBounds = true
+        cell.imageView!.image = newImage
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let c = (tableView.cellForRowAtIndexPath(indexPath) as? TableViewCellView){
-            print(c.cellViewSubtitle.text!)
-            performSegueWithIdentifier("TableViewToAssetView", sender: c)
+            performSegueWithIdentifier("TableViewToAssetView",
+                sender: assets.objectAtIndexPath(indexPath))
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
     }
     
-    
+    func resizeImage(image:UIImage, toTheSize size:CGSize)->UIImage{
+        let scale = CGFloat(max(size.width/image.size.width,
+            size.height/image.size.height))
+        let width:CGFloat  = image.size.width * scale
+        let height:CGFloat = image.size.height * scale;
+        let rr:CGRect = CGRectMake( 0, 0, width, height);
+        UIGraphicsBeginImageContextWithOptions(size, false, 0);
+        image.drawInRect(rr)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+        return newImage
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -113,8 +131,8 @@ class TableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "TableViewToAssetView"{
             let assetVC = segue.destinationViewController as! AssetViewController
-            let thecell = sender as! TableViewCellView
-            assetVC.asset = thecell.asset
+            let theasset = sender as! AssetEntity
+            assetVC.assetNSManagedObjectID = theasset.objectID
         }
     }
 

@@ -1,5 +1,5 @@
 //
-//  Location.swift
+//  AssetAttributeEntity.swift
 //  TAMS
 //
 //  Created by arash on 9/19/15.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class LocationEntity: NSManagedObject {
+class AttributeEntity: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 

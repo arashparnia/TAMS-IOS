@@ -23,23 +23,23 @@
 		5B133ECC1B8DB362006A7AAE /* TableViewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */; };
 		5B180D181BA27D8E000FF90D /* TAMS.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B180D171BA27D8E000FF90D /* TAMS.png */; };
 		5B2DEEBB1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2DEEBA1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift */; };
-		5B67CFA71BAE24F80091AD72 /* LocationEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA11BAE24F80091AD72 /* LocationEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFA81BAE24F80091AD72 /* LocationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA21BAE24F80091AD72 /* LocationEntity.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFA91BAE24F80091AD72 /* AssetEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA31BAE24F80091AD72 /* AssetEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFAA1BAE24F80091AD72 /* AssetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA41BAE24F80091AD72 /* AssetEntity.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFAB1BAE24F80091AD72 /* AssetAttributeEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA51BAE24F80091AD72 /* AssetAttributeEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFAC1BAE24F80091AD72 /* AssetAttributeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA61BAE24F80091AD72 /* AssetAttributeEntity.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFAE1BAE26850091AD72 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFAD1BAE26850091AD72 /* Location.swift */; settings = {ASSET_TAGS = (); }; };
+		5B67CFA71BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA11BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		5B67CFA81BAE24F80091AD72 /* PolyLineEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA21BAE24F80091AD72 /* PolyLineEntity.swift */; settings = {ASSET_TAGS = (); }; };
+		5B67CFAB1BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA51BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		5B67CFAC1BAE24F80091AD72 /* AttributeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA61BAE24F80091AD72 /* AttributeEntity.swift */; settings = {ASSET_TAGS = (); }; };
+		5B67CFAE1BAE26850091AD72 /* PolyLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFAD1BAE26850091AD72 /* PolyLine.swift */; settings = {ASSET_TAGS = (); }; };
 		5BA150211B9E2F7B000F8CDD /* 55.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5BA150201B9E2F7B000F8CDD /* 55.mp3 */; };
 		5BA18B221B8B0BBC00D2046F /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */; };
 		5BB203C41B92E0050035C548 /* AssetsDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5BB203C21B92E0050035C548 /* AssetsDB.xcdatamodeld */; };
 		5BD388771B8EFD1000F9C3C3 /* AssetViewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD388761B8EFD1000F9C3C3 /* AssetViewCellView.swift */; };
 		5BD862A11B89C8ED006678B4 /* AssetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD862A01B89C8ED006678B4 /* AssetViewController.swift */; };
+		5BE2A30A1BB500F300B32296 /* AssetEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2A3081BB500F300B32296 /* AssetEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		5BE2A30B1BB500F300B32296 /* AssetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2A3091BB500F300B32296 /* AssetEntity.swift */; settings = {ASSET_TAGS = (); }; };
 		5BF005181B95A7CE0094728A /* Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF005171B95A7CE0094728A /* Camera.png */; };
 		5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E231B8976FA00390DEF /* MapViewController.swift */; };
 		5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E241B8976FA00390DEF /* TableViewController.swift */; };
 		5BFE093B1B92F83600A5C892 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093A1B92F83600A5C892 /* Assets.swift */; };
-		5BFE093D1B92F87100A5C892 /* AssetAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093C1B92F87100A5C892 /* AssetAttribute.swift */; };
+		5BFE093D1B92F87100A5C892 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093C1B92F87100A5C892 /* Attribute.swift */; };
 		5BFE093F1B92F87100A5C892 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093E1B92F87100A5C892 /* Asset.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,24 +74,24 @@
 		5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellView.swift; sourceTree = "<group>"; };
 		5B180D171BA27D8E000FF90D /* TAMS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TAMS.png; sourceTree = "<group>"; };
 		5B2DEEBA1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetAttributeAddCellView.swift; sourceTree = "<group>"; };
-		5B67CFA11BAE24F80091AD72 /* LocationEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LocationEntity+CoreDataProperties.swift"; path = "../LocationEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		5B67CFA21BAE24F80091AD72 /* LocationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationEntity.swift; path = ../LocationEntity.swift; sourceTree = "<group>"; };
-		5B67CFA31BAE24F80091AD72 /* AssetEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AssetEntity+CoreDataProperties.swift"; path = "../AssetEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		5B67CFA41BAE24F80091AD72 /* AssetEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssetEntity.swift; path = ../AssetEntity.swift; sourceTree = "<group>"; };
-		5B67CFA51BAE24F80091AD72 /* AssetAttributeEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AssetAttributeEntity+CoreDataProperties.swift"; path = "../AssetAttributeEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		5B67CFA61BAE24F80091AD72 /* AssetAttributeEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssetAttributeEntity.swift; path = ../AssetAttributeEntity.swift; sourceTree = "<group>"; };
-		5B67CFAD1BAE26850091AD72 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		5B67CFA11BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PolyLineEntity+CoreDataProperties.swift"; path = "../PolyLineEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5B67CFA21BAE24F80091AD72 /* PolyLineEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PolyLineEntity.swift; path = ../PolyLineEntity.swift; sourceTree = "<group>"; };
+		5B67CFA51BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AttributeEntity+CoreDataProperties.swift"; path = "../AttributeEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5B67CFA61BAE24F80091AD72 /* AttributeEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AttributeEntity.swift; path = ../AttributeEntity.swift; sourceTree = "<group>"; };
+		5B67CFAD1BAE26850091AD72 /* PolyLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PolyLine.swift; path = TAMS/PolyLine.swift; sourceTree = "<group>"; };
 		5BA150201B9E2F7B000F8CDD /* 55.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 55.mp3; sourceTree = "<group>"; };
 		5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		5BB203C31B92E0050035C548 /* AssetsDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AssetsDB.xcdatamodel; sourceTree = "<group>"; };
 		5BD388761B8EFD1000F9C3C3 /* AssetViewCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetViewCellView.swift; sourceTree = "<group>"; };
 		5BD862A01B89C8ED006678B4 /* AssetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetViewController.swift; sourceTree = "<group>"; };
+		5BE2A3081BB500F300B32296 /* AssetEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AssetEntity+CoreDataProperties.swift"; path = "../AssetEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5BE2A3091BB500F300B32296 /* AssetEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssetEntity.swift; path = ../AssetEntity.swift; sourceTree = "<group>"; };
 		5BF005171B95A7CE0094728A /* Camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera.png; sourceTree = "<group>"; };
 		5BF84E231B8976FA00390DEF /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		5BF84E241B8976FA00390DEF /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		5BFE093A1B92F83600A5C892 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
-		5BFE093C1B92F87100A5C892 /* AssetAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetAttribute.swift; sourceTree = "<group>"; };
-		5BFE093E1B92F87100A5C892 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
+		5BFE093A1B92F83600A5C892 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Assets.swift; path = TAMS/Assets.swift; sourceTree = "<group>"; };
+		5BFE093C1B92F87100A5C892 /* Attribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Attribute.swift; path = TAMS/Attribute.swift; sourceTree = "<group>"; };
+		5BFE093E1B92F87100A5C892 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = TAMS/Asset.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +148,7 @@
 		5B0D35281B815E9200EF91F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B81D2091BBA79210078CBC3 /* unused */,
 				5B180D171BA27D8E000FF90D /* TAMS.png */,
 				5BA150201B9E2F7B000F8CDD /* 55.mp3 */,
 				5BF005171B95A7CE0094728A /* Camera.png */,
@@ -191,20 +192,28 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		5B81D2091BBA79210078CBC3 /* unused */ = {
+			isa = PBXGroup;
+			children = (
+				5BFE093A1B92F83600A5C892 /* Assets.swift */,
+				5BFE093E1B92F87100A5C892 /* Asset.swift */,
+				5B67CFAD1BAE26850091AD72 /* PolyLine.swift */,
+				5BFE093C1B92F87100A5C892 /* Attribute.swift */,
+			);
+			name = unused;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		5B97B9881B830637000B2526 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				5BB203C21B92E0050035C548 /* AssetsDB.xcdatamodeld */,
-				5BFE093A1B92F83600A5C892 /* Assets.swift */,
-				5BFE093E1B92F87100A5C892 /* Asset.swift */,
-				5B67CFA41BAE24F80091AD72 /* AssetEntity.swift */,
-				5B67CFA31BAE24F80091AD72 /* AssetEntity+CoreDataProperties.swift */,
-				5B67CFAD1BAE26850091AD72 /* Location.swift */,
-				5B67CFA21BAE24F80091AD72 /* LocationEntity.swift */,
-				5B67CFA11BAE24F80091AD72 /* LocationEntity+CoreDataProperties.swift */,
-				5BFE093C1B92F87100A5C892 /* AssetAttribute.swift */,
-				5B67CFA61BAE24F80091AD72 /* AssetAttributeEntity.swift */,
-				5B67CFA51BAE24F80091AD72 /* AssetAttributeEntity+CoreDataProperties.swift */,
+				5BE2A3091BB500F300B32296 /* AssetEntity.swift */,
+				5BE2A3081BB500F300B32296 /* AssetEntity+CoreDataProperties.swift */,
+				5B67CFA21BAE24F80091AD72 /* PolyLineEntity.swift */,
+				5B67CFA11BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift */,
+				5B67CFA61BAE24F80091AD72 /* AttributeEntity.swift */,
+				5B67CFA51BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -353,32 +362,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B1183931B990AF100E2FF4A /* FBViewController.swift in Sources */,
-				5B67CFAA1BAE24F80091AD72 /* AssetEntity.swift in Sources */,
 				5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */,
 				5B0D352B1B815E9200EF91F2 /* AppDelegate.swift in Sources */,
 				5BFE093B1B92F83600A5C892 /* Assets.swift in Sources */,
+				5BE2A30B1BB500F300B32296 /* AssetEntity.swift in Sources */,
 				5B11838E1B990AF100E2FF4A /* FBAnnotationClusterView.swift in Sources */,
-				5B67CFA91BAE24F80091AD72 /* AssetEntity+CoreDataProperties.swift in Sources */,
 				5B1183901B990AF100E2FF4A /* FBClusteringManager.swift in Sources */,
 				5BD388771B8EFD1000F9C3C3 /* AssetViewCellView.swift in Sources */,
 				5B133ECC1B8DB362006A7AAE /* TableViewCellView.swift in Sources */,
-				5B67CFA71BAE24F80091AD72 /* LocationEntity+CoreDataProperties.swift in Sources */,
+				5B67CFA71BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift in Sources */,
 				5BA18B221B8B0BBC00D2046F /* AnnotationView.swift in Sources */,
 				5B2DEEBB1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift in Sources */,
-				5B67CFAE1BAE26850091AD72 /* Location.swift in Sources */,
+				5B67CFAE1BAE26850091AD72 /* PolyLine.swift in Sources */,
 				5B11838C1B990AF100E2FF4A /* FBAnnotation.swift in Sources */,
-				5B67CFA81BAE24F80091AD72 /* LocationEntity.swift in Sources */,
+				5B67CFA81BAE24F80091AD72 /* PolyLineEntity.swift in Sources */,
 				5B1183921B990AF100E2FF4A /* FBQuadTreeNode.swift in Sources */,
-				5B67CFAC1BAE24F80091AD72 /* AssetAttributeEntity.swift in Sources */,
+				5B67CFAC1BAE24F80091AD72 /* AttributeEntity.swift in Sources */,
 				5B11838D1B990AF100E2FF4A /* FBAnnotationCluster.swift in Sources */,
 				5BFE093F1B92F87100A5C892 /* Asset.swift in Sources */,
 				5B11838F1B990AF100E2FF4A /* FBBoundingBox.swift in Sources */,
 				5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */,
 				5BB203C41B92E0050035C548 /* AssetsDB.xcdatamodeld in Sources */,
 				5BD862A11B89C8ED006678B4 /* AssetViewController.swift in Sources */,
-				5B67CFAB1BAE24F80091AD72 /* AssetAttributeEntity+CoreDataProperties.swift in Sources */,
+				5B67CFAB1BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift in Sources */,
 				5B1183911B990AF100E2FF4A /* FBQuadTree.swift in Sources */,
-				5BFE093D1B92F87100A5C892 /* AssetAttribute.swift in Sources */,
+				5BFE093D1B92F87100A5C892 /* Attribute.swift in Sources */,
+				5BE2A30A1BB500F300B32296 /* AssetEntity+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,7 +449,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: arash parnia (4U58D2ZWE9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: arash parnia (4U58D2ZWE9)";
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -458,7 +467,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = TAMS;
@@ -488,7 +497,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: arash parnia (4U58D2ZWE9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: arash parnia (4U58D2ZWE9)";
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -500,7 +509,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = TAMS;
@@ -517,7 +526,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TAMS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "arash.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -532,7 +541,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TAMS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "arash.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

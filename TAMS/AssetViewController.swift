@@ -11,10 +11,12 @@ import UIKit
 import MapKit
 import MobileCoreServices
 import AVFoundation
-
+import CoreData
 
 class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate{
-    var asset = Asset()
+    var assetNSManagedObjectID : NSManagedObjectID = NSManagedObjectID()
+    //var asset : NSManagedObject
+    var assetAttributes : [AssetAttribute] = [AssetAttribute]()
     var newMedia: Bool?
     var audioPlayer: AVAudioPlayer!
     var audioRecorder: AVAudioRecorder!
@@ -60,13 +62,16 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 audiobutton.selected = true
             }
         }
-        
     }
 
     var tempimage  = UIImageView()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        let asset = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.objectRegisteredForID(assetNSManagedObjectID) as! AssetEntity
+        
+        for assatt in (asset.attributes)!{
+            assetAttributes.append(assatt as! AssetAttribute)
+        }
         
         assetTableView.delegate = self
         assetTableView.dataSource = self
@@ -74,28 +79,20 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         let annotation = MKPointAnnotation()
         
-        for l in asset.locations{
-            annotation.coordinate =  CLLocation(latitude: l.latitude, longitude: l.longitude).coordinate
-        }
+        
+        annotation.coordinate = CLLocationCoordinate2DMake(
+            asset.latitude, asset.longitude)
         annotation.title = asset.title
         smallMap.addAnnotation(annotation)
-        
-        let span = MKCoordinateSpanMake(0.005, 0.005)
-        let region = MKCoordinateRegion(center: CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude).coordinate, span: span)
-        
+       
         smallMap.showsBuildings = true
-        if #available(iOS 9.0, *) {
             smallMap.mapType = .HybridFlyover
             let camera = MKMapCamera(lookingAtCenterCoordinate: annotation.coordinate, fromDistance: 500, pitch: 65, heading: 0)
             smallMap.setCamera(camera, animated: true)
-        } else {
-            // Fallback on earlier versions
-            smallMap.mapType = .Hybrid
-            smallMap.setRegion(region, animated: true)
-        }
         
         
-        image.image = UIImage(data:asset.image)
+        
+        image.image = UIImage(data:asset.image!)
         assetTitleLabel.text = asset.title
         
 
@@ -152,9 +149,8 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             updater.frameInterval = 1
             updater.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
         }
-        
-       
-        
+     
+       super.viewDidLoad()
     }
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         if flag{
@@ -227,9 +223,10 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo:UnsafePointer<Void>) {
         if error != nil {
+           
             let alert = UIAlertController(title: "Save Failed",
-                message: "Failed to save image",
-                preferredStyle: UIAlertControllerStyle.Alert)
+                    message: "Failed to save image",
+                    preferredStyle: UIAlertControllerStyle.Alert)
             let cancelAction = UIAlertAction(title: "OK",
                 style: .Cancel, handler: nil)
             alert.addAction(cancelAction)
@@ -245,28 +242,28 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func setEditing(editing: Bool, animated: Bool) {
-        if editing {
-            print("edit ")
-            //ShowAttributeAddViews(true)
-            assetTableView.editing = true
-            let imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
-            image.addGestureRecognizer(imagegesture)
-            editImage()
-            audiobutton.setImage(UIImage(named: "microphone"), forState: UIControlState.Normal)
-            assetTableView.reloadData()
-        } else {
-            print("save ")
-            // ShowAttributeAddViews(false)
-            image.gestureRecognizers?.removeAll(keepCapacity: false)
-            assetTableView.editing = false
-            removeImageViewSubviews(image)
-            UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
-            asset.title = assetTitleLabel.text!
-            audiobutton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
-            assetTableView.reloadData()
-        }
-        
-        super.setEditing(editing, animated: animated)
+//        if editing {
+//            print("edit ")
+//            //ShowAttributeAddViews(true)
+//            assetTableView.editing = true
+//            let imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
+//            image.addGestureRecognizer(imagegesture)
+//            editImage()
+//            audiobutton.setImage(UIImage(named: "microphone"), forState: UIControlState.Normal)
+//            assetTableView.reloadData()
+//        } else {
+//            print("save ")
+//            // ShowAttributeAddViews(false)
+//            image.gestureRecognizers?.removeAll(keepCapacity: false)
+//            assetTableView.editing = false
+//            removeImageViewSubviews(image)
+//            UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
+//            asset.title = assetTitleLabel.text!
+//            audiobutton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
+//            assetTableView.reloadData()
+//        }
+//        
+//        super.setEditing(editing, animated: animated)
     }
     
     
@@ -347,6 +344,8 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //            timeSlider.setValue(Float(progress), animated: false)
 //        }
     
+    
+    
     // TABLE VIEW DELEGATE METHODS
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -370,15 +369,16 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.editing {
-            if section == 0 {
-                return 1
-            }else{
-                return asset.attributes.count
-            }
-        } else {
-            return asset.attributes.count
-        }
+//        if tableView.editing {
+//            if section == 0 {
+//                return 1
+//            }else{
+//                return asset.attributes!.count
+//            }
+//        } else {
+//            return asset.attributes!.count
+//        }
+        return 0
     }
     
     
@@ -393,34 +393,24 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }else {
                 let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) 
                 let c =  cell as! AssetViewCellView
-                c.attribute.text  = asset.attributes[indexPath.row].attributeName
-                c.value.text = asset.attributes[indexPath.row].attributeData
+                c.attribute.text  = assetAttributes[indexPath.row].attributeName
+                c.value.text = assetAttributes[indexPath.row].attributeData
                 return cell
             }
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) 
             let c =  cell as! AssetViewCellView
-            c.attribute.text  = asset.attributes[indexPath.row].attributeName
-            c.value.text = asset.attributes[indexPath.row].attributeData
+                c.attribute.text  = assetAttributes[indexPath.row].attributeName
+                c.value.text = assetAttributes[indexPath.row].attributeData
             return cell
         }
         
         
     }
         func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            if let c = (tableView.cellForRowAtIndexPath(indexPath) as? TableViewCellView){
-                print(c.cellViewSubtitle.text!)
-                //performSegueWithIdentifier("TableViewToAssetView", sender: c.cellViewSubtitle.text!)
-                //tableView.deselectRowAtIndexPath(indexPath, animated: true)
-            }
+           
         }
-        //        func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        //            println("tapped")
-        //            let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) as! UITableViewCell
-        //            if let c =  cell as? AssetViewCellView {
-        //                println(asset.attributes[c.tag].attributeName)
-        //            }
-        //        }
+   
         
     
         // Override to support conditional editing of the table view.
@@ -443,7 +433,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //
         if editingStyle == .Delete {
             // Delete the row from the data source
-            asset.attributes.removeAtIndex(indexPath.row)
+            //asset.attributes.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
