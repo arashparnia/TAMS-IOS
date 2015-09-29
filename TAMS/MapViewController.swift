@@ -134,6 +134,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x: 0, y: 0)
             view.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
+            view.pinTintColor = UIColor.blueColor()
             return view
         }
     }
