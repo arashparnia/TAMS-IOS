@@ -57,9 +57,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         
         //addRandomAssetToMap()
 
-        configureAnnotations()
+        
     
-        clusteringManager.addAnnotations(annotations)
         
       
         
@@ -80,20 +79,23 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
 //        points.append(CLLocationCoordinate2D(latitude: 38.560884 + 0.003, longitude: -121.422357 + 0.006))
 //        let polyline =  MKPolyline(coordinates: &points, count: points.count)
 //        MapView.addOverlay(polyline)
+        configureAnnotations()
+        MapView.showAnnotations(annotations, animated: false)
         MapView.showsBuildings = true
         MapView.showsUserLocation = false
         MapView.showsScale = true
         MapView.region.center = centerLocation
         MapView.region.span = MKCoordinateSpanMake(0.1, 0.1)
+        MapView.mapType = .Standard
         let camera = MKMapCamera(lookingAtCenterCoordinate: centerLocation, fromDistance: 1000, pitch: 65, heading: 0)
         MapView.setCamera(camera, animated: true)
-        MapView.mapType = .Standard
-        MapView.showAnnotations(annotations, animated: true)
+        
+ 
         super.viewDidLoad()
     }
     override func viewDidAppear(animated: Bool) {
-        MapView.removeAnnotations(annotations)
-        MapView.addAnnotations(annotations)
+//        MapView.removeAnnotations(annotations)
+//        MapView.addAnnotations(annotations)
         //MapView.showAnnotations(annotations, animated: true)
         super.viewDidAppear(animated)
     }
@@ -106,13 +108,13 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
 
     @IBAction func mapType(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            MapView.mapType = .Standard
+                MapView.mapType = .Standard
         } else {
                 // Fallback on earlier versions
                 MapView.mapType = .HybridFlyover
         }
-            MapView.removeAnnotations(annotations)
-            MapView.addAnnotations(annotations)
+            configureAnnotations()
+        
     }
     
   
@@ -133,8 +135,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             view.detailCalloutAccessoryView = UIImageView(image: annotation!.image)
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x: 0, y: 0)
-            view.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
-            view.pinTintColor = UIColor.blueColor()
+            view.leftCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            view.pinTintColor = UIColor.blackColor()
             return view
         }
     }
@@ -189,8 +191,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             print("adding asset:\(i)")
             addRandomAssetToMap()
         }
-        clusteringManager.addAnnotations(annotations)
-        MapView.addAnnotations(annotations)
+        configureAnnotations()
         MapView.showAnnotations(annotations, animated: true)
     }
     
@@ -227,7 +228,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         }
         let randomfloat = CGFloat( (Float(arc4random()) / Float(UINT32_MAX)) )
         r = r + Double(randomfloat)
-        r=r/100
+        r=r/10000
         return r
     }
     func configureAnnotations(){
@@ -242,6 +243,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         } catch {
             print("Erro fetching into fetchresult controller in mapview")
         }
+        clusteringManager.setAnnotations(annotations)
     }
     
     func addRandomAssetToMap(){
