@@ -13,7 +13,7 @@ class TableViewController: UITableViewController,NSFetchedResultsControllerDeleg
    
     
     @IBOutlet var assetTableView: UITableView!
-    let assets: NSFetchedResultsController = Assets().retriveAllAssets()
+    let assets: NSFetchedResultsController = AssetsController().retriveAllAssets()
     
     override func viewDidLoad() {
         do{

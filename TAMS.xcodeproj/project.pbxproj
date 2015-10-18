@@ -38,7 +38,7 @@
 		5BF706CB1BBCDBED00A08F07 /* FBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C31BBCDBED00A08F07 /* FBViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E231B8976FA00390DEF /* MapViewController.swift */; };
 		5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E241B8976FA00390DEF /* TableViewController.swift */; };
-		5BFE093B1B92F83600A5C892 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093A1B92F83600A5C892 /* Assets.swift */; };
+		5BFE093B1B92F83600A5C892 /* AssetsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093A1B92F83600A5C892 /* AssetsController.swift */; };
 		5BFE093D1B92F87100A5C892 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093C1B92F87100A5C892 /* Attribute.swift */; };
 		5BFE093F1B92F87100A5C892 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093E1B92F87100A5C892 /* Asset.swift */; };
 /* End PBXBuildFile section */
@@ -89,7 +89,7 @@
 		5BF706C31BBCDBED00A08F07 /* FBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBViewController.swift; sourceTree = "<group>"; };
 		5BF84E231B8976FA00390DEF /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		5BF84E241B8976FA00390DEF /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		5BFE093A1B92F83600A5C892 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Assets.swift; path = TAMS/Assets.swift; sourceTree = "<group>"; };
+		5BFE093A1B92F83600A5C892 /* AssetsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsController.swift; sourceTree = "<group>"; };
 		5BFE093C1B92F87100A5C892 /* Attribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Attribute.swift; path = TAMS/Attribute.swift; sourceTree = "<group>"; };
 		5BFE093E1B92F87100A5C892 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = TAMS/Asset.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -195,7 +195,6 @@
 		5B81D2091BBA79210078CBC3 /* unused */ = {
 			isa = PBXGroup;
 			children = (
-				5BFE093A1B92F83600A5C892 /* Assets.swift */,
 				5BFE093E1B92F87100A5C892 /* Asset.swift */,
 				5B67CFAD1BAE26850091AD72 /* PolyLine.swift */,
 				5BFE093C1B92F87100A5C892 /* Attribute.swift */,
@@ -208,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				5BB203C21B92E0050035C548 /* AssetsDB.xcdatamodeld */,
+				5BFE093A1B92F83600A5C892 /* AssetsController.swift */,
 				5BE2A3091BB500F300B32296 /* AssetEntity.swift */,
 				5BE2A3081BB500F300B32296 /* AssetEntity+CoreDataProperties.swift */,
 				5B67CFA21BAE24F80091AD72 /* PolyLineEntity.swift */,
@@ -364,7 +364,7 @@
 				5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */,
 				5B0D352B1B815E9200EF91F2 /* AppDelegate.swift in Sources */,
 				5BF706CB1BBCDBED00A08F07 /* FBViewController.swift in Sources */,
-				5BFE093B1B92F83600A5C892 /* Assets.swift in Sources */,
+				5BFE093B1B92F83600A5C892 /* AssetsController.swift in Sources */,
 				5BF706C51BBCDBED00A08F07 /* FBAnnotationCluster.swift in Sources */,
 				5BE2A30B1BB500F300B32296 /* AssetEntity.swift in Sources */,
 				5BD388771B8EFD1000F9C3C3 /* AssetViewCellView.swift in Sources */,
@@ -526,7 +526,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TAMS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "arash.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -541,7 +541,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TAMS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "arash.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

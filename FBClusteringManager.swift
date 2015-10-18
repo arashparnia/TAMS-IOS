@@ -166,7 +166,7 @@ class FBClusteringManager : NSObject {
         let totalTilesAtMaxZoom:Double = MKMapSizeWorld.width / 256.0
         let zoomLevelAtMaxZoom:Int = Int(log2(totalTilesAtMaxZoom))
         let floorLog2ScaleFloat = floor(log2f(Float(scale))) + 0.5
-        let sum:Int = zoomLevelAtMaxZoom + Int(floorLog2ScaleFloat)
+        let sum:Int = zoomLevelAtMaxZoom +  Int(floorLog2ScaleFloat)
         let zoomLevel:Int = max(0, sum)
         return zoomLevel;
     }

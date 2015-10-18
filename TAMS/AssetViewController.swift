@@ -13,10 +13,10 @@ import MobileCoreServices
 import AVFoundation
 import CoreData
 
-class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate{
+class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,AVAudioPlayerDelegate,AVAudioRecorderDelegate,NSFetchedResultsControllerDelegate{
+    
     var assetNSManagedObjectID : NSManagedObjectID = NSManagedObjectID()
-    //var asset : NSManagedObject
-    var assetAttributes : [AssetAttribute] = [AssetAttribute]()
+    var assetAttributes : NSFetchedResultsController = NSFetchedResultsController()
     var newMedia: Bool?
     var audioPlayer: AVAudioPlayer!
     var audioRecorder: AVAudioRecorder!
@@ -28,12 +28,10 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var assetTableView: UITableView!
     @IBOutlet weak var audiobutton: UIButton!
     @IBOutlet weak var audioprogressbar: UIProgressView!
-    
     @IBAction func audiobottunpressed(sender: UIButton) {
         if assetTableView.editing{
             if audiobutton.selected{
                 audioRecorder.stop()
-                
                 audiobutton.selected = false
             } else {
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
@@ -67,12 +65,17 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var tempimage  = UIImageView()
     
     override func viewDidLoad() {
-        let asset = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.objectRegisteredForID(assetNSManagedObjectID) as! AssetEntity
         
-        for assatt in (asset.attributes)!{
-            assetAttributes.append(assatt as! AssetAttribute)
+         let asset = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.objectRegisteredForID(self.assetNSManagedObjectID) as! AssetEntity
+        assetAttributes = AssetsController().retriveAllAttributesForAsset(asset)
+        assetAttributes.delegate = self
+        //assetAttributes.fetchedObjects
+        do{
+            try assetAttributes.performFetch()
+        } catch{
+            print("error in fetshing results")
         }
-        
+
         assetTableView.delegate = self
         assetTableView.dataSource = self
         
@@ -86,9 +89,14 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         smallMap.addAnnotation(annotation)
        
         smallMap.showsBuildings = true
-            smallMap.mapType = .HybridFlyover
-            let camera = MKMapCamera(lookingAtCenterCoordinate: annotation.coordinate, fromDistance: 500, pitch: 65, heading: 0)
-            smallMap.setCamera(camera, animated: true)
+            if #available(iOS 9.0, *) {
+                smallMap.mapType = .HybridFlyover
+                let camera = MKMapCamera(lookingAtCenterCoordinate: annotation.coordinate, fromDistance: 500, pitch: 65, heading: 0)
+                smallMap.setCamera(camera, animated: true)
+            } else {
+                smallMap.mapType = .Hybrid
+            }
+        
         
         
         
@@ -130,25 +138,27 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //            audioRecorder?.prepareToRecord()
 //        }
 //        
-        let u = NSURL.fileURLWithPath( NSBundle.mainBundle().pathForResource("55", ofType: "mp3")!)
-        var e: NSError?
-        do {
-            self.audioPlayer = try AVAudioPlayer(contentsOfURL: u)
-        } catch let error as NSError {
-            e = error
-            self.audioPlayer = nil
-        }
-        if let error = e {
-            print("audioPlayer error \(error.localizedDescription)")
-        }
-        else {
-            audioPlayer.numberOfLoops = 0
-            audioPlayer.delegate = self
-            audioPlayer.prepareToPlay()
-            updater = CADisplayLink(target: self, selector: Selector("trackAudio"))
-            updater.frameInterval = 1
-            updater.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
-        }
+//        let u = NSURL.fileURLWithPath( NSBundle.mainBundle().pathForResource("55", ofType: "mp3")!)
+//        //let e: NSError?
+//        do {
+//            self.audioPlayer = try AVAudioPlayer(contentsOfURL: u)
+//            audioPlayer.numberOfLoops = 0
+//            audioPlayer.delegate = self
+//            audioPlayer.prepareToPlay()
+//            updater = CADisplayLink(target: self, selector: Selector("trackAudio"))
+//            updater.frameInterval = 1
+//            updater.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+//        } catch let error as NSError {
+//            //e = error
+//            print("audioPlayer error \(error.localizedDescription)")
+//            self.audioPlayer = nil
+//        }
+//        if let error = e {
+//            print("audioPlayer error \(error.localizedDescription)")
+//        }
+//        else {
+//            
+//        }
      
        super.viewDidLoad()
     }
@@ -223,7 +233,6 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo:UnsafePointer<Void>) {
         if error != nil {
-           
             let alert = UIAlertController(title: "Save Failed",
                     message: "Failed to save image",
                     preferredStyle: UIAlertControllerStyle.Alert)
@@ -242,28 +251,26 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func setEditing(editing: Bool, animated: Bool) {
-//        if editing {
-//            print("edit ")
-//            //ShowAttributeAddViews(true)
-//            assetTableView.editing = true
-//            let imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
-//            image.addGestureRecognizer(imagegesture)
-//            editImage()
-//            audiobutton.setImage(UIImage(named: "microphone"), forState: UIControlState.Normal)
-//            assetTableView.reloadData()
-//        } else {
-//            print("save ")
-//            // ShowAttributeAddViews(false)
-//            image.gestureRecognizers?.removeAll(keepCapacity: false)
-//            assetTableView.editing = false
-//            removeImageViewSubviews(image)
-//            UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
-//            asset.title = assetTitleLabel.text!
-//            audiobutton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
-//            assetTableView.reloadData()
-//        }
-//        
-//        super.setEditing(editing, animated: animated)
+        if editing {
+            print("edit ")
+            assetTableView.editing = true
+            let imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
+            image.addGestureRecognizer(imagegesture)
+            editImage()
+            audiobutton.setImage(UIImage(named: "microphone"), forState: UIControlState.Normal)
+            //assetTableView.reloadData()
+        } else {
+            print("save ")
+            image.gestureRecognizers?.removeAll(keepCapacity: false)
+            assetTableView.editing = false
+            removeImageViewSubviews(image)
+            UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
+            //asset.title = assetTitleLabel.text!
+            audiobutton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
+            //assetTableView.reloadData()
+        }
+        
+        super.setEditing(editing, animated: animated)
     }
     
     
@@ -352,33 +359,16 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if tableView.editing {return 2} else {return 1}
     }
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        //let title = section == 1 ? "New" : "Current"
-        if tableView.editing {
-            if section == 1 {
-                return "Assets"
-            } else {
-                return "Add new asset"
-            }
-        }else {
-            return "Assets"
-        }
-       
+        if tableView.editing {if section == 1 {return "Assets"} else {return "Add new asset"}
+        }else {return "Assets" }
     }
     //    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
     //
     //    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if tableView.editing {
-//            if section == 0 {
-//                return 1
-//            }else{
-//                return asset.attributes!.count
-//            }
-//        } else {
-//            return asset.attributes!.count
-//        }
-        return 0
+        if tableView.editing {if section == 0 {return 1}else{ return assetAttributes.sections![0].numberOfObjects}
+        } else {return assetAttributes.sections![0].numberOfObjects}
     }
     
     
@@ -393,15 +383,17 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }else {
                 let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) 
                 let c =  cell as! AssetViewCellView
-                c.attribute.text  = assetAttributes[indexPath.row].attributeName
-                c.value.text = assetAttributes[indexPath.row].attributeData
+                let att = assetAttributes.objectAtIndexPath(indexPath) as! AttributeEntity
+                c.attribute.text  = att.attributeName
+                c.value.text = att.attributeData
                 return cell
             }
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) 
             let c =  cell as! AssetViewCellView
-                c.attribute.text  = assetAttributes[indexPath.row].attributeName
-                c.value.text = assetAttributes[indexPath.row].attributeData
+            let att = assetAttributes.objectAtIndexPath(indexPath) as! AttributeEntity
+            c.attribute.text  = att.attributeName
+            c.value.text = att.attributeData
             return cell
         }
         

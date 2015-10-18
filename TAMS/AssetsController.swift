@@ -11,7 +11,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class Assets {
+class AssetsController {
     //static let sharedInstance = Assets()
     //var assets = [Asset]()
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
@@ -47,6 +47,38 @@ class Assets {
         (UIApplication.sharedApplication().delegate as! AppDelegate).saveContext()
         
         }
+    func addAsset(latitude latitude : Double, longitude: Double, title: String, image: UIImage){
+
+        
+        let assetEntityDescription = NSEntityDescription.entityForName(
+            "AssetEntity",inManagedObjectContext:managedObjectContext!)
+        let assetentity = AssetEntity(entity: assetEntityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        assetentity.title = title
+        assetentity.latitude = latitude
+        assetentity.longitude = longitude
+        assetentity.date = NSDate()
+        assetentity.audio = NSData(contentsOfURL: NSURL.fileURLWithPath(
+            NSBundle.mainBundle().pathForResource("55", ofType: "mp3")!))!
+        assetentity.image = UIImagePNGRepresentation(image)
+        addRandomAssetAttributes(9, ass: assetentity)
+        (UIApplication.sharedApplication().delegate as! AppDelegate).saveContext()
+        
+    }
+    func addRandomAssetAttributes(n :Int,ass:AssetEntity){
+        for i in 1...n{
+            addAssetAttribute(name:"name \(i)", data: "data \(i)", asset: ass)
+        }
+    }
+    func addAssetAttribute(name name: String,data:String, asset : AssetEntity){
+        let attributeEntityDescription = NSEntityDescription.entityForName(
+            "AttributeEntity",inManagedObjectContext:managedObjectContext!)
+        let attributeEntity = AttributeEntity(entity: attributeEntityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        attributeEntity.attributeName = name
+        attributeEntity.attributeData = data
+        attributeEntity.asset = asset
+        (UIApplication.sharedApplication().delegate as! AppDelegate).saveContext()
+    }
+
 
     func retriveAsset(latitude latitude: Double, longitude: Double) -> AssetEntity? {
         let assetEntityDescription = NSEntityDescription.entityForName("AssetEntity", inManagedObjectContext: managedObjectContext!)
@@ -61,9 +93,7 @@ class Assets {
         }
     }
     func retriveAsset(latitude latitude: Double, longitude: Double) -> NSFetchedResultsController{
-        let entityDescription = NSEntityDescription.entityForName("AssetEntity", inManagedObjectContext: managedObjectContext!)
-        let request = NSFetchRequest()
-        request.entity = entityDescription
+        let request = NSFetchRequest(entityName: "AssetEntity")
         request.predicate = NSPredicate(format:"abs(latitude - %f) < 0.0001 AND abs(longitude - %f) < 0.0001", latitude, longitude)
         let primarySortDescriptor = NSSortDescriptor(key: "date", ascending: true)
         let secondarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
@@ -74,17 +104,29 @@ class Assets {
     }
 
     func retriveAllAssets() -> NSFetchedResultsController{
-        let entityDescription = NSEntityDescription.entityForName("AssetEntity", inManagedObjectContext: managedObjectContext!)
-        let request = NSFetchRequest()
-        request.entity = entityDescription
+        let request = NSFetchRequest(entityName: "AssetEntity")
         request.predicate = nil
         let primarySortDescriptor = NSSortDescriptor(key: "date", ascending: true)
         let secondarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         request.sortDescriptors = [primarySortDescriptor, secondarySortDescriptor]
         let nsf: NSFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName:nil)
+        //nsf.fetchedObjects
         //print(nsf.description)
         return nsf
     }
+    func retriveAllAttributesForAsset(ass : AssetEntity) -> NSFetchedResultsController{
+        let request = NSFetchRequest(entityName: "AttributeEntity")
+        let p = NSPredicate(format: "asset == %@",ass)
+        request.predicate = p
+        let primarySortDescriptor = NSSortDescriptor(key: "attributeName", ascending: true)
+        let secondarySortDescriptor = NSSortDescriptor(key: "attributeData", ascending: true)
+        request.sortDescriptors = [primarySortDescriptor, secondarySortDescriptor]
+        let nsf: NSFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName:nil)
+        //nsf.fetchedObjects
+        //print(nsf.description)
+        return nsf
+    }
+    
     //       func retriveAssetsAtRegin(regin : MKCoordinateRegion )->[Asset]{
 //        
 //        let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
@@ -120,10 +162,15 @@ class Assets {
             
             let image:UIImage = UIImage()
             let options = MKMapSnapshotOptions()
-                options.mapType = MKMapType.HybridFlyover
-                let camera = MKMapCamera(lookingAtCenterCoordinate: cord, fromDistance: 500, pitch: 65, heading: 0)
-                options.camera = camera
-                       options.size = CGSize(width: 100, height: 100)
+                if #available(iOS 9.0, *) {
+                    let camera = MKMapCamera(lookingAtCenterCoordinate: cord, fromDistance: 500, pitch: 65, heading: 0)
+                    options.camera = camera
+                    options.size = CGSize(width: 100, height: 100)
+                    options.mapType = MKMapType.HybridFlyover
+                } else {
+                    // Fallback on earlier versions
+                }
+            
     
             let snap :MKMapSnapshotter  = MKMapSnapshotter(options: options)
             print(snap.loading)

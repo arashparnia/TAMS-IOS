@@ -97,7 +97,11 @@ extension FBViewController : MKMapViewDelegate {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             
             
-            pinView!.pinTintColor = UIColor.greenColor()
+            if #available(iOS 9.0, *) {
+                pinView!.pinTintColor = UIColor.greenColor()
+            } else {
+                // Fallback on earlier versions
+            }
             
             return pinView
         }

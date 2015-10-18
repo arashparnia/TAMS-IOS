@@ -83,12 +83,18 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         MapView.showAnnotations(annotations, animated: false)
         MapView.showsBuildings = true
         MapView.showsUserLocation = false
-        MapView.showsScale = true
+        if #available(iOS 9.0, *) {
+            MapView.showsScale = true
+            let camera = MKMapCamera(lookingAtCenterCoordinate: centerLocation, fromDistance: 1000, pitch: 65, heading: 0)
+            MapView.setCamera(camera, animated: true)
+        } else {
+            // Fallback on earlier versions
+        }
         MapView.region.center = centerLocation
         MapView.region.span = MKCoordinateSpanMake(0.1, 0.1)
         MapView.mapType = .Standard
-        let camera = MKMapCamera(lookingAtCenterCoordinate: centerLocation, fromDistance: 1000, pitch: 65, heading: 0)
-        MapView.setCamera(camera, animated: true)
+       
+        
         
  
         super.viewDidLoad()
@@ -108,12 +114,17 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
 
     @IBAction func mapType(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
+                configureAnnotations()
                 MapView.mapType = .Standard
         } else {
-                // Fallback on earlier versions
-                MapView.mapType = .HybridFlyover
+            	configureAnnotations()
+                if #available(iOS 9.0, *) {
+                    MapView.mapType = .HybridFlyover
+                } else {
+                    MapView.mapType = .Hybrid
+                }
         }
-            configureAnnotations()
+        
         
     }
     
@@ -131,12 +142,20 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             var view: MKPinAnnotationView
             let identifier = "pin"
             view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            view.image = annotation!.image
-            view.detailCalloutAccessoryView = UIImageView(image: annotation!.image)
+            //view.image = scaleImage(annotation!.image!, scale: 0.1)
+            if #available(iOS 9.0, *) {
+                view.detailCalloutAccessoryView = UIImageView(image: annotation!.image)
+            } else {
+                // Fallback on earlier versions
+            }
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x: 0, y: 0)
             view.leftCalloutAccessoryView = UIButton(type: .DetailDisclosure)
-            view.pinTintColor = UIColor.blackColor()
+            if #available(iOS 9.0, *) {
+                view.pinTintColor = UIColor.redColor()
+            } else {
+                // Fallback on earlier versions
+            }
             return view
         }
     }
@@ -148,7 +167,9 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         NSOperationQueue().addOperationWithBlock({
             let mapBoundsWidth = Double(mapView.bounds.size.width)
-            let mapRectWidth:Double = mapView.visibleMapRect.size.width
+            var mapRectWidth:Double = mapView.visibleMapRect.size.width
+            if mapRectWidth == 0 {mapRectWidth = 1}
+            print(mapBoundsWidth,mapRectWidth)
             let scale:Double = mapBoundsWidth / mapRectWidth
             let annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(mapView.visibleMapRect, withZoomScale:scale)
             self.clusteringManager.displayAnnotations(annotationArray, onMapView:mapView)
@@ -231,6 +252,9 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         r=r/10000
         return r
     }
+    func randomInt(range: Range<UInt32>) -> UInt32 {
+        return range.startIndex + arc4random_uniform(range.endIndex - range.startIndex + 1)
+    }
     func configureAnnotations(){
         MapView.removeAnnotations(annotations)
         annotations.removeAll(keepCapacity: false)
@@ -244,15 +268,16 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             print("Erro fetching into fetchresult controller in mapview")
         }
         clusteringManager.setAnnotations(annotations)
+        MapView.reloadInputViews()
     }
     
     func addRandomAssetToMap(){
-        Assets().addAsset(
+        AssetsController().addAsset(
             //latitude : 48.85815,
             //longitude :2.29452,
             latitude: 38.560884 + makeRand("latitude"),
             longitude: -121.422357 + makeRand("longitude"),
-            title: "New Asset")
+            title: "New Asset",image: randomSignImage())
     }
  //   func addRandomAsset(title:String){
 //        let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext: managedObjectContext!)
@@ -284,43 +309,48 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
 //        let ann = AnnotationView(asset: asset)
 //        annotations.append(ann)
  //   }
-//    func makeImageArray(){
-//        for x in 1...5{
-//            let urlstring = String(stringLiteral:"http://www.streetsignpictures.com/images/225_traffic\(x).jpg")
-//            let imageurl = NSURL(string: urlstring)!
-//            if let imagedata = NSData(contentsOfURL: imageurl) {
-//                let d : [NSObject:AnyObject] = [
-//                    kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
-//                    //kCGImageSourceShouldAllowFloat : true,
-//                    kCGImageSourceCreateThumbnailWithTransform: true,
-//                    //kCGImageSourceCreateThumbnailFromImageAlways: false,
-//                    kCGImageSourceThumbnailMaxPixelSize: 100
-//                ]
-//                let cgimagesource = CGImageSourceCreateWithData(imagedata, d)
-//                let imref = CGImageSourceCreateThumbnailAtIndex(cgimagesource!, 0, d)
-//                let im = UIImage(CGImage:imref!, scale:0.2, orientation:.Up)
-//                
-//                //let image = UIImage(data:imagedata)!
-//                //CGImageSourceCreateThumbnailAtIndex(image.CGImage, , )
-//                //imagearray.append(image)
-//                //}
-//                
-//                imagearray.append(im)
-//            }
-//            
-//        }
-//    }
+    func randomSignImage()->UIImage{
+        var im : UIImage = UIImage(named: "Camera.png")!
+        let bo = NSBlockOperation(block: {
+            let urlstring = String(stringLiteral:"http://www.streetsignpictures.com/images/225_traffic\(Int(self.randomInt(1...19))).jpg")
+            print("downloading image",urlstring)
+            let imageurl = NSURL(string: urlstring)!
+            if let imagedata = NSData(contentsOfURL: imageurl) {
+                let d : [NSObject:AnyObject] = [
+                    kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
+                    //kCGImageSourceShouldAllowFloat : true,
+                    kCGImageSourceCreateThumbnailWithTransform: true,
+                    //kCGImageSourceCreateThumbnailFromImageAlways: false,
+                    kCGImageSourceThumbnailMaxPixelSize: 100
+                ]
+                let cgimagesource = CGImageSourceCreateWithData(imagedata, d)
+                let imref = CGImageSourceCreateThumbnailAtIndex(cgimagesource!, 0, d)
+                im = UIImage(CGImage:imref!, scale:0.2, orientation:.Up)
+            }
+        })
+        bo.start()
+        bo.waitUntilFinished()
+        return im
+    }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         guard let touch = touches.first else { return }
-        if traitCollection.forceTouchCapability == .Available {
-            print("\(touch.tapCount) Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
-            
+        if #available(iOS 9.0, *) {
+            if traitCollection.forceTouchCapability == .Available {
+                print("\(touch.tapCount) Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+                
+            }
+        } else {
+            // Fallback on earlier versions
         }
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         guard let touch = touches.first else { return }
-        if traitCollection.forceTouchCapability == .Available {
-            print("Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+        if #available(iOS 9.0, *) {
+            if traitCollection.forceTouchCapability == .Available {
+                print("Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+            }
+        } else {
+            // Fallback on earlier versions
         }
     }
     func scaleImage(image : UIImage,scale: CGFloat)->UIImage{
@@ -385,9 +415,11 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             self.showPasswordAlert()
         }
     }
-    func showPasswordAlert() { let alertController : UIAlertController = UIAlertController(title:"TouchID Demo" , message: "Please enter password", preferredStyle: .Alert)
+    func showPasswordAlert() {
+        let alertController : UIAlertController = UIAlertController(title:"TouchID Demo" , message: "Please enter password", preferredStyle: .Alert)
         let cancelAction : UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) -> Void in
             print(action)
+            
         }
         let doneAction : UIAlertAction = UIAlertAction(title: "Done", style: .Default) { (action) -> Void in
             let passwordTextField = alertController.textFields![0] as UITextField
@@ -405,9 +437,8 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         }
         alertController.addAction(cancelAction)
         alertController.addAction(doneAction)
-        self.presentViewController(alertController, animated: true) {
-            // Nothing to do here
-        }
+        alertController.popoverPresentationController?.sourceView  = self.view
+        self.navigationController?.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func login(password: String) {
