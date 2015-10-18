@@ -475,5 +475,59 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //            assetVC.theTitle = asset!.title
         //        }
         //    }
-        
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        self.assetTableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController,
+        didChangeObject anObject: AnyObject,
+        atIndexPath indexPath: NSIndexPath?,
+        forChangeType type: NSFetchedResultsChangeType,
+        newIndexPath: NSIndexPath?){
+        switch(type) {
+            
+        case .Insert:
+            if let newIndexPath = newIndexPath {
+                assetTableView.insertRowsAtIndexPaths([newIndexPath],
+                    withRowAnimation:UITableViewRowAnimation.Fade)
+            }
+            
+        case .Delete:
+            if let indexPath = indexPath {
+                assetTableView.deleteRowsAtIndexPaths([indexPath],
+                    withRowAnimation: UITableViewRowAnimation.Fade)
+            }
+        default:
+                        break
+                    
+            }
+        }
+    
+    
+    
+    
+//    func controller(controller: NSFetchedResultsController,
+//        didChangeSection sectionInfo: NSFetchedResultsSectionInfo,
+//        atIndex sectionIndex: Int,
+//        forChangeType type: NSFetchedResultsChangeType)
+//    {
+//        switch(type) {
+//            
+//        case .Insert:
+//            assetTableView.insertSections(NSIndexSet(index: sectionIndex),
+//                withRowAnimation: UITableViewRowAnimation.Fade)
+//            
+//        case .Delete:
+//            assetTableView.deleteSections(NSIndexSet(index: sectionIndex),
+//                withRowAnimation: UITableViewRowAnimation.Fade)
+//            
+//        default:
+//            break
+//        }
+//    }
+
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.assetTableView.endUpdates()
+    }
+
 }
