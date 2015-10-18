@@ -238,15 +238,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="592" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cKu-4I-Qpl">
-                                                    <rect key="frame" x="562" y="13" width="22" height="22"/>
-                                                    <animations/>
-                                                    <state key="normal">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Attribute" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2tp-YP-bZM">
-                                                    <rect key="frame" x="8" y="13" width="100" height="21"/>
+                                                    <rect key="frame" x="8" y="11" width="100" height="21"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="XdG-GB-PA3"/>
@@ -255,7 +248,7 @@
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Value    press + to add new Attribute --&gt;" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="GoI-Z3-gId">
-                                                    <rect key="frame" x="116" y="13" width="438" height="21"/>
+                                                    <rect key="frame" x="116" y="11" width="468" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -264,17 +257,22 @@
                                             <animations/>
                                             <constraints>
                                                 <constraint firstItem="GoI-Z3-gId" firstAttribute="leading" secondItem="2tp-YP-bZM" secondAttribute="trailing" constant="8" id="01p-Nd-5mJ"/>
-                                                <constraint firstAttribute="centerY" secondItem="cKu-4I-Qpl" secondAttribute="centerY" constant="-2.5" id="709-c9-8y1"/>
-                                                <constraint firstItem="cKu-4I-Qpl" firstAttribute="leading" secondItem="GoI-Z3-gId" secondAttribute="trailing" constant="8" id="8Ba-1K-0Yj"/>
                                                 <constraint firstItem="GoI-Z3-gId" firstAttribute="centerY" secondItem="2tp-YP-bZM" secondAttribute="centerY" id="Bxy-kl-GLF"/>
                                                 <constraint firstAttribute="centerY" secondItem="2tp-YP-bZM" secondAttribute="centerY" constant="-2" id="Lmq-PU-x3c"/>
                                                 <constraint firstItem="2tp-YP-bZM" firstAttribute="leading" secondItem="Apl-a5-Njt" secondAttribute="leadingMargin" id="b6q-qd-fV2"/>
-                                                <constraint firstItem="cKu-4I-Qpl" firstAttribute="trailing" secondItem="Apl-a5-Njt" secondAttribute="trailingMargin" id="hCz-c8-sze"/>
+                                                <constraint firstItem="2tp-YP-bZM" firstAttribute="centerY" secondItem="Apl-a5-Njt" secondAttribute="centerY" id="eyQ-3n-vSB"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="GoI-Z3-gId" secondAttribute="trailing" id="w1N-9I-d07"/>
+                                                <constraint firstItem="2tp-YP-bZM" firstAttribute="centerY" secondItem="Apl-a5-Njt" secondAttribute="centerY" id="wh3-gy-ygQ"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Lmq-PU-x3c"/>
+                                                    <exclude reference="wh3-gy-ygQ"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
-                                            <outlet property="attributeAddButton" destination="cKu-4I-Qpl" id="20D-P0-IVe"/>
                                             <outlet property="attributeName" destination="2tp-YP-bZM" id="8x8-od-qlZ"/>
                                             <outlet property="attributeValue" destination="GoI-Z3-gId" id="fF0-Qi-GzK"/>
                                         </connections>

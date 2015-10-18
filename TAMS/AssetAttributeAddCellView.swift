@@ -13,7 +13,7 @@ class AssetAttributeAddCellView: UITableViewCell {
     
     @IBOutlet weak var attributeName: UITextField!
     @IBOutlet weak var attributeValue: UITextField!
-    @IBOutlet weak var attributeAddButton: UIButton!
+
 
     
 }

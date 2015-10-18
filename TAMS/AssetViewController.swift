@@ -96,10 +96,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             } else {
                 smallMap.mapType = .Hybrid
             }
-        
-        
-        
-        
+
         image.image = UIImage(data:asset.image!)
         assetTitleLabel.text = asset.title
         
@@ -258,18 +255,16 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             image.addGestureRecognizer(imagegesture)
             editImage()
             audiobutton.setImage(UIImage(named: "microphone"), forState: UIControlState.Normal)
-            //assetTableView.reloadData()
         } else {
             print("save ")
             image.gestureRecognizers?.removeAll(keepCapacity: false)
             assetTableView.editing = false
             removeImageViewSubviews(image)
-            UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
+            //UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
             //asset.title = assetTitleLabel.text!
             audiobutton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
-            //assetTableView.reloadData()
         }
-        
+        self.assetTableView.reloadData()
         super.setEditing(editing, animated: animated)
     }
     
@@ -359,7 +354,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if tableView.editing {return 2} else {return 1}
     }
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if tableView.editing {if section == 1 {return "Assets"} else {return "Add new asset"}
+        if tableView.editing {if section == 0 {return "Assets"} else {return "Add new asset"} 
         }else {return "Assets" }
     }
     //    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
@@ -367,25 +362,25 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.editing {if section == 0 {return 1}else{ return assetAttributes.sections![0].numberOfObjects}
-        } else {return assetAttributes.sections![0].numberOfObjects}
+        if tableView.editing {if section == 0 { return assetAttributes.sections!.first!.numberOfObjects} else {return 1}
+        } else {return assetAttributes.sections!.first!.numberOfObjects}
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if tableView.editing  {
             if indexPath.section == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("AssetAddReusableCell", forIndexPath: indexPath) 
-                let c =  cell as! AssetAttributeAddCellView
-                c.attributeName.text = ""
-                c.attributeValue.text = ""
-                return cell
-            }else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) 
+                let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath)
                 let c =  cell as! AssetViewCellView
                 let att = assetAttributes.objectAtIndexPath(indexPath) as! AttributeEntity
                 c.attribute.text  = att.attributeName
                 c.value.text = att.attributeData
+                return cell
+            }else {
+                let cell = tableView.dequeueReusableCellWithIdentifier("AssetAddReusableCell", forIndexPath: indexPath)
+                let c =  cell as! AssetAttributeAddCellView
+                c.attributeName.text = ""
+                c.attributeValue.text = ""
                 return cell
             }
         } else {
@@ -396,20 +391,18 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             c.value.text = att.attributeData
             return cell
         }
-        
-        
     }
-        func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-           
-        }
+//        func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//           
+//        }
    
         
     
         // Override to support conditional editing of the table view.
         func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-            if tableView.editing && indexPath.section == 0 && indexPath.row == 0 {
-                return false
-            }
+//            if tableView.editing && indexPath.section == 1 && indexPath.row == 0 {
+//                return false
+//            }
         // Return NO if you do not want the specified item to be editable.
         return true
         }
@@ -428,12 +421,32 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             //asset.attributes.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! AssetAttributeAddCellView
+            let asset = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.objectRegisteredForID(self.assetNSManagedObjectID) as! AssetEntity
+            AssetsController().addAssetAttribute(name: cell.attributeName.text!, data: cell.attributeValue.text!, asset: asset)
+            print("ADDED THE NEW CELL",cell.attributeName.text!,cell.attributeValue.text!)
+            setEditing(false, animated: true)
         }
     }
+     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        if indexPath.section == 0 {return UITableViewCellEditingStyle.Delete}
+        else {return UITableViewCellEditingStyle.Insert}
 
-
-        /*
+    }
+    
+     func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        if indexPath.section == 0 {return true}
+//        else {return false}
+        return true
+    }
+     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    
+//        let movedObject = self.assetAttributes[sourceIndexPath.row]
+//        assetAttributes. removeAtIndex(sourceIndexPath.row)
+//        assetAttributes.insert(movedObject, atIndex: destinationIndexPath.row)
+//        NSLog("%@", "\(sourceIndexPath.row) => \(destinationIndexPath.row) \(data)")
+//        // To check for correctness enable: self.tableView.reloadData()
+    }        /*
         // Override to support rearranging the table view.
         override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
         
