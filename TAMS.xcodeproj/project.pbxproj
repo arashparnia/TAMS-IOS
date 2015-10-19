@@ -115,7 +115,6 @@
 		5B0D351C1B815E9200EF91F2 = {
 			isa = PBXGroup;
 			children = (
-				5BD592321B92917500C1A196 /* PHP */,
 				5B0D35271B815E9200EF91F2 /* TAMS */,
 				5B0D353D1B815E9200EF91F2 /* TAMSTests */,
 				5B0D35261B815E9200EF91F2 /* Products */,
@@ -245,13 +244,6 @@
 				5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */,
 			);
 			name = TableView;
-			sourceTree = "<group>";
-		};
-		5BD592321B92917500C1A196 /* PHP */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = PHP;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

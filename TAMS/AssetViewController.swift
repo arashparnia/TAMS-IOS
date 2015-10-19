@@ -85,13 +85,14 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         annotation.coordinate = CLLocationCoordinate2DMake(
             asset.latitude, asset.longitude)
-        annotation.title = asset.title
+        //annotation.title = asset.title
         smallMap.addAnnotation(annotation)
        
         smallMap.showsBuildings = true
+        smallMap.userInteractionEnabled = true
             if #available(iOS 9.0, *) {
                 smallMap.mapType = .HybridFlyover
-                let camera = MKMapCamera(lookingAtCenterCoordinate: annotation.coordinate, fromDistance: 500, pitch: 65, heading: 0)
+                let camera = MKMapCamera(lookingAtCenterCoordinate: annotation.coordinate, fromDistance: 50, pitch: 65, heading: 0)
                 smallMap.setCamera(camera, animated: true)
             } else {
                 smallMap.mapType = .Hybrid

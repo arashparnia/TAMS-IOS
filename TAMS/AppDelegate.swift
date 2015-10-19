@@ -19,8 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    
-//        do {
+        
+            
+        
+        //        do {
 //            let assets = Assets()
 //            try assets.fetchedResultsController.performFetch()
 //            for stuff in  assets.fetchedResultsController.fetchedObjects!{
