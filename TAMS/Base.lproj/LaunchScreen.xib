@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A282b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -10,34 +13,52 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2015 arash. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
-                    <rect key="frame" x="20" y="559" width="561" height="20.5"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="TAMSlogo" translatesAutoresizingMaskIntoConstraints="NO" id="q2K-He-nzo">
+                    <rect key="frame" x="8" y="8" width="584" height="584"/>
                     <animations/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TAMS.png" translatesAutoresizingMaskIntoConstraints="NO" id="eSV-L3-XtF">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="q2K-He-nzo" secondAttribute="height" multiplier="1:1" id="OE9-nW-lm6"/>
+                        <constraint firstAttribute="width" secondItem="q2K-He-nzo" secondAttribute="height" multiplier="1:1" id="QsR-cd-WLC"/>
+                        <constraint firstAttribute="width" secondItem="q2K-He-nzo" secondAttribute="height" multiplier="1:1" id="k5V-Kj-oaz"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="OE9-nW-lm6"/>
+                            <exclude reference="QsR-cd-WLC"/>
+                            <exclude reference="k5V-Kj-oaz"/>
+                        </mask>
+                    </variation>
                 </imageView>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="eSV-L3-XtF" secondAttribute="trailing" id="1zO-3i-N2a"/>
-                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
-                <constraint firstAttribute="bottom" secondItem="eSV-L3-XtF" secondAttribute="bottom" id="MTf-8A-a96"/>
-                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
-                <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
-                <constraint firstItem="eSV-L3-XtF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wW0-yz-iAg"/>
-                <constraint firstItem="eSV-L3-XtF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zxu-zC-cMA"/>
+                <constraint firstAttribute="bottom" secondItem="q2K-He-nzo" secondAttribute="bottom" id="0ZR-6D-yRf"/>
+                <constraint firstAttribute="trailing" secondItem="q2K-He-nzo" secondAttribute="trailing" id="9Wy-fy-3kr"/>
+                <constraint firstItem="q2K-He-nzo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="AIs-mo-RyI"/>
+                <constraint firstItem="q2K-He-nzo" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="CmI-fr-PBm"/>
+                <constraint firstItem="q2K-He-nzo" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="RXT-dn-t1h"/>
+                <constraint firstItem="q2K-He-nzo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="S4T-6I-jP0"/>
+                <constraint firstItem="q2K-He-nzo" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottomMargin" id="iah-LS-63w"/>
+                <constraint firstItem="q2K-He-nzo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="n58-gM-poW"/>
+                <constraint firstItem="q2K-He-nzo" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="q9z-l8-bhh"/>
+                <constraint firstItem="q2K-He-nzo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" id="zyT-jg-Jng"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="0ZR-6D-yRf"/>
+                    <exclude reference="9Wy-fy-3kr"/>
+                    <exclude reference="CmI-fr-PBm"/>
+                    <exclude reference="RXT-dn-t1h"/>
+                    <exclude reference="S4T-6I-jP0"/>
+                    <exclude reference="n58-gM-poW"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="548" y="455"/>
         </view>
     </objects>
     <resources>
-        <image name="TAMS.png" width="249" height="153"/>
+        <image name="TAMSlogo" width="512" height="512"/>
     </resources>
 </document>
