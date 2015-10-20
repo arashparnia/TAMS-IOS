@@ -28,14 +28,20 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var assetTableView: UITableView!
     @IBOutlet weak var audiobutton: UIButton!
     @IBOutlet weak var audioprogressbar: UIProgressView!
-    @IBAction func audiobottunpressed(sender: UIButton) {
-        if assetTableView.editing{
-            if audiobutton.selected{
+    @IBAction func audiobottunpressed(sender: UIButton)
+    {
+        if assetTableView.editing
+        {
+            if audiobutton.selected
+            {
                 audioRecorder.stop()
                 audiobutton.selected = false
-            } else {
+            }
+            else
+            {
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
-                if granted {
+                if granted
+                {
                     let recordurl = NSURL()
                     let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
                         AVFormatIDKey : NSNumber(unsignedInt: kAudioFormatLinearPCM),
@@ -45,26 +51,49 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     try! self.audioRecorder = AVAudioRecorder(URL: recordurl, settings: recordSettings )
                     self.audioRecorder.record()
                   
-                } else {
+                }
+                else
+                {
                     print("Permission to record not granted")
                 }
             })
             audiobutton.selected=true
             }
-        } else {
-            if audiobutton.selected{
+        }
+        else
+        {
+            if audiobutton.selected
+            {
                 audioPlayer.stop()
                 audiobutton.selected = false
-            }else {
+            }
+            else
+            {
                 audioPlayer.play()
                 audiobutton.selected = true
             }
         }
     }
 
+    
+    
+    @IBOutlet weak var attributeNameTextField: UITextField!
+    @IBOutlet weak var attributeValueTextField: UITextField!
+    @IBOutlet weak var attributeAddButton: UIButton!
+    @IBAction func addAttibuteButton(sender: UIButton)
+    {
+        let asset = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.objectRegisteredForID(self.assetNSManagedObjectID) as! AssetEntity
+        AssetsController().addAssetAttribute(name: attributeNameTextField.text!, data: attributeValueTextField.text!, asset: asset)
+        print("ADDED THE NEW CELL",attributeNameTextField.text!,attributeValueTextField.text!)
+    }
     var tempimage  = UIImageView()
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
+        
+        attributeNameTextField.hidden = true
+        attributeValueTextField.hidden = true
+        attributeAddButton.hidden = true
         
          let asset = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.objectRegisteredForID(self.assetNSManagedObjectID) as! AssetEntity
         assetAttributes = AssetsController().retriveAllAttributesForAsset(asset)
@@ -90,11 +119,14 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
        
         smallMap.showsBuildings = true
         smallMap.userInteractionEnabled = true
-            if #available(iOS 9.0, *) {
+            if #available(iOS 9.0, *)
+            {
                 smallMap.mapType = .HybridFlyover
                 let camera = MKMapCamera(lookingAtCenterCoordinate: annotation.coordinate, fromDistance: 50, pitch: 65, heading: 0)
                 smallMap.setCamera(camera, animated: true)
-            } else {
+            }
+            else
+            {
                 smallMap.mapType = .Hybrid
             }
 
@@ -160,22 +192,29 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
      
        super.viewDidLoad()
     }
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-        if flag{
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool)
+    {
+        if flag
+        {
             print("recorded")
             //asset.audio = nsdata( recorder.url
            self.audioPlayer = try? AVAudioPlayer(contentsOfURL: recorder.url)
             
-        } else {
+        }
+        else
+        {
             print("problem saving or something ")
         }
     }
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-        if flag{
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool)
+    {
+        if flag
+        {
             audiobutton.selected = false
         }
     }
-    func trackAudio() {
+    func trackAudio()
+    {
         audioprogressbar.setProgress(Float(audioPlayer.currentTime  / audioPlayer.duration), animated: false)
     }
 
@@ -195,9 +234,11 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func useCameraRoll(sender: AnyObject) {
+    func useCameraRoll(sender: AnyObject)
+    {
         if UIImagePickerController.isSourceTypeAvailable(
-            UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+            UIImagePickerControllerSourceType.SavedPhotosAlbum)
+        {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
                 imagePicker.sourceType =
@@ -210,27 +251,34 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
         let mediaType = info[UIImagePickerControllerMediaType] as! String
         self.dismissViewControllerAnimated(true, completion: nil)
-        if mediaType == (kUTTypeImage as String) {
+        if mediaType == (kUTTypeImage as String)
+        {
             let image = info[UIImagePickerControllerOriginalImage]
                 as! UIImage
             removeImageViewSubviews(self.image)
             self.image.image = image
             
-            if (newMedia == true) {
+            if (newMedia == true)
+            {
                 UIImageWriteToSavedPhotosAlbum(image, self,
                     "image:didFinishSavingWithError:contextInfo:", nil)
-            } else if mediaType == (kUTTypeMovie as String) {
+            }
+            else if mediaType == (kUTTypeMovie as String)
+            {
                 // Code to support video here
             }
             
         }
     }
     
-    func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo:UnsafePointer<Void>) {
-        if error != nil {
+    func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo:UnsafePointer<Void>)
+    {
+        if error != nil
+        {
             let alert = UIAlertController(title: "Save Failed",
                     message: "Failed to save image",
                     preferredStyle: UIAlertControllerStyle.Alert)
@@ -242,21 +290,35 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func removeImageViewSubviews( img : UIImageView){
-        for sv in img.subviews{
+    func removeImageViewSubviews( img : UIImageView)
+    {
+        for sv in img.subviews
+        {
             sv.removeFromSuperview()
         }
     }
     
-    override func setEditing(editing: Bool, animated: Bool) {
-        if editing {
+    override func setEditing(editing: Bool, animated: Bool)
+    {
+        if editing
+        {
+            attributeNameTextField.hidden = false
+            attributeValueTextField.hidden = false
+            attributeAddButton.hidden = false
+            
             print("edit ")
             assetTableView.editing = true
             let imagegesture = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
             image.addGestureRecognizer(imagegesture)
             editImage()
             audiobutton.setImage(UIImage(named: "microphone"), forState: UIControlState.Normal)
-        } else {
+        }
+        else
+        {
+            attributeNameTextField.hidden = true
+            attributeValueTextField.hidden = true
+            attributeAddButton.hidden = true
+            
             print("save ")
             image.gestureRecognizers?.removeAll(keepCapacity: false)
             assetTableView.editing = false
@@ -352,46 +414,29 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // TABLE VIEW DELEGATE METHODS
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if tableView.editing {return 2} else {return 1}
+       return assetAttributes.sections!.count
     }
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if tableView.editing {if section == 0 {return "Assets"} else {return "Add new asset"} 
-        }else {return "Assets" }
+        return "Assets"
     }
     //    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
     //
     //    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.editing {if section == 0 { return assetAttributes.sections!.first!.numberOfObjects} else {return 1}
-        } else {return assetAttributes.sections!.first!.numberOfObjects}
+        return assetAttributes.sections!.first!.numberOfObjects
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if tableView.editing  {
-            if indexPath.section == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath)
-                let c =  cell as! AssetViewCellView
-                let att = assetAttributes.objectAtIndexPath(indexPath) as! AttributeEntity
-                c.attribute.text  = att.attributeName
-                c.value.text = att.attributeData
-                return cell
-            }else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("AssetAddReusableCell", forIndexPath: indexPath)
-                let c =  cell as! AssetAttributeAddCellView
-                c.attributeName.text = ""
-                c.attributeValue.text = ""
-                return cell
-            }
-        } else {
+      
             let cell = tableView.dequeueReusableCellWithIdentifier("AssetViewReusableCell", forIndexPath: indexPath) 
             let c =  cell as! AssetViewCellView
             let att = assetAttributes.objectAtIndexPath(indexPath) as! AttributeEntity
             c.attribute.text  = att.attributeName
             c.value.text = att.attributeData
             return cell
-        }
+        
     }
 //        func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //           
@@ -422,11 +467,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             //asset.attributes.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as! AssetAttributeAddCellView
-            let asset = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.objectRegisteredForID(self.assetNSManagedObjectID) as! AssetEntity
-            AssetsController().addAssetAttribute(name: cell.attributeName.text!, data: cell.attributeValue.text!, asset: asset)
-            print("ADDED THE NEW CELL",cell.attributeName.text!,cell.attributeValue.text!)
-            setEditing(false, animated: true)
+            
         }
     }
      func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
