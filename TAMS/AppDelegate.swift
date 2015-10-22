@@ -20,7 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-            
+//        Load the Defaults into the Settings:
+//        
+//        let appDefaults = [SettingsKeys.namePreferenceKey: "Default Name"]
+//        NSUserDefaults.standardUserDefaults().registerDefaults(appDefaults)
+//        
+//        Get the Settings value:
+//        
+//        var namePreference = NSUserDefaults.standardUserDefaults().stringForKey(SettingsKeys.namePreferenceKey)
+//        
+//        Save the Settings value:
+//        
+//        NSUserDefaults.standardUserDefaults().setValue(namePreferenceField!.text, forKey:SettingsKeys.namePreferenceKey)
+//        NSUserDefaults.standardUserDefaults().synchronize()
         
         //        do {
 //            let assets = Assets()

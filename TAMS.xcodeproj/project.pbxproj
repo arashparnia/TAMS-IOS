@@ -13,6 +13,7 @@
 		5B0D35351B815E9200EF91F2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B0D35331B815E9200EF91F2 /* LaunchScreen.xib */; };
 		5B0D35411B815E9200EF91F2 /* TAMSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0D35401B815E9200EF91F2 /* TAMSTests.swift */; };
 		5B133ECC1B8DB362006A7AAE /* TableViewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */; };
+		5B2A4D121BD7406C00DB2B84 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5B2A4D111BD7406C00DB2B84 /* Settings.bundle */; settings = {ASSET_TAGS = (); }; };
 		5B2DEEBB1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2DEEBA1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift */; };
 		5B67CFA71BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA11BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
 		5B67CFA81BAE24F80091AD72 /* PolyLineEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA21BAE24F80091AD72 /* PolyLineEntity.swift */; settings = {ASSET_TAGS = (); }; };
@@ -64,6 +65,7 @@
 		5B0D353F1B815E9200EF91F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B0D35401B815E9200EF91F2 /* TAMSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAMSTests.swift; sourceTree = "<group>"; };
 		5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellView.swift; sourceTree = "<group>"; };
+		5B2A4D111BD7406C00DB2B84 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		5B2DEEBA1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetAttributeAddCellView.swift; sourceTree = "<group>"; };
 		5B67CFA11BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PolyLineEntity+CoreDataProperties.swift"; path = "../PolyLineEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5B67CFA21BAE24F80091AD72 /* PolyLineEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PolyLineEntity.swift; path = ../PolyLineEntity.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 		5B0D35281B815E9200EF91F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B2A4D111BD7406C00DB2B84 /* Settings.bundle */,
 				5B81D2091BBA79210078CBC3 /* unused */,
 				5BA70EC61BD446FD008BF102 /* TAMSlogo.png */,
 				5BA150201B9E2F7B000F8CDD /* 55.mp3 */,
@@ -336,6 +339,7 @@
 				5B0D35351B815E9200EF91F2 /* LaunchScreen.xib in Resources */,
 				5B0D35321B815E9200EF91F2 /* Images.xcassets in Resources */,
 				5BF005181B95A7CE0094728A /* Camera.png in Resources */,
+				5B2A4D121BD7406C00DB2B84 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
