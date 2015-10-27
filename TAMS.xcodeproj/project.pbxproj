@@ -13,30 +13,31 @@
 		5B0D35351B815E9200EF91F2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B0D35331B815E9200EF91F2 /* LaunchScreen.xib */; };
 		5B0D35411B815E9200EF91F2 /* TAMSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0D35401B815E9200EF91F2 /* TAMSTests.swift */; };
 		5B133ECC1B8DB362006A7AAE /* TableViewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B133ECB1B8DB361006A7AAE /* TableViewCellView.swift */; };
-		5B2A4D121BD7406C00DB2B84 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5B2A4D111BD7406C00DB2B84 /* Settings.bundle */; settings = {ASSET_TAGS = (); }; };
+		5B2A4D121BD7406C00DB2B84 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5B2A4D111BD7406C00DB2B84 /* Settings.bundle */; };
 		5B2DEEBB1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2DEEBA1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift */; };
-		5B67CFA71BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA11BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFA81BAE24F80091AD72 /* PolyLineEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA21BAE24F80091AD72 /* PolyLineEntity.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFAB1BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA51BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFAC1BAE24F80091AD72 /* AttributeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA61BAE24F80091AD72 /* AttributeEntity.swift */; settings = {ASSET_TAGS = (); }; };
-		5B67CFAE1BAE26850091AD72 /* PolyLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFAD1BAE26850091AD72 /* PolyLine.swift */; settings = {ASSET_TAGS = (); }; };
+		5B67CFA71BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA11BAE24F80091AD72 /* PolyLineEntity+CoreDataProperties.swift */; };
+		5B67CFA81BAE24F80091AD72 /* PolyLineEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA21BAE24F80091AD72 /* PolyLineEntity.swift */; };
+		5B67CFAB1BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA51BAE24F80091AD72 /* AttributeEntity+CoreDataProperties.swift */; };
+		5B67CFAC1BAE24F80091AD72 /* AttributeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFA61BAE24F80091AD72 /* AttributeEntity.swift */; };
+		5B67CFAE1BAE26850091AD72 /* PolyLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67CFAD1BAE26850091AD72 /* PolyLine.swift */; };
 		5BA150211B9E2F7B000F8CDD /* 55.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5BA150201B9E2F7B000F8CDD /* 55.mp3 */; };
 		5BA18B221B8B0BBC00D2046F /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */; };
-		5BA70EC71BD446FD008BF102 /* TAMSlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BA70EC61BD446FD008BF102 /* TAMSlogo.png */; settings = {ASSET_TAGS = (); }; };
+		5BA70EC71BD446FD008BF102 /* TAMSlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BA70EC61BD446FD008BF102 /* TAMSlogo.png */; };
+		5BA96D501BDE284D00D5CCBB /* PolyLineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA96D4F1BDE284D00D5CCBB /* PolyLineViewController.swift */; };
 		5BB203C41B92E0050035C548 /* AssetsDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5BB203C21B92E0050035C548 /* AssetsDB.xcdatamodeld */; };
 		5BD388771B8EFD1000F9C3C3 /* AssetViewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD388761B8EFD1000F9C3C3 /* AssetViewCellView.swift */; };
 		5BD862A11B89C8ED006678B4 /* AssetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD862A01B89C8ED006678B4 /* AssetViewController.swift */; };
-		5BE2A30A1BB500F300B32296 /* AssetEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2A3081BB500F300B32296 /* AssetEntity+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		5BE2A30B1BB500F300B32296 /* AssetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2A3091BB500F300B32296 /* AssetEntity.swift */; settings = {ASSET_TAGS = (); }; };
+		5BE2A30A1BB500F300B32296 /* AssetEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2A3081BB500F300B32296 /* AssetEntity+CoreDataProperties.swift */; };
+		5BE2A30B1BB500F300B32296 /* AssetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2A3091BB500F300B32296 /* AssetEntity.swift */; };
 		5BF005181B95A7CE0094728A /* Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF005171B95A7CE0094728A /* Camera.png */; };
-		5BF706C41BBCDBED00A08F07 /* FBAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706BC1BBCDBED00A08F07 /* FBAnnotation.swift */; settings = {ASSET_TAGS = (); }; };
-		5BF706C51BBCDBED00A08F07 /* FBAnnotationCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706BD1BBCDBED00A08F07 /* FBAnnotationCluster.swift */; settings = {ASSET_TAGS = (); }; };
-		5BF706C61BBCDBED00A08F07 /* FBAnnotationClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706BE1BBCDBED00A08F07 /* FBAnnotationClusterView.swift */; settings = {ASSET_TAGS = (); }; };
-		5BF706C71BBCDBED00A08F07 /* FBBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706BF1BBCDBED00A08F07 /* FBBoundingBox.swift */; settings = {ASSET_TAGS = (); }; };
-		5BF706C81BBCDBED00A08F07 /* FBClusteringManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C01BBCDBED00A08F07 /* FBClusteringManager.swift */; settings = {ASSET_TAGS = (); }; };
-		5BF706C91BBCDBED00A08F07 /* FBQuadTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C11BBCDBED00A08F07 /* FBQuadTree.swift */; settings = {ASSET_TAGS = (); }; };
-		5BF706CA1BBCDBED00A08F07 /* FBQuadTreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C21BBCDBED00A08F07 /* FBQuadTreeNode.swift */; settings = {ASSET_TAGS = (); }; };
-		5BF706CB1BBCDBED00A08F07 /* FBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C31BBCDBED00A08F07 /* FBViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		5BF706C41BBCDBED00A08F07 /* FBAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706BC1BBCDBED00A08F07 /* FBAnnotation.swift */; };
+		5BF706C51BBCDBED00A08F07 /* FBAnnotationCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706BD1BBCDBED00A08F07 /* FBAnnotationCluster.swift */; };
+		5BF706C61BBCDBED00A08F07 /* FBAnnotationClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706BE1BBCDBED00A08F07 /* FBAnnotationClusterView.swift */; };
+		5BF706C71BBCDBED00A08F07 /* FBBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706BF1BBCDBED00A08F07 /* FBBoundingBox.swift */; };
+		5BF706C81BBCDBED00A08F07 /* FBClusteringManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C01BBCDBED00A08F07 /* FBClusteringManager.swift */; };
+		5BF706C91BBCDBED00A08F07 /* FBQuadTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C11BBCDBED00A08F07 /* FBQuadTree.swift */; };
+		5BF706CA1BBCDBED00A08F07 /* FBQuadTreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C21BBCDBED00A08F07 /* FBQuadTreeNode.swift */; };
+		5BF706CB1BBCDBED00A08F07 /* FBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF706C31BBCDBED00A08F07 /* FBViewController.swift */; };
 		5BF84E251B8976FA00390DEF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E231B8976FA00390DEF /* MapViewController.swift */; };
 		5BF84E261B8976FA00390DEF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF84E241B8976FA00390DEF /* TableViewController.swift */; };
 		5BFE093B1B92F83600A5C892 /* AssetsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFE093A1B92F83600A5C892 /* AssetsController.swift */; };
@@ -75,6 +76,7 @@
 		5BA150201B9E2F7B000F8CDD /* 55.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 55.mp3; sourceTree = "<group>"; };
 		5BA18B211B8B0BBC00D2046F /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		5BA70EC61BD446FD008BF102 /* TAMSlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TAMSlogo.png; sourceTree = "<group>"; };
+		5BA96D4F1BDE284D00D5CCBB /* PolyLineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolyLineViewController.swift; sourceTree = "<group>"; };
 		5BB203C31B92E0050035C548 /* AssetsDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AssetsDB.xcdatamodel; sourceTree = "<group>"; };
 		5BD388761B8EFD1000F9C3C3 /* AssetViewCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetViewCellView.swift; sourceTree = "<group>"; };
 		5BD862A01B89C8ED006678B4 /* AssetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetViewController.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				5BD862A01B89C8ED006678B4 /* AssetViewController.swift */,
 				5BD388761B8EFD1000F9C3C3 /* AssetViewCellView.swift */,
 				5B2DEEBA1B9C2AFD00331ADD /* AssetAttributeAddCellView.swift */,
+				5BA96D4F1BDE284D00D5CCBB /* PolyLineViewController.swift */,
 			);
 			name = AssetView;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				5BFE093D1B92F87100A5C892 /* Attribute.swift in Sources */,
 				5BE2A30A1BB500F300B32296 /* AssetEntity+CoreDataProperties.swift in Sources */,
 				5BF706C91BBCDBED00A08F07 /* FBQuadTree.swift in Sources */,
+				5BA96D501BDE284D00D5CCBB /* PolyLineViewController.swift in Sources */,
 				5BF706C81BBCDBED00A08F07 /* FBClusteringManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

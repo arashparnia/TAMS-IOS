@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="e73-KE-xMj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="e73-KE-xMj">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Assets Map View-->
@@ -370,7 +371,16 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Asset View" id="7rO-19-hl8"/>
+                    <navigationItem key="navigationItem" title="Asset View" id="7rO-19-hl8">
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="edit" id="Ya1-nb-3Xf"/>
+                            <barButtonItem title="Polyline" id="56e-UO-ou7">
+                                <connections>
+                                    <segue destination="0VS-xQ-Dcd" kind="show" id="zQI-Ko-zC7"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
                         <outlet property="assetTableView" destination="F78-Ni-dUC" id="j22-J7-lFI"/>
                         <outlet property="assetTitleLabel" destination="UAY-N8-hws" id="aub-jF-HsB"/>
@@ -386,6 +396,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bsy-a8-V8t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3140" y="1228"/>
+        </scene>
+        <!--Poly Line View Controller-->
+        <scene sceneID="AIb-9A-oTV">
+            <objects>
+                <viewController id="0VS-xQ-Dcd" customClass="PolyLineViewController" customModule="TAMS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eNy-CJ-3I0"/>
+                        <viewControllerLayoutGuide type="bottom" id="FHu-6r-Woj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iS3-iv-b4j">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kMI-nl-VFx">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                            </mapView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kMI-nl-VFx" firstAttribute="height" secondItem="iS3-iv-b4j" secondAttribute="height" id="0WM-HP-GEV"/>
+                            <constraint firstItem="kMI-nl-VFx" firstAttribute="bottom" secondItem="FHu-6r-Woj" secondAttribute="top" id="Iat-Ol-w8K"/>
+                            <constraint firstItem="kMI-nl-VFx" firstAttribute="width" secondItem="iS3-iv-b4j" secondAttribute="width" id="afn-Ma-JwQ"/>
+                            <constraint firstItem="kMI-nl-VFx" firstAttribute="leading" secondItem="iS3-iv-b4j" secondAttribute="leading" id="skU-cl-QiR"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="kMI-nl-VFx" id="sXl-yr-1Xp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qqU-u0-Dom" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3774" y="1791"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yp3-a3-jtE">
