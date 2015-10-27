@@ -22,7 +22,6 @@ class TableViewController: UITableViewController,NSFetchedResultsControllerDeleg
             print("error in fetshing results")
         }
         
-        
         tableView.delegate = self
         tableView.dataSource = self
         self.clearsSelectionOnViewWillAppear = true
@@ -35,20 +34,16 @@ class TableViewController: UITableViewController,NSFetchedResultsControllerDeleg
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning() 
     }
-
-    
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
     }
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if let sections = assets.sections {
             return sections.count
         }
         return 0
     }
-
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sections = assets.sections {
             let currentSection = sections[section]

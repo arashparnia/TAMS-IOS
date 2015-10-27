@@ -107,7 +107,7 @@ class FBClusteringManager : NSObject {
                     cluster.coordinate = coordinate
                     cluster.annotations = annotations
                     
-                    print("cluster.annotations.count:: \(cluster.annotations.count)")
+                    //print("cluster.annotations.count:: \(cluster.annotations.count)")
                     
                     clusteredAnnotations.append(cluster)
                 }

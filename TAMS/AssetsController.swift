@@ -14,6 +14,7 @@ import CoreData
 class AssetsController {
     //static let sharedInstance = Assets()
     //var assets = [Asset]()
+    let delegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
@@ -79,7 +80,18 @@ class AssetsController {
         (UIApplication.sharedApplication().delegate as! AppDelegate).saveContext()
     }
 
-
+    func addAssetPolyline(polyline:[CLLocationCoordinate2D] ,asset : AssetEntity){
+        
+        let polylineEntityDescription = NSEntityDescription.entityForName(
+            "PolyLineEntity",inManagedObjectContext:managedObjectContext!)
+        let polylineEntity = PolyLineEntity(entity: polylineEntityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        for l in polyline{
+            polylineEntity.latitude =  l.latitude
+            polylineEntity.longitude = l.longitude
+            polylineEntity.asset = asset
+            delegate.saveContext()
+        }
+    }
     func retriveAsset(latitude latitude: Double, longitude: Double) -> AssetEntity? {
         let assetEntityDescription = NSEntityDescription.entityForName("AssetEntity", inManagedObjectContext: managedObjectContext!)
         let request = NSFetchRequest()

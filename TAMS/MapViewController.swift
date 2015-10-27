@@ -209,8 +209,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             let assetVC = segue.destinationViewController as! AssetViewController
             let anview = sender as! AnnotationView
             assetVC.assetNSManagedObjectID = anview.asset.objectID
-        } else if segue.identifier == "TableView"{
-            _ = segue.destinationViewController as! TableViewController
+            
         }
     }
     
@@ -285,27 +284,27 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         bo.waitUntilFinished()
         return im
     }
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        if #available(iOS 9.0, *) {
-            if traitCollection.forceTouchCapability == .Available {
-                print("\(touch.tapCount) Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
-                
-            }
-        } else {
-            // Fallback on earlier versions
-        }
-    }
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        if #available(iOS 9.0, *) {
-            if traitCollection.forceTouchCapability == .Available {
-                print("Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
-            }
-        } else {
-            // Fallback on earlier versions
-        }
-    }
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        guard let touch = touches.first else { return }
+//        if #available(iOS 9.0, *) {
+//            if traitCollection.forceTouchCapability == .Available {
+//                print("\(touch.tapCount) Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+//                
+//            }
+//        } else {
+//            // Fallback on earlier versions
+//        }
+//    }
+//    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        guard let touch = touches.first else { return }
+//        if #available(iOS 9.0, *) {
+//            if traitCollection.forceTouchCapability == .Available {
+//                print("Touch  pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+//            }
+//        } else {
+//            // Fallback on earlier versions
+//        }
+//    }
     func scaleImage(image : UIImage,scale: CGFloat)->UIImage{
         let theimage = image
         let size = CGSizeApplyAffineTransform(theimage.size, CGAffineTransformMakeScale(scale, scale))
@@ -329,7 +328,6 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
                 success : Bool, evaluationError : NSError?) -> Void in
                 if success {
                     NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        print("sucess")
                     })
                 }
                 else {

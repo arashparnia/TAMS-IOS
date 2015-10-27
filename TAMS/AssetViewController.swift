@@ -88,6 +88,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     var tempimage  = UIImageView()
     
+    
     override func viewDidLoad()
     {
         
@@ -105,6 +106,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
             print("error in fetshing results")
         }
 
+        
         assetTableView.delegate = self
         assetTableView.dataSource = self
         
@@ -571,5 +573,13 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         self.assetTableView.endUpdates()
     }
-
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "polylineView"{
+            let polylineVC = segue.destinationViewController as! PolyLineViewController
+             //let asset = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.objectRegisteredForID(self.assetNSManagedObjectID) as! AssetEntity
+            //polylineVC.points = asset.polyline?.set
+            polylineVC.assetNSManagedObjectID = assetNSManagedObjectID
+            
+        }
+    }
 }
