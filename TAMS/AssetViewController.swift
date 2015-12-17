@@ -22,6 +22,7 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var audioRecorder: AVAudioRecorder!
     var updater : CADisplayLink! = nil
     
+    @IBOutlet weak var tableTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var smallMap: MKMapView!
     @IBOutlet weak var assetTitleLabel: UITextField!
@@ -191,6 +192,8 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //        else {
 //            
 //        }
+        setEditing(true, animated: false)
+        setEditing(false, animated: false)
      
        super.viewDidLoad()
     }
@@ -304,6 +307,11 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
     {
         if editing
         {
+            tableTopConstraint.constant = 44;
+            UIView.animateWithDuration(0.33, animations: { () -> Void in
+                self.view.layoutIfNeeded()
+            })
+            
             attributeNameTextField.hidden = false
             attributeValueTextField.hidden = false
             attributeAddButton.hidden = false
@@ -317,9 +325,14 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         else
         {
-            attributeNameTextField.hidden = true
-            attributeValueTextField.hidden = true
-            attributeAddButton.hidden = true
+            tableTopConstraint.constant = 0
+            UIView.animateWithDuration(0.33, animations: { () -> Void in
+                self.view.layoutIfNeeded()
+            })
+            
+//            attributeNameTextField.hidden = true
+//            attributeValueTextField.hidden = true
+//            attributeAddButton.hidden = true
             
             print("save ")
             image.gestureRecognizers?.removeAll(keepCapacity: false)
@@ -490,7 +503,8 @@ class AssetViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //        assetAttributes.insert(movedObject, atIndex: destinationIndexPath.row)
 //        NSLog("%@", "\(sourceIndexPath.row) => \(destinationIndexPath.row) \(data)")
 //        // To check for correctness enable: self.tableView.reloadData()
-    }        /*
+    }
+    /*
         // Override to support rearranging the table view.
         override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
         

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+       
 //        Load the Defaults into the Settings:
 //        
 //        let appDefaults = [SettingsKeys.namePreferenceKey: "Default Name"]
@@ -223,30 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
     }
-    
-    func fetchFromPHP(){
-        
-        let datafromphpurl = NSURL(string: "http://localhost:8888/TAMS/index.php")
-        if let data: NSData = NSData(contentsOfURL: datafromphpurl!) {
-            if let json: NSArray = ((try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSArray){
-                for item in json {
-                    print(item.valueForKey("title")!, item.valueForKey("latitude")!,item.valueForKey("longitude")!)
-                }
-            }
-        }
-        let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-        let request = NSFetchRequest(entityName: "AssetsTable")
-        let ass =   (try! managedObjectContext!.executeFetchRequest(request)) as! [AssetEntity]
-        for a in ass{
-            print(a.title, terminator: "")
-            print(a.latitude,a.longitude)
-            print(a.date)
-            for aa in (a.attributes)!{
-                let aaa = aa as! AttributeEntity
-                print(aaa.attributeName)
-            }
-        }
-    }
+
 
     
 }

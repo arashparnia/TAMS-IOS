@@ -71,6 +71,13 @@ class TableViewController: UITableViewController,NSFetchedResultsControllerDeleg
                 sender: assets.objectAtIndexPath(indexPath))
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        //            if tableView.editing && indexPath.section == 1 && indexPath.row == 0 {
+        //                return false
+        //            }
+        // Return NO if you do not want the specified item to be editable.
+        return true
+    }
     
     func resizeImage(image:UIImage, toTheSize size:CGSize)->UIImage{
         let scale = CGFloat(max(size.width/image.size.width,

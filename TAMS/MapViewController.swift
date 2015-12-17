@@ -164,17 +164,22 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
     
     func action(gestureRecognizer:UIGestureRecognizer) {
-        //        if gestureRecognizer.numberOfTouches() == 1  {
-        //        print("long press detected ")
-        //        let touchPoint = gestureRecognizer.locationInView(self.MapView)
-        //        let newCoordinate:CLLocationCoordinate2D = MapView.convertPoint(touchPoint, toCoordinateFromView: self.MapView)
-        //
-        //        Assets().addAsset(latitude:newCoordinate.latitude, longitude: newCoordinate.longitude, title: "NEW ASSET")
-        //            if let asset = Assets().retriveAsset(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude){
-        //                performSegueWithIdentifier("MapToAssetView", sender: asset)
-        //
-        //            }
-        //        }
+//                if gestureRecognizer.numberOfTouches() == 1  && gestureRecognizer.state == UIGestureRecognizerState.Ended{
+//                print("long press detected ")
+//                let touchPoint = gestureRecognizer.locationInView(self.mapView)
+//                let newCoordinate:CLLocationCoordinate2D = mapView.convertPoint(touchPoint, toCoordinateFromView: self.MapView)
+//                    AssetsController().addAsset(
+//                        //latitude : 48.85815,
+//                        //longitude :2.29452,
+//                        latitude: 38.560884 + makeRand("latitude"),
+//                        longitude: -121.422357 + makeRand("longitude"),
+//                        title: "New Asset",image: randomSignImage())
+//                Assets().addAsset(latitude:newCoordinate.latitude, longitude: newCoordinate.longitude, title: "NEW ASSET")
+//                    if let asset = Assets().retriveAsset(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude){
+//                        performSegueWithIdentifier("MapToAssetView", sender: asset)
+//        
+//                    }
+//                }
     }
 
     func addTapped(sender:UIButton) {
@@ -193,6 +198,9 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
     }
     func searchTapped (sender:UIButton) {
         print("search pressed")
+        AssetsController().removeAllAssets()
+        fetchFromPHP()
+        configureAnnotations()
         
     }
     func locationTapped (sender:UIButton) {
@@ -228,7 +236,7 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
         }
         let randomfloat = CGFloat( (Float(arc4random()) / Float(UINT32_MAX)) )
         r = r + Double(randomfloat)
-        r=r/10000
+        r=r/1000
         return r
     }
     
@@ -399,6 +407,46 @@ class MapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDel
             self.showPasswordAlert()
         }
     }
+    
+    func fetchFromPHP(){
+        
+        let datafromphpurl = NSURL(string: "http://tams.imihov.com/api/v2/asset/list")
+        if let data: NSData = NSData(contentsOfURL: datafromphpurl!) {
+            if let json: NSArray = ((try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSArray){
+                //print (json)
+                for item in json {
+                    //let id = item.valueForKey("asset_id")! as! String
+                    let title = item.valueForKey("name")! as! String
+                    let latitude = item.valueForKey("latitude")! as! String
+                    let longitude = item.valueForKey("longitude")! as! String
+                    let imageContentString = item.objectForKey("images") as! String
+                    if let data = NSData(base64EncodedString: imageContentString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters){
+                        if let img = UIImage(data: data) {
+                            let scaledimg = scaleImage(img, scale: 0.1)
+                            print(Double(latitude),Double(longitude),title, scaledimg )
+                            AssetsController().addAsset(latitude: Double(latitude)!,longitude: Double(longitude)!,title: title,image: scaledimg)
+                        } else {
+                            //print(Double(latitude),Double(longitude),title)
+                            //AssetsController().addAsset(latitude: Double(latitude)!,longitude: Double(longitude)!,title: title)
+                        }
+                    }
+                }
+            }
+        }
+        //        let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        //        let request = NSFetchRequest(entityName: "AssetsTable")
+        //        let ass =   (try! managedObjectContext!.executeFetchRequest(request)) as! [AssetEntity]
+        //        for a in ass{
+        //            print(a.title, terminator: "")
+        //            print(a.latitude,a.longitude)
+        //            print(a.date)
+        //            for aa in (a.attributes)!{
+        //                let aaa = aa as! AttributeEntity
+        //                print(aaa.attributeName)
+        //            }
+        //        }
+    }
+    
 }
 //   func addRandomAsset(title:String){
 //        let entityDescription = NSEntityDescription.entityForName("AssetsTable",inManagedObjectContext: managedObjectContext!)

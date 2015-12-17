@@ -208,5 +208,28 @@ class AssetsController {
     //    func removeAsset(location:CLLocation, title: String?=nil,subtitle:String?=nil) {
     //        //assets.removeValueForKey(location.description)
     //    }
+    func removeAllAssets(){
+        let request = NSFetchRequest(entityName: "AssetEntity")
+        request.predicate = nil
+        let primarySortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        let secondarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        request.sortDescriptors = [primarySortDescriptor, secondarySortDescriptor]
+        var result  = try! managedObjectContext!.executeFetchRequest(request)
+        
+        for bas: AnyObject in result
+        {
+            managedObjectContext!.deleteObject(bas as! NSManagedObject)
+        }
+        
+        result.removeAll(keepCapacity: false)
+        
+        
+        try! managedObjectContext!.save()
+        
+         
+
+        
+        
+    }
 
 }
